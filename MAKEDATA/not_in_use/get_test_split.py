@@ -11,14 +11,24 @@ def split(input_folder, target_folder, train = 0.9, test = 0.1):
         if not (os.path.isdir(folder)):
             raise Exception(f"{folder} is not a folder")
 
-    data = [elm for elm in os.listdir(input_folder) if elm.split(".")[-1] == "png"]
-    
-    random.shuffle(data)
+    all_data = [elm for elm in os.listdir(input_folder) if elm.split(".")[-1] == "jpeg"]
+    print(f"{len(all_data) =}")
 
-    train, test = np.split(data, [int(len(data)*train)])
+    pelvis_data = [elm for elm in os.listdir(input_folder) if elm[1] == "P"]
+    random.shuffle(pelvis_data)
+    p_train, p_test = np.split(pelvis_data, [int(len(pelvis_data)*train)])
 
-    for elm in test:
+    brain_data = [elm for elm in os.listdir(input_folder) if elm[1] == "B"]
+    random.shuffle(brain_data)
+    b_train, b_test = np.split(brain_data, [int(len(brain_data)*train)])
+
+    print(f"len test elms: {len(p_test) + len(b_test)}")
+
+    for elm in p_test:
         shutil.copy(os.path.join(input_folder, elm), os.path.join(target_folder, elm))
+
+    for elm in b_test:
+        shutil.copy(os.path.join(input_folder, elm), os.path.join(target_folder, elm))        
 
 
 if __name__ == "__main__":

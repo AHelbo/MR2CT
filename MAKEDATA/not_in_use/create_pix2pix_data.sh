@@ -1,0 +1,20 @@
+#!/bin/bash
+
+echo "Now creating pix2pix dataset:"
+
+# Start time
+start=$(date +%s)
+
+# Body
+python3 convert_nifti2png.py "/Users/andershelbo/Desktop/MAKEDATA/RAW_DATA" "/Users/andershelbo/Desktop/MAKEDATA/bad_data"
+
+# python3 concat_images.py "/Users/andershelbo/Desktop/MAKEDATA/RAW_DATA" "/Users/andershelbo/Desktop/MAKEDATA/pix2pix-data"
+
+# Add the train-val split eventually
+# copy test int the folder
+
+# End time
+end=$(date +%s)
+execution_time=$((end - start))
+
+echo "Finished creating pix2pix dataset. Execution Time: $execution_time seconds"

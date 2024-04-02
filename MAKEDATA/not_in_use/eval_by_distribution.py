@@ -9,7 +9,7 @@ def eval_by_dist(folder, outliers):
 
     good_count = 0
     bad_count = 0
-    cutoff = 80000
+    cutoff = 60000
     data = [elm for elm in os.listdir(folder) if not elm == ".DS_Store"]
 
     for elm in data:
@@ -48,6 +48,6 @@ def eval_by_dist(folder, outliers):
 
 # eval_by_dist("/Users/andershelbo/Desktop/MAKEDATA/dist_test","/Users/andershelbo/Desktop/MAKEDATA/outliers")
 
-eval_by_dist("/Users/andershelbo/Desktop/MAKEDATA/pix2pix-data/1","/Users/andershelbo/Desktop/MAKEDATA/outliers")
+eval_by_dist("/Users/andershelbo/Desktop/MAKEDATA/pix2pix-data","/Users/andershelbo/Desktop/MAKEDATA/bad_data_pelvis")
 
 # eval_by_dist("/Users/andershelbo/Desktop/manual","/Users/andershelbo/Desktop/MAKEDATA/pix2pix-data/1")

@@ -43,11 +43,15 @@ def concat_images(input_folder, output_folder):
 
             min_len = min(len(mr),len(ct))      
 
+            if not (len(mr) == len(ct)):
+                print("UNEVEN")
+
             for i in range(min_len):
+                slice = mr[i][-8:-4] # get the slice-number
                 img_mr = cv2.imread(mr[i]) 
                 img_ct = cv2.imread(ct[i]) 
                 img_h_resize = hconcat_resize([img_mr, img_ct])
-                cv2.imwrite(f"{output_folder}/{pID}-{i:03}.jpeg", img_h_resize)
+                cv2.imwrite(f"{output_folder}/{pID}-{slice}.jpeg", img_h_resize)
 
 
 def clean_folder(folder):

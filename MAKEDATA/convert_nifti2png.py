@@ -5,29 +5,35 @@ import time
 from PIL import Image
 import sys
 import shutil
+from files2txt2files import read_list_from_file
+import numpy as np
 
-def nifti2png(folder):
+def nifti2png(folder, bad_data_file):
+
+    bad_data = read_list_from_file(bad_data_file)
+
+    print(len(bad_data))
+
+    count_data = 0
+    count_bad = 0
+
+    # make list of data we do not want
+
 
     partitions = [os.path.join(folder,dir) for dir in os.listdir(folder) if os.path.isdir(os.path.join(folder, dir))]
+    for i, partition in enumerate(partitions):
 
-    for partition in partitions:
-
-        print(f"Starting work on partition \"{partition}\":")
+        print(f"Starting work on partition \"{partition}\" ({i+1}/{len(partitions)})")
 
         #patient folders (some might not be..)
-        patients = os.listdir(partition)
+        patients = [os.path.join(partition,dir) for dir in os.listdir(partition) if (os.path.isdir(os.path.join(partition, dir)))]
 
         #enter each patient folder
         for patient in patients:
 
-            print(f" Starting work on patient \"{patient}\"")
-
-            #check that we only treat folders. If its not a fodler we skip!
-            if not os.path.isdir(os.path.join(partition, patient)):
-                continue
-            
-            patient = os.path.join(partition, patient)
-            os.chdir(patient)
+            patient_id = patient.split("/")[-1]
+            print(f" Starting work on patient \"{patient_id}\"")
+            os.chdir(patient) # I believe this is not needed
 
             #converts each scan of the patient individually
             for scan in glob.glob('*.nii.gz'):
@@ -49,24 +55,40 @@ def nifti2png(folder):
                 if (scan.split(".")[0] == "ct"):
                     niiArr[niiArr > 2000] = 2000
                     niiArr[niiArr < -1000] = -1000
+
+                if (scan.split(".")[0] == "mr"):
+                    niiArr[niiArr > 2500] = 2500
+                    niiArr[niiArr < 0] = 0                    
                     
+                # # Z-normalization
+                # mean = np.mean(niiArr)
+                # std_dev = np.std(niiArr)        
+                # niiArr =(((niiArr - mean) / std_dev) * 255).astype('uint8')
+
                 #make a .pgn image for each slice in the .nii file
                 for slice in range(niiArr.shape[2]):
-                                                
+
+                    count_data += 1
+
+                    if (f"{patient_id}-{slice:03}" in bad_data):
+                        count_bad += 1
+                        continue
+
                     arr = niiArr[:, :, slice]
 
-                    ####### normalization happens here
-
+                    # MIN-MAX 
                     arr = ((arr - niiArr.min()) * (1/(niiArr.max() - niiArr.min()) * 255)).astype('uint8')
+
+                    
 
                     im = Image.fromarray(arr)
 
-                    im.save(os.path.join(outputdir, f"image{slice:03}.jpeg"))
+                    im.save(os.path.join(outputdir, f"image{slice:03}.png"))
 
                 #delete .nii.gz file
                 os.remove(scan)
 
-        print(f" Partition \"{partition}\" is done")
+    print(f"{count_data = } {count_bad = }")
 
 
 def clean_folder(folder):
@@ -81,19 +103,21 @@ def clean_folder(folder):
         shutil.unpack_archive(z,folder)
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
+    if len(sys.argv) != 3:
         print("Usage: python3 convert_nifti2png.py <path>")
 
     else:
 
-        path = sys.argv[1]
+        folder = sys.argv[1]
+
+        bad_data_folder = sys.argv[2]
         
         start = time.time()
 
         print("Removing existing unpacked data")
-        clean_folder(path)
+        clean_folder(folder)
 
-        nifti2png(path)
+        nifti2png(folder, bad_data_folder)
 
         end = time.time()
 

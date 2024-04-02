@@ -1,14 +1,19 @@
 import cv2 
 import os
 
-ct_min = 1000000000
-ct_max = 0
-mr_min = 100000000
-mr_max = 0
+ct_min_len = 1000000000
+ct_max_len = 0
+mr_min_len = 100000000
+mr_max_len = 0
+
+ct_min_val = 99999999
+ct_max_val = 0
+mr_min_val = 99999999
+mr_max_val = 0
 
 def count_images(input_folder):
 
-    global ct_min, ct_max, mr_min, mr_max
+    global ct_min_len, ct_max_len, mr_min_len, mr_max_len
 
     partitions = [os.path.join(input_folder,dir) for dir in os.listdir(input_folder) if os.path.isdir(os.path.join(input_folder, dir))]
 
@@ -30,19 +35,16 @@ def count_images(input_folder):
             ct = [os.path.join(patient,"ct",elm) for elm in os.listdir(os.path.join(patient, "ct")) if not elm == ".DS_Store"]
             ct.sort()
 
-            if (len(mr) > mr_max):
-                mr_max = len(mr)
-            if (len(mr) < mr_min):
-                mr_min = len(mr)
+            if (len(mr) > mr_max_len):
+                mr_max_len = len(mr)
+            if (len(mr) < mr_min_len):
+                mr_min_len = len(mr)
 
-            if (len(ct) > ct_max):
-                ct_max = len(mr)
-            if (len(ct) < ct_min):
-                ct_min = len(mr)
 
-            print(f"{len(ct) = } {len(mr) = } {len(mr) == len(ct)}")
+                
+
                                            
 
 count_images("/Users/andershelbo/Desktop/MAKEDATA/Pelvis-Data")
 
-print(f"{ct_min = } {ct_max = } {mr_min = } {mr_max = }")
+print(f"{ct_min_len = } {ct_max_len = } {mr_min_len = } {mr_max_len = }")
