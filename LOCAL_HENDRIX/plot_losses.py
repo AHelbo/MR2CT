@@ -95,7 +95,7 @@ def plot_log_p2p(file_path, root_folder):
             data.append([epoch, G_GAN, G_L1, D_real, D_fake])
     data = np.array(data)
 
-    epochs = np.unique(data[:,0])
+    epochs = np.unique(data[:,0])[:-1] #We don't want the most recent epoch, as it may be unreliable
 
     means = []
     for value in epochs:
