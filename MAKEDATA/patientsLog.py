@@ -116,5 +116,5 @@ def read_intensitylog(len, path, modality):
 
     plot_intensity(np.sum(np_log, axis=1), modality)
 
-read_intensitylog(4001, r'C:\Users\Emily Honey\MRI2CT\MAKEDATA\Input_data\brain\1BA005\ct_intensities.csv', 'CT')
-read_intensitylog(3001, r'C:\Users\Emily Honey\MRI2CT\MAKEDATA\Input_data\brain\1BA005\mr_intensities.csv', 'MR')
+#read_intensitylog(4001, r'C:\Users\Emily Honey\MRI2CT\MAKEDATA\Input_data\brain\1BA005\ct_intensities.csv', 'CT')
+#read_intensitylog(3001, r'C:\Users\Emily Honey\MRI2CT\MAKEDATA\Input_data\brain\1BA005\mr_intensities.csv', 'MR')
