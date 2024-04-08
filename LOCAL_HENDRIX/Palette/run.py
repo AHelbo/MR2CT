@@ -64,7 +64,7 @@ def main_worker(gpu, ngpus_per_node, opt):
         
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--config', type=str, default='config/colorization_mirflickr25k.json', help='JSON file for configuration')
+    parser.add_argument('-c', '--config', type=str, default='config/mr2ct_nc1.json', help='JSON file for configuration')
     parser.add_argument('-p', '--phase', type=str, choices=['train','test'], help='Run train or test', default='train')
     parser.add_argument('-b', '--batch', type=int, default=None, help='Batch size in every gpu')
     parser.add_argument('-gpu', '--gpu_ids', type=str, default=None)
@@ -90,3 +90,4 @@ if __name__ == '__main__':
     else:
         opt['world_size'] = 1 
         main_worker(0, 1, opt)
+        

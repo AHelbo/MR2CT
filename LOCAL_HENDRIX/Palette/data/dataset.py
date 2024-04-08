@@ -20,13 +20,12 @@ def make_dataset(dir):
         images = [i for i in np.genfromtxt(dir, dtype=np.str, encoding='utf-8')]
     else:
         images = []
-        assert os.path.isdir(dir), '%s is not a valid directory' % dir
+        assert os.path.isdir(dir), f'{dir} is not a valid directory {os.path.isdir(dir) =}'
         for root, _, fnames in sorted(os.walk(dir)):
             for fname in sorted(fnames):
                 if is_image_file(fname):
                     path = os.path.join(root, fname)
                     images.append(path)
-
     return images
 
 def pil_loader(path):
@@ -174,3 +173,36 @@ class ColorizationDataset(data.Dataset):
         return len(self.flist)
 
 
+class MR2CTDataset(data.Dataset):
+    def __init__(self, data_root, data_flist, data_len=-1, image_size=[224, 224], loader=pil_loader):
+
+        self.data_root = data_root
+        flist = make_dataset(data_flist)
+        if data_len > 0:
+            self.flist = flist[:int(data_len)]
+        else:
+            self.flist = flist
+        self.tfs = transforms.Compose([
+                transforms.Resize((image_size[0], image_size[1])),
+                transforms.ToTensor(),
+                transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5,0.5, 0.5])
+        ])
+        self.loader = loader
+        self.image_size = image_size
+
+    def __getitem__(self, index):
+        ret = {}
+        file_name = str(self.flist[index]).split("/")[-1]
+        
+        #.zfill(5) + '.png'
+
+        img = self.tfs(self.loader('{}/{}/{}'.format(self.data_root, 'trainA', file_name)))
+        cond_image = self.tfs(self.loader('{}/{}/{}'.format(self.data_root, 'trainB', file_name)))
+
+        ret['gt_image'] = img
+        ret['cond_image'] = cond_image
+        ret['path'] = file_name
+        return ret
+
+    def __len__(self):
+        return len(self.flist)
