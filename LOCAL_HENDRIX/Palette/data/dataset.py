@@ -172,6 +172,21 @@ class ColorizationDataset(data.Dataset):
     def __len__(self):
         return len(self.flist)
 
+class mr2ct(data.Dataset):
+    def __init__(self, data_root, data_flist, data_len=-1, image_size=[224, 224], loader=pil_loader):
+        self.data_root = data_root
+        flist = make_dataset(data_flist)
+        if data_len > 0:
+            self.flist = flist[:int(data_len)]
+        else:
+            self.flist = flist
+        self.tfs = transforms.Compose([
+                transforms.Resize((image_size[0], image_size[1])),
+                transforms.ToTensor(),
+                transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5,0.5, 0.5])
+        ])
+        self.loader = loader
+        self.image_size = image_size
 
 class MR2CTDataset(data.Dataset):
     def __init__(self, data_root, data_flist, data_len=-1, image_size=[224, 224], loader=pil_loader):

@@ -115,7 +115,7 @@ if __name__ == "__main__":
         start = time.time()
 
         print("Removing existing unpacked data")
-        clean_folder(folder)
+        #clean_folder(folder)
 
         nifti2png(folder, bad_data_folder)
 
