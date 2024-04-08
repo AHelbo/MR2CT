@@ -15,8 +15,8 @@ echo "Now creating dataset for $model model with $2 channel(s):"
 echo "Model: $model"
 
 # check that the specified model is supported
-if [[ $model != "pix2pix" && $model != "cycleGan" && $model != "CUT" ]]; then
-    echo "Error: Available datasets are: pix2pix, cycleGan, CUT"
+if [[ $model != "pix2pix" && $model != "palette" && $model != "cycleGan" && $model != "CUT" ]]; then
+    echo "Error: Available datasets are: pix2pix, cycleGan, CUT, palette"
     exit 1
 fi
 
@@ -92,6 +92,36 @@ if [[ $model == "pix2pix" ]]; then
 
     # pack files within that folder into a zip
     zip_files "$TARGET_DIR/mr2ct_pix2pix_nc$input_channels.zip" "mr2ct_pix2pix_nc$input_channels"
+
+fi
+
+
+## PALETTE
+if [[ $model == "palette" ]]; then
+
+    # move data from raw_date to taget folder(s)
+    mkdir "$TEMP_DIR/A"
+    mkdir "$TEMP_DIR/B"
+    python3 CUT_create.py "$MAKEDATA_DIR/Input_data" "$TEMP_DIR" $input_channels "$MAKEDATA_DIR/test_data.txt"
+
+    TARGET_DIR="$MAKEDATA_DIR/mr2ct_palette_nc$input_channels"
+
+    # if mr2ct_CUT_nc1 exists, delete it, then create it
+    if [ -d "$TARGET_DIR" ]; then
+        echo "folder $TARGET_DIR already exists, will delete and create new"
+        rm -r "$TARGET_DIR"
+    fi
+    
+    mkdir "$TARGET_DIR"
+    mkdir "$TARGET_DIR/trainA"
+    mkdir "$TARGET_DIR/trainB"
+    mkdir "$TARGET_DIR/testA"
+    mkdir "$TARGET_DIR/testB"
+
+    python3 palette_split.py "$TEMP_DIR" "$TARGET_DIR" "$MAKEDATA_DIR/test_data.txt"
+
+    # pack files within that folder into a zip
+    zip_files "$TARGET_DIR/mr2ct_palette_nc$input_channels.zip" "mr2ct_palette_nc$input_channels"
 
 fi
 

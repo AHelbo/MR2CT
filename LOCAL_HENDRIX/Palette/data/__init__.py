@@ -60,6 +60,8 @@ def define_dataset(logger, opt):
         else:
             valid_len = int(data_len * valid_split)
         data_len -= valid_len
+
+        print(f"{data_len =} {valid_len =}")
         phase_dataset, val_dataset = subset_split(dataset=phase_dataset, lengths=[data_len, valid_len], generator=Generator().manual_seed(opt['seed']))
     
     logger.info('Dataset for {} have {} samples.'.format(opt['phase'], data_len))

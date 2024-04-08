@@ -4,3 +4,15 @@
 
 # Ignore Mac system files
 .DS_Store
+
+# Ignore anything in MRI2CT/MAKEDATA/Input_data
+MAKEDATA/Input_data/*
+
+# Ignore dataset folders 
+MAKEDATA/*pix2pix*/
+MAKEDATA/*CUT*/
+MAKEDATA/*Palette*/
+MAKEDATA/*cycleGan*/
+
+
+LOCAL_HENDRIX/Palette/datasets/*
