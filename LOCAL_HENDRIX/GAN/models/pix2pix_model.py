@@ -2,6 +2,10 @@ import torch
 from .base_model import BaseModel
 from . import networks
 
+from models.metrics.SSIM import SSIM
+# from .metrics import FID 
+# from .metrics import PSNR 
+
 
 class Pix2PixModel(BaseModel):
     """ This class implements the pix2pix model, for learning a mapping from input images to output images given paired data.
@@ -44,7 +48,7 @@ class Pix2PixModel(BaseModel):
         """
         BaseModel.__init__(self, opt)
         # specify the training losses you want to print out. The training/test scripts will call <BaseModel.get_current_losses>
-        self.loss_names = ['G_GAN', 'G_L1', 'D_real', 'D_fake', 'val_G_GAN', 'val_G_L1']
+        self.loss_names = ['G_GAN', 'G_L1', 'D_real', 'D_fake', 'val_G_GAN', 'val_G_L1', 'SSIM']
         # specify the images you want to save/display. The training/test scripts will call <BaseModel.get_current_visuals>
         self.visual_names = ['real_A', 'fake_B', 'real_B']
         # specify the models you want to save to the disk. The training/test scripts will call <BaseModel.save_networks> and <BaseModel.load_networks>
@@ -148,6 +152,12 @@ class Pix2PixModel(BaseModel):
         self.loss_val_G_GAN = self.criterionGAN(pred_fake, True)
         # val_G_L1
         self.loss_val_G_L1 = self.criterionL1(val_fake_B, self.val_real_B)
+
+        self.loss_SSIM = SSIM(val_fake_B.detach().numpy(), self.val_real_B.detach().numpy())
+        self.loss_FID = None
+        self.loss_PSNR = None
+
+
 
     def update_from_schedule(self, epoch):
         for (E, L1, GAN, F) in self.opt.train_schedule:

@@ -94,21 +94,12 @@ def plot_log_p2p(file_path, root_folder):
             D_fake = float(parts[26])
             val_G_GAN = float(parts[29])
             val_G_L1 = float(parts[32])
-            # if (len(parts) > 30):
-            #     val_G_GAN = float(parts[29])
-            #     val_G_L1 = float(parts[32])
-            # else:
-            #     val_G_GAN = 0.0
-            #     val_G_L1 = 0.0
 
             # Appending to data
             data.append([epoch, G_GAN, G_L1, D_real, D_fake, val_G_GAN, val_G_L1])
     
     data = np.array(data)
     epochs = np.unique(data[:,0])[:-1] #We don't want the most recent epoch, as it may be unreliable
-
-    if (len(epochs) == 0):
-        pass
 
     means = []
     for value in epochs:
@@ -122,22 +113,73 @@ def plot_log_p2p(file_path, root_folder):
         mean_val_G_L1 = np.mean(subset[:, 6])
         
         means.append([value, mean_G_GAN, mean_G_L1, mean_D_real, mean_D_fake, mean_val_G_GAN, mean_val_G_L1])
+    
     means = np.array(means)
 
-    data_dict = {}
-    data_dict["G_GAN"] = np.column_stack((epochs, means[:, 1]))
-    data_dict["G_L1"] = np.column_stack((epochs, means[:, 2]))
-    data_dict["D_real"] = np.column_stack((epochs, means[:, 3]))
-    data_dict["D_fake"] = np.column_stack((epochs, means[:, 4]))
-    data_dict["val_G_GAN"] = np.column_stack((epochs, means[:, 5]))
-    data_dict["val_G_L1"] = np.column_stack((epochs, means[:, 6]))
+    D_real = np.column_stack((epochs, means[:, 3]))
+    D_fake = np.column_stack((epochs, means[:, 4]))
+    D_sum = np.sum(np.column_stack((D_real[:, 1], D_fake[:, 1])), axis=1)
+
+    fig, axs = plt.subplots(2, 3, figsize=(15, 8))
+
+    harry_plotter_and_the_chamber_of_plots(
+        axs, 
+        "G loss",
+        0,
+        epochs, 
+        [
+            {"label" : "G_GAN", "legend" : "legend", "values" : means[:, 1], "color" : "blue"},
+            {"label" : "val_G_GAN", "legend" : "legend", "values" : means[:, 5], "color" : "orange"},
+        ]) 
+    
+    harry_plotter_and_the_chamber_of_plots(
+        axs, 
+        "L1 loss",
+        1,
+        epochs, 
+        [
+            {"label" : "L1", "legend" : "legend", "values" : means[:, 2], "color" : "blue"},
+            {"label" : "val_L1", "legend" : "legend", "values" : means[:, 6], "color" : "orange"},
+        ])     
+
+    harry_plotter_and_the_chamber_of_plots(
+        axs, 
+        "D loss",
+        2,
+        epochs, 
+        [
+            {"label" : "D_real", "legend" : "legend", "values" : means[:, 3], "color" : "blue"},
+            {"label" : "D_fake", "legend" : "legend", "values" : means[:, 4], "color" : "orange"},
+            {"label" : "D_sum", "legend" : "legend", "values" : D_sum, "color" : "green"},
+        ])     
 
     # Plotting
     model = file_path.split("/")[-2]
     title = f"{model}_training_progress"
-
-    harry_plotter(data_dict, root_folder, title)
     
+    fig.suptitle(title)
+    plt.tight_layout()
+    plt.savefig(f"{root_folder}/{title}.png") 
+
+
+
+def harry_plotter_and_the_chamber_of_plots(ax, title, index, x_val, y_values):
+    for y_val in y_values:
+        ax[0, index].set_title(title)
+        ax[0, index].plot(x_val, y_val["values"], label=y_val["label"], linewidth=0.5, color=y_val["color"])
+        ax[0, index].set_xlabel("Epoch")
+        ax[0, index].set_ylabel("Loss")
+
+        ax[1, index].set_title(f"Smoothed {title}")
+        ax[1, index].plot(x_val, rolling_avg(y_val["values"],5), label=f"Smoothed", linewidth=0.5, color=y_val["color"])
+        ax[1, index].set_xlabel("Epoch")
+        ax[1, index].set_ylabel("Loss")
+
+    
+
+
+
+
 def rolling_avg(a,n): 
     assert n%2==1
     b = a*0.0
