@@ -19,13 +19,14 @@ SCRIPTS="$TARGET_DIR/scripts"
 ## rsync -av --ignore-existing hendrix:~/pix2pix_cycleGan/checkpoints/* /Users/andershelbo/Desktop/hendrix-folder/output/p2p_cyc
 ## rsync -zarv --include="*/" --include="*.txt" --include="*.html" --include="*.png" --exclude="*" --files-from=$P2P_CYCLEGAN --files-from=$WEAK_P2P "$TARGET_DIR/"
 
-rsync -zarv --include="*/" --include="*.txt" --include="*.html" --include="*.png" --exclude="*" $GAN "$TARGET_DIR/Checkpoints/GAN"
+# THIS
+# rsync -zarv --include="*/" --include="*.txt" --include="*.html" --include="*.png" --exclude="*" $GAN "$TARGET_DIR/Checkpoints/GAN"
 
 sleep 3
 
 python3 $SCRIPTS/plot_losses.py $TARGET_DIR
 
-python3 $SCRIPTS/html2png.py $TARGET_DIR
+# python3 $SCRIPTS/html2png.py $TARGET_DIR
 
 
 # End time

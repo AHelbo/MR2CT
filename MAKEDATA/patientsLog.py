@@ -10,8 +10,12 @@ import json
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import csv
 
-def nii_to_matrix_dict(folder, bad_data_file):
+np_mr_arr = np.zeros((3001, 1))
+np_ct_arr = np.zeros((4001, 1))
+
+def nii_to_matrix_dict(target_folder, folder, bad_data_file):
     global np_ct_arr, np_mr_arr
 
     bad_data = read_list_from_file(bad_data_file)
@@ -71,10 +75,12 @@ def nii_to_matrix_dict(folder, bad_data_file):
                 del nii
             
     #remove the initial zero-column, and save as .csv file
+    os.chdir(target_folder)
     np_ct_arr = np.delete(np_ct_arr, 0, 1)
     np_mr_arr = np.delete(np_mr_arr, 0, 1)
-    np_mr_arr.tofile('mr_intensities.csv', sep=',')
-    np_ct_arr.tofile('ct_intensities.csv', sep=',')
+    # np_mr_arr.tofile('mr_intensities.csv', sep=',')
+    # np_ct_arr.tofile('ct_intensities.csv', sep=',')
+    
 
 def plot_intensity(arr, modality):
     N = sum(arr)
@@ -109,12 +115,91 @@ def plot_intensity(arr, modality):
     plt.show()
 
 def read_intensitylog(len, path, modality):
-    np_log = (pd.read_csv(path)).to_numpy()
+    print("1")
+    print(path)
+    np_log = (pd.read_csv(path, engine='c')).to_numpy()
+
+    print("2")
 
     #reshaping the array to the modality intensity range
     np_log = np.delete(np.reshape(np_log, (len, -1)), 0, 1)
+    print("3")
 
     plot_intensity(np.sum(np_log, axis=1), modality)
+    print("4")
 
-#read_intensitylog(4001, r'C:\Users\Emily Honey\MRI2CT\MAKEDATA\Input_data\brain\1BA005\ct_intensities.csv', 'CT')
-#read_intensitylog(3001, r'C:\Users\Emily Honey\MRI2CT\MAKEDATA\Input_data\brain\1BA005\mr_intensities.csv', 'MR')
+# read_intensitylog(4001, r'C:\Users\Emily Honey\MRI2CT\MAKEDATA\Input_data\brain\1BA005\ct_intensities.csv', 'CT')
+# read_intensitylog(3001, r'C:\Users\Emily Honey\MRI2CT\MAKEDATA\Input_data\brain\1BA005\mr_intensities.csv', 'MR')
+
+# nii_to_matrix_dict("/Users/andershelbo/Desktop/MRI2CT/MAKEDATA/Input_data","/Users/andershelbo/Desktop/MRI2CT/MAKEDATA/bad_data.txt")
+
+def clean_folder(folder):
+    dirs = [os.path.join(folder,dir) for dir in os.listdir(folder) if os.path.isdir(os.path.join(folder, dir))]
+
+    for dir in dirs:
+        shutil.rmtree(dir)
+
+    zips = [os.path.join(folder,elm) for elm in os.listdir(folder) if elm.split(".")[-1] == "zip"]
+
+    for z in zips:
+        shutil.unpack_archive(z,folder)
+
+
+def num_lines(path):
+    with open(path, 'r') as csvfile:
+        # creating a csv reader object
+        csvreader = csv.reader(csvfile)
+        
+        # extracting each data row one by one
+        count = 0
+        for row in csvreader:
+            count += 1
+        
+        print(f"{count} rows in {path}")
+
+if __name__ == "__main__":
+
+    if len(sys.argv) != 2:
+        print("Usage: python3 patiensLog.py < -load / -plot ")
+
+    else:    
+        if (sys.argv[1] == "-load"):
+
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+
+            input_data_folder = os.path.join(script_dir, "Input_data")
+
+            bad_data_file = os.path.join(script_dir, "bad_data.txt")
+            
+            start = time.time()
+
+            print("..Removing existing unpacked data")
+            clean_folder(input_data_folder)
+
+            print("..writing patient intensities to file")
+            nii_to_matrix_dict(script_dir, input_data_folder, bad_data_file)
+
+            end = time.time()
+
+            print(f"patientsLog.py has been completed succesfully! Total time elapsed: {(end-start)/60} minutes")
+        
+
+        if (sys.argv[1] == "-plot"):
+
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+
+            # read_intensitylog(4001, os.path.join(script_dir, "ct_intensities.csv"), 'CT')
+
+            # read_intensitylog(3001, os.path.join(script_dir, "mr_intensities.csv"), 'MR')
+
+            num_lines(os.path.join(script_dir, "ct_intensities.csv"))
+
+            num_lines(os.path.join(script_dir, "mr_intensities.csv"))
+
+            num_lines(os.path.join(script_dir, "test.csv"))
+
+
+
+            
+
+            
