@@ -1,22 +1,16 @@
 import glob
 import os
-from PIL import Image
 import nibabel 
 import time
 import sys
 import shutil
 from files2txt2files import read_list_from_file, save_list_to_file
-import json
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import csv
 
-np_mr_arr = np.zeros((358, 3001))
-np_ct_arr = np.zeros((358, 4001))
-
 def nii_to_matrix_dict(target_folder, folder, bad_data_file):
-    global np_ct_arr, np_mr_arr
 
     bad_data = read_list_from_file(bad_data_file)
 
@@ -29,7 +23,7 @@ def nii_to_matrix_dict(target_folder, folder, bad_data_file):
         patients = [os.path.join(partition,dir) for dir in os.listdir(partition) if (os.path.isdir(os.path.join(partition, dir)))]
 
         #enter each patient folder
-        for p_index, patient in enumerate(patients):
+        for patient in patients:
 
             patient_id = patient.split("/")[-1]
             print(f" Starting work on patient \"{patient_id}\"")
@@ -39,10 +33,11 @@ def nii_to_matrix_dict(target_folder, folder, bad_data_file):
             np_arr  = None
             nii = None
 
+            patient_ct_arr = np.zeros((4001))
+            patient_mr_arr = np.zeros((3001))   
+            
             #converts each scan of the patient individually
             for scan in glob.glob('*.nii.gz'):
-                patient_ct_arr = np.zeros((4001))
-                patient_mr_arr = np.zeros((3001))   
 
                 #we do not use the mask files so we delete then
                 if scan == 'mask.nii.gz':
@@ -58,8 +53,6 @@ def nii_to_matrix_dict(target_folder, folder, bad_data_file):
                     if (f"{patient_id}-{slice:03}" in bad_data):
                         continue                    
 
-                    # clean_arr.append(np_arr[:, :, slice])
-
                     if (scan.split(".")[0] == "ct"):
                         for elm in np_arr[:, :, slice].flatten():
                             patient_ct_arr[int(elm + 1000)] += 1
@@ -68,20 +61,19 @@ def nii_to_matrix_dict(target_folder, folder, bad_data_file):
                         for elm in np_arr[:, :, slice].flatten():
                             patient_mr_arr[int(elm)] += 1
                 
-                #stack patient data to the full ct/mri arr
+                #write to csv
                 if scan == 'ct.nii.gz':
-                    np_ct_arr[p_index] = patient_ct_arr
+                    df_ct = pd.DataFrame(patient_ct_arr)
+                    df_ct = df_ct.T
+                    df_ct.to_csv(os.path.join(target_folder, "np_ct_arr.csv"), mode = "a", header=False, index=False)#, sep=",")
 
                 if scan == 'mr.nii.gz':
-                    np_mr_arr[p_index] = patient_mr_arr
+                    df_mr = pd.DataFrame(patient_mr_arr)
+                    df_mr = df_mr.T
+                    df_mr.to_csv(os.path.join(target_folder, "np_mr_arr.csv"), mode = "a", header=False, index=False)#, sep=",")
             
-    os.chdir(target_folder)
 
-    df_ct = pd.DataFrame(np_ct_arr, index=False)
-    df_ct.to_csv("np_ct_arr.csv", header=False, index=False)
     
-    df_mr = pd.DataFrame(np_mr_arr, index=False)
-    df_mr.to_csv("np_mr_arr.csv", header=False, index=False)
 
 
 
@@ -172,7 +164,7 @@ if __name__ == "__main__":
             start = time.time()
 
             print("..Removing existing unpacked data")
-            clean_folder(input_data_folder)
+            # clean_folder(input_data_folder)
 
             print("..writing patient intensities to file")
             nii_to_matrix_dict(script_dir, input_data_folder, bad_data_file)

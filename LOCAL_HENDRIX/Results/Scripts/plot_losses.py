@@ -120,7 +120,7 @@ def plot_log_p2p(file_path, root_folder):
     D_fake = np.column_stack((epochs, means[:, 4]))
     D_sum = np.sum(np.column_stack((D_real[:, 1], D_fake[:, 1])), axis=1)
 
-    fig, axs = plt.subplots(2, 3, figsize=(15, 8))
+    fig, axs = plt.subplots(2, 4, figsize=(15, 8))
 
     harry_plotter_and_the_chamber_of_plots(
         axs, 
@@ -150,8 +150,18 @@ def plot_log_p2p(file_path, root_folder):
         [
             {"label" : "D_real", "legend" : "legend", "values" : means[:, 3], "color" : "blue"},
             {"label" : "D_fake", "legend" : "legend", "values" : means[:, 4], "color" : "orange"},
-            {"label" : "D_sum", "legend" : "legend", "values" : D_sum, "color" : "green"},
+            {"label" : "D_sum", "legend" : "legend", "values" : D_sum, "color" : "green"}
         ])     
+    
+
+    harry_plotter_and_the_chamber_of_plots(
+        axs, 
+        "gan loss",
+        3,
+        epochs, 
+        [
+            {"label" : "D_real", "legend" : "legend", "values" : means[:, 1] + means[:, 2], "color" : "blue"},
+        ])         
 
     # Plotting
     model = file_path.split("/")[-2]
