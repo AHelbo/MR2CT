@@ -10,6 +10,6 @@ python3 -m venv test_env
 
 source test_env/bin/activate
 
-pip3 install scikit-image
+pip install scikit-image
 
 python3 test.py
