@@ -8,6 +8,29 @@ import shutil
 from files2txt2files import read_list_from_file
 import numpy as np
 
+def percentile_rank_limit(p_rank, p_limit):
+    '''Takes the percentile rank arr of a single patient and returns 
+    the cut-off value of the given percentile (the last intensity we should include)'''
+    arg_lst = np.argwhere(p_rank >= p_limit)
+    
+    if len(arg_lst) == 0:
+        return len(p_rank) - 1
+    
+    return arg_lst[0]
+
+def cut_off_val(patient, p_limit):
+
+    cumFreq = np.cumsum(patient)
+    
+    p_rank = (cumFreq - (0.5 * patient))/cumFreq[-1]*100
+
+    limit_index = percentile_rank_limit(p_rank, p_limit)
+
+    return patient[limit_index]
+
+
+
+
 def nifti2png(folder, bad_data_file):
 
     bad_data = read_list_from_file(bad_data_file)
@@ -57,9 +80,21 @@ def nifti2png(folder, bad_data_file):
                     niiArr[niiArr < -1000] = -1000
 
                 if (scan.split(".")[0] == "mr"):
-                    niiArr[niiArr > 2500] = 2500
+                    patient_mr_arr = np.zeros((3001))
+
+                    for slice in range(niiArr.shape[2]):
+
+                        if (f"{patient_id}-{slice:03}" in bad_data):
+                            continue                    
+
+                        for elm in niiArr[:, :, slice].flatten():
+                            patient_mr_arr[int(elm)] += 1
+
+                    val = cut_off_val(patient_mr_arr,99)
+
+                    niiArr[niiArr > val] = val
                     niiArr[niiArr < 0] = 0                    
-                    
+
                 # # Z-normalization
                 # mean = np.mean(niiArr)
                 # std_dev = np.std(niiArr)        
@@ -115,7 +150,7 @@ if __name__ == "__main__":
         start = time.time()
 
         print("Removing existing unpacked data")
-        #clean_folder(folder)
+        clean_folder(folder)
 
         nifti2png(folder, bad_data_folder)
 
