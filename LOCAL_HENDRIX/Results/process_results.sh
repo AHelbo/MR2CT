@@ -20,13 +20,13 @@ SCRIPTS="$TARGET_DIR/scripts"
 ## rsync -zarv --include="*/" --include="*.txt" --include="*.html" --include="*.png" --exclude="*" --files-from=$P2P_CYCLEGAN --files-from=$WEAK_P2P "$TARGET_DIR/"
 
 # THIS
-# rsync -zarv --include="*/" --include="*.txt" --include="*.html" --include="*.png" --exclude="*" $GAN "$TARGET_DIR/Checkpoints/GAN"
+rsync -zarv --include="*/" --include="*.txt" --include="*.html" --include="*.png" --exclude="*" $GAN "$TARGET_DIR/Checkpoints/GAN"
 
 sleep 3
 
 python3 $SCRIPTS/plot_losses.py $TARGET_DIR
 
-# python3 $SCRIPTS/html2png.py $TARGET_DIR
+python3 $SCRIPTS/html2png.py $TARGET_DIR
 
 
 # End time
