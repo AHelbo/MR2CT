@@ -13,6 +13,7 @@ input_channels="${2:-1}"
 run_convert_nifti2png="${3:-0}"
 echo "Now creating dataset for $model model with $2 channel(s):"
 echo "Model: $model"
+echo "Input channels: $input_channels"
 
 # check that the specified model is supported
 if [[ $model != "pix2pix" && $model != "palette" && $model != "cycleGan" && $model != "CUT" ]]; then

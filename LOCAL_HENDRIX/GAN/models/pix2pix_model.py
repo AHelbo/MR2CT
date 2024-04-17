@@ -4,7 +4,6 @@ from . import networks
 
 from models.metrics.metrics import torch_ssim
 from models.metrics.metrics import torch_psnr
-from models.metrics.metrics import torch_mse
 
 
 class Pix2PixModel(BaseModel):
@@ -155,8 +154,6 @@ class Pix2PixModel(BaseModel):
         self.loss_SSIM = torch_ssim(val_fake_B, self.val_real_B)
         self.loss_PSNR = torch_psnr(val_fake_B, self.val_real_B)
 
-
-
     def update_from_schedule(self, epoch):
         for (E, L1, GAN, F) in self.opt.train_schedule:
         # for (E, L1, GAN, F) in test_val:
@@ -165,5 +162,3 @@ class Pix2PixModel(BaseModel):
                 self.opt.lambda_GAN = GAN
                 self.opt.D_update_freq = F
                 continue
-
-import random
