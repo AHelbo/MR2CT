@@ -123,7 +123,8 @@ def plot_log_p2p(file_path, root_folder):
     D_real = np.column_stack((epochs, means[:, 3]))
     D_fake = np.column_stack((epochs, means[:, 4]))
     D_sum = np.sum(np.column_stack((D_real[:, 1], D_fake[:, 1])), axis=1)
-
+    
+    plt.style.use('seaborn-v0_8')
     fig, axs = plt.subplots(2, 6, figsize=(24, 8))
 
     harry_plotter_and_the_chamber_of_plots(
@@ -186,7 +187,10 @@ def plot_log_p2p(file_path, root_folder):
     
 
     # Plotting
-    model = file_path.split("/")[-2]
+    # FLYT UDKOMMENTERING WINDOWS/MAC STIER
+    model = file_path.split("\\")[-2]
+    #model = file_path.split("/")[-2]
+
     title = f"{model}_training_progress"
 
     fig.suptitle(title)
@@ -198,17 +202,20 @@ def plot_log_p2p(file_path, root_folder):
 
 def harry_plotter_and_the_chamber_of_plots(ax, title, index, x_val, y_values):
     for y_val in y_values:
-        ax[0, index].grid()
+        ax[0, index].grid(visible=True)
         ax[0, index].set_title(title)
         ax[0, index].plot(x_val, y_val["values"], label=y_val["label"], linewidth=0.5, color=y_val["color"])
         ax[0, index].set_xlabel("Epoch")
         ax[0, index].set_ylabel("Loss")
+        ax[0, index].legend()
 
-        ax[1, index].grid()
+
+        ax[1, index].grid(visible=True)
         ax[1, index].set_title(f"Smoothed {title}")
         ax[1, index].plot(x_val, rolling_avg(y_val["values"],5), label=f"Smoothed", linewidth=0.5, color=y_val["color"])
         ax[1, index].set_xlabel("Epoch")
         ax[1, index].set_ylabel("Loss")
+        ax[1, index].legend()
 
     
 
