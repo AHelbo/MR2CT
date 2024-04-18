@@ -124,7 +124,7 @@ def clean_folder(folder):
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
-        print("Usage: python3 convert_nifti2png.py <path>")
+        print("Usage: python3 unpack_raw_data.py <path>")
 
     else:
 
@@ -146,4 +146,4 @@ if __name__ == "__main__":
 
         end = time.time()
 
-        print(f"convert_nifti2png has been completed succesfully! Total time elapsed: {(end-start)/60} minutes")
+        print(f"unpack_raw_data.py has been completed succesfully! Total time elapsed: {(end-start)/60} minutes")
