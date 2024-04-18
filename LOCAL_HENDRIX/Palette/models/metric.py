@@ -15,6 +15,39 @@ def mae(input, target):
         output = loss(input, target)
     return output
 
+def mse(input, target):
+    with torch.no_grad():
+        loss = nn.MSELoss()
+        output = loss(input, target)
+    return output
+
+from skimage.metrics import structural_similarity
+from skimage.metrics import peak_signal_noise_ratio
+
+def SSIM(A,B):
+    A_arr = A.cpu().detach().numpy()#.squeeze(0).squeeze(0)
+    A = ((A_arr - A_arr.min()) / (A_arr.max() - A_arr.min())) * 255
+
+    B_arr = B.cpu().detach().numpy()#.squeeze(0).squeeze(0)
+    B = ((B_arr - B_arr.min()) / (B_arr.max() - B_arr.min())) * 255
+
+    d_range = max(A.max(),B.max())-min(A.min(),B.min())
+
+    ssim = structural_similarity(A,B,data_range=d_range)
+
+    return ssim
+
+def PSNR(A,B):
+    A_arr = A.cpu().detach().numpy()#.squeeze(0).squeeze(0)
+    A = ((A_arr - A_arr.min()) / (A_arr.max() - A_arr.min())) * 255
+
+    B_arr = B.cpu().detach().numpy()#.squeeze(0).squeeze(0)
+    B = ((B_arr - B_arr.min()) / (B_arr.max() - B_arr.min())) * 255
+
+    d_range = max(A.max(),B.max())-min(A.min(),B.min())
+
+    return peak_signal_noise_ratio(A,B,data_range=d_range)
+
 
 def inception_score(imgs, cuda=True, batch_size=32, resize=False, splits=1):
     """Computes the inception score of the generated images imgs
