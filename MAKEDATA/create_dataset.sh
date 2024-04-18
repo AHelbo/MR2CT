@@ -5,12 +5,12 @@ start=$(date +%s)
 
 # Check if the number of arguments is less than 1 or greater than 2
 if [ "$#" -lt 2 ] || [ "$#" -gt 3 ]; then
-    echo "Usage: $0 <model type> [number of input channels, <1,3,5>, default = 1] [run convert_nifti2png, <0,1>, default 0]"
+    echo "Usage: $0 <model type> [number of input channels, <1,3,5>, default = 1] [run unpack_raw_data, <0,1>, default 0]"
     exit 1
 fi
 model="$1"
 input_channels="${2:-1}"
-run_convert_nifti2png="${3:-0}"
+run_unpack_raw_data="${3:-0}"
 echo "Now creating dataset for $model model with $2 channel(s):"
 echo "Model: $model"
 echo "Input channels: $input_channels"
@@ -37,9 +37,9 @@ if [ ! -d "$MAKEDATA_DIR/Input_data" ]; then
     exit 1
 fi
 
-#If selected, run convert_nifti2png
-if [[ $run_convert_nifti2png -eq "1" ]]; then
-    python3 convert_nifti2png.py "$MAKEDATA_DIR/Input_data" "$MAKEDATA_DIR/bad_data.txt"
+#If selected, run unpack_raw_data
+if [[ $run_unpack_raw_data -eq "1" ]]; then
+    python3 unpack_raw_data.py "$MAKEDATA_DIR/Input_data" "$MAKEDATA_DIR/bad_data.txt"
 fi
 
 # Create temp folder
@@ -73,7 +73,7 @@ zip_files() {
 if [[ $model == "pix2pix" ]]; then
 
     # concate from raw to temp
-    python3 pix2pix_create.py "$MAKEDATA_DIR/Input_data" "$TEMP_DIR" $input_channels
+    python3 create_pix2pix.py "$MAKEDATA_DIR/Input_data" "$TEMP_DIR" $input_channels
 
     TARGET_DIR="$MAKEDATA_DIR/mr2ct_pix2pix_nc$input_channels"
 
@@ -89,13 +89,12 @@ if [[ $model == "pix2pix" ]]; then
     mkdir "$TARGET_DIR/val"
 
     # split from temp into mr2ct_pix2pix_nc1 folder
-    python3 pix2pix_split.py "$TEMP_DIR"  "$TARGET_DIR" "$MAKEDATA_DIR/data_split.txt"
+    python3 split_pix2pix.py "$TEMP_DIR"  "$TARGET_DIR" "$MAKEDATA_DIR/data_split.txt"
 
     # pack files within that folder into a zip
     zip_files "$TARGET_DIR/mr2ct_pix2pix_nc$input_channels.zip" "mr2ct_pix2pix_nc$input_channels"
 
 fi
-
 
 ## PALETTE
 if [[ $model == "palette" ]]; then
@@ -103,7 +102,7 @@ if [[ $model == "palette" ]]; then
     # move data from raw_date to taget folder(s)
     mkdir "$TEMP_DIR/A"
     mkdir "$TEMP_DIR/B"
-    python3 CUT_create.py "$MAKEDATA_DIR/Input_data" "$TEMP_DIR" $input_channels "$MAKEDATA_DIR/test_data.txt"
+    python3 create_AB.py "$MAKEDATA_DIR/Input_data" "$TEMP_DIR" $input_channels
 
     TARGET_DIR="$MAKEDATA_DIR/mr2ct_palette_nc$input_channels"
 
@@ -119,13 +118,12 @@ if [[ $model == "palette" ]]; then
     mkdir "$TARGET_DIR/testA"
     mkdir "$TARGET_DIR/testB"
 
-    python3 palette_split.py "$TEMP_DIR" "$TARGET_DIR" "$MAKEDATA_DIR/test_data.txt"
+    python3 split_PALETTE.py "$TEMP_DIR" "$TARGET_DIR" "$MAKEDATA_DIR/data_split.txt"
 
     # pack files within that folder into a zip
     zip_files "$TARGET_DIR/mr2ct_palette_nc$input_channels.zip" "mr2ct_palette_nc$input_channels"
 
 fi
-
 
 ## CUT
 if [[ $model == "CUT" ]]; then
@@ -133,7 +131,7 @@ if [[ $model == "CUT" ]]; then
     # move data from raw_date to taget folder(s)
     mkdir "$TEMP_DIR/A"
     mkdir "$TEMP_DIR/B"
-    python3 CUT_create.py "$MAKEDATA_DIR/Input_data" "$TEMP_DIR" $input_channels "$MAKEDATA_DIR/test_data.txt"
+    python3 create_AB.py "$MAKEDATA_DIR/Input_data" "$TEMP_DIR" $input_channels
 
     TARGET_DIR="$MAKEDATA_DIR/mr2ct_CUT_nc$input_channels"
 
@@ -149,7 +147,7 @@ if [[ $model == "CUT" ]]; then
     mkdir "$TARGET_DIR/valA"
     mkdir "$TARGET_DIR/valB"
 
-    python3 CUT_split.py "$TEMP_DIR" "$TARGET_DIR" "$MAKEDATA_DIR/test_data.txt"
+    python3 split_CUT.py "$TEMP_DIR" "$TARGET_DIR" "$MAKEDATA_DIR/data_split.txt"
 
     # pack files within that folder into a zip
     zip_files "$TARGET_DIR/mr2ct_CUT_nc$input_channels.zip" "mr2ct_CUT_nc$input_channels"
@@ -162,7 +160,7 @@ if [[ $model == "cycleGan" ]]; then
     # move data from raw_date to taget folder(s)
     mkdir "$TEMP_DIR/A"
     mkdir "$TEMP_DIR/B"
-    python3 CUT_create.py "$MAKEDATA_DIR/Input_data" "$TEMP_DIR" $input_channels "$MAKEDATA_DIR/test_data.txt"
+    python3 create_AB.py "$MAKEDATA_DIR/Input_data" "$TEMP_DIR" $input_channels "$MAKEDATA_DIR/test_data.txt"
 
     TARGET_DIR="$MAKEDATA_DIR/mr2ct_cycleGan_nc$input_channels"
 
@@ -180,7 +178,7 @@ if [[ $model == "cycleGan" ]]; then
     mkdir "$TARGET_DIR/testA"
     mkdir "$TARGET_DIR/testB"
 
-    python3 cycleGan_split.py "$TEMP_DIR" "$TARGET_DIR" "$MAKEDATA_DIR/test_data.txt"
+    python3 split_cycleGan.py "$TEMP_DIR" "$TARGET_DIR" "$MAKEDATA_DIR/data_split.txt"
 
     # pack files within that folder into a zip
     zip_files "$TARGET_DIR/mr2ct_cycleGan_nc$input_channels.zip" "mr2ct_cycleGan_nc$input_channels"

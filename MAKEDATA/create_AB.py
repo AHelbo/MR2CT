@@ -5,9 +5,7 @@ import time
 import numpy as np
 from files2txt2files import read_list_from_file
 
-def do_work(input_folder, output_folder, nc, test_data_file):
-
-    test_data = read_list_from_file(test_data_file)
+def do_work(input_folder, output_folder, nc):
 
     partitions = [os.path.join(input_folder,dir) for dir in os.listdir(input_folder) if os.path.isdir(os.path.join(input_folder, dir))]
 
@@ -62,8 +60,8 @@ def do_work(input_folder, output_folder, nc, test_data_file):
                         stack.append(mr[i + 2])
 
                     # iif i is not in test-set but one or more elm in stack is
-                    if (f"{pID}-{slice}" not in test_data) and (len([elm for elm in stack if f"{pID}-{elm[-7:-4]}" in test_data]) > 0):
-                        continue
+                    # if (f"{pID}-{slice}" not in test_data) and (len([elm for elm in stack if f"{pID}-{elm[-7:-4]}" in test_data]) > 0):
+                    #     continue
 
                     #now we "know" the a set can be made!
                     mr_images = [cv2.imread(elm, cv2.IMREAD_GRAYSCALE) for elm in [mr[i-1], mr[i], mr[i+1]]]
@@ -78,7 +76,7 @@ def do_work(input_folder, output_folder, nc, test_data_file):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 5:
+    if len(sys.argv) != 4:
         print("Usage: python3 CUT_create.py <path1> <path2> <nc>")
 
     else:
@@ -88,10 +86,9 @@ if __name__ == "__main__":
         path1 = sys.argv[1]
         path2 = sys.argv[2]
         nc = int(sys.argv[3])
-        test_file = sys.argv[4]
 
-        print("Moving data into folders")
-        total = do_work(path1, path2, nc, test_file)
+        print("Populating temp folder with data")
+        total = do_work(path1, path2, nc)
 
         end = time.time()
 

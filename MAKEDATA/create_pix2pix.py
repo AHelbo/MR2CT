@@ -80,8 +80,8 @@ def concat_images(input_folder, output_folder, nc):
                         stack.append(mr[i + 2])
 
                     # iif i is not in test-set but one or more elm in stack is
-                    if (f"{pID}-{slice}" not in test_data) and (len([elm for elm in stack if f"{pID}-{elm[-7:-4]}" in test_data]) > 0):
-                        continue
+                    # if (f"{pID}-{slice}" not in test_data) and (len([elm for elm in stack if f"{pID}-{elm[-7:-4]}" in test_data]) > 0):
+                    #     continue
 
                     #now we "know" the a set can be made!
                     mr_images = [cv2.imread(elm, cv2.IMREAD_GRAYSCALE) for elm in [mr[i-1], mr[i], mr[i+1]]]
