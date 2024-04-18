@@ -26,7 +26,8 @@ module load cuda
 source gan_env/bin/activate
 
 #Run training steps
-python train.py --dataroot ./datasets/mr2ct_pix2pix_nc1 --name pix2pix_nc1_lowlr --model pix2pix --display_id -1 --load_size 266 --input_nc 1 --output_nc 1 --n_epochs 2500 --lr 0.0001 --continue_train --epoch_count 14
+python3 train.py --dataroot ./datasets/mr2ct_pix2pix_nc3 --name pix2pix_nc3 --model pix2pix --display_id -1 --load_size 266 --input_nc 3 --output_nc 1 --n_epochs 2500 --continue_train --epoch_count 50 --continue_train --epoch_count 76
+
 
 
 

@@ -1,5 +1,5 @@
 {
-    "name": "mr2ct_nc1", // experiments name
+    "name": "mr2ct_nc3", // experiments name
     "gpu_ids": [0], // gpu ids list, default is single 0
     "seed" : -1, // random seed, seed <0 represents randomization not used 
     "finetune_norm": false, // find the parameters to optimize
@@ -19,14 +19,14 @@
             "which_dataset": {  // import designated dataset using arguments 
                 "name": ["data.dataset", "MR2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
                 "args":{ // arguments to initialize dataset
-                    "data_root": "./datasets/mr2ct_palette_nc1",
-                    "data_flist": "./datasets/mr2ct_palette_nc1/trainA",///flist",
+                    "data_root": "./datasets/mr2ct_palette_nc3",
+                    "data_flist": "./datasets/mr2ct_palette_nc3/trainA",///flist",
                     // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc1/flist/train.flist",
                     "data_len": -1
                 } 
             },
             "dataloader":{
-                "validation_split": 2, // percent or number 
+                "validation_split": 5724, // percent or number 
                 "args":{ // arguments to initialize train_dataloader
                     "batch_size": 4, // batch size in each gpu
                     "num_workers": 4,
@@ -48,8 +48,8 @@
                 "name": ["data.dataset", "MR2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
                 // "name": "MR2CTDataset", // import Dataset() class / function(not recommend) from default file
                 "args":{
-                    "data_root": "./datasets/mr2ct_palette_nc1",
-                    "data_flist": "./datasets/mr2ct_palette_nc1/testA"
+                    "data_root": "./datasets/mr2ct_palette_nc3",
+                    "data_flist": "./datasets/mr2ct_palette_nc3/testA"
                     // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc1/flist/test.flist"
                 }
             },
