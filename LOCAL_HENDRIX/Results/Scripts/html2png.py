@@ -16,7 +16,10 @@ def gen_pdf(root_folder, htmls):
     for elm in htmls:
         try:
             new_dir = elm[:-10]
-            pdf_path = elm.split("/")[-3]
+            # FLYT UDKOMMENTERING WINDOWS/MAC STIER
+            #pdf_path = elm.split("/")[-3]
+            pdf_path = elm.split("\\")[-3]
+
             os.chdir(new_dir)
 
             images_per_epoch = 3 if (pdf_path.count("pix2pix") > 0) else 8
