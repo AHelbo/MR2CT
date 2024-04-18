@@ -42,7 +42,7 @@ if __name__ == "__main__":
 
         root_folder = sys.argv[1]
 
-        html_files = find_files_by_extension(root_folder, "html")
+        html_files = find_files_by_extension(os.path.join(root_folder,"Checkpoints"), "html")
 
         gen_pdf(root_folder, html_files)
 

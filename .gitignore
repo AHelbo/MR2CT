@@ -1,6 +1,9 @@
 # Ignore zip files
 *.zip
+
+# ignore big files
 *.pth
+*.state
 
 # Ignore Mac system files
 .DS_Store

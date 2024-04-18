@@ -1,1 +1,1 @@
-python3 run.py -p train -c config/mr2ct_nc1.json
+python3 run.py -p train -c config/mr2ct_nc1.json -gpu -1
