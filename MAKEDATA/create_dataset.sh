@@ -73,7 +73,7 @@ zip_files() {
 if [[ $model == "pix2pix" ]]; then
 
     # concate from raw to temp
-    python3 pix2pix_create.py "$MAKEDATA_DIR/Input_data" "$TEMP_DIR" $input_channels "$MAKEDATA_DIR/test_data.txt"
+    python3 pix2pix_create.py "$MAKEDATA_DIR/Input_data" "$TEMP_DIR" $input_channels
 
     TARGET_DIR="$MAKEDATA_DIR/mr2ct_pix2pix_nc$input_channels"
 
@@ -89,7 +89,7 @@ if [[ $model == "pix2pix" ]]; then
     mkdir "$TARGET_DIR/val"
 
     # split from temp into mr2ct_pix2pix_nc1 folder
-    python3 pix2pix_split.py "$TEMP_DIR"  "$TARGET_DIR" "$MAKEDATA_DIR/test_data.txt"
+    python3 pix2pix_split.py "$TEMP_DIR"  "$TARGET_DIR" "$MAKEDATA_DIR/data_split.txt"
 
     # pack files within that folder into a zip
     zip_files "$TARGET_DIR/mr2ct_pix2pix_nc$input_channels.zip" "mr2ct_pix2pix_nc$input_channels"

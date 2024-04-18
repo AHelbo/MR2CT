@@ -43,11 +43,11 @@ def nifti2png(folder, bad_data_file):
         patients = [os.path.join(partition,dir) for dir in os.listdir(partition) if (os.path.isdir(os.path.join(partition, dir)))]
 
         #enter each patient folder
-        for patient in patients:
+        for i, patient in enumerate(patients):
 
             patient_id = patient.split("/")[-1]
-            print(f" Starting work on patient \"{patient_id}\"")
-            os.chdir(patient) # I believe this is not needed
+            print(f" Processing \"{patient_id}\" ({i+1}/{len(patients)})")
+            os.chdir(patient) 
 
             #converts each scan of the patient individually
             for scan in glob.glob('*.nii.gz'):
@@ -92,11 +92,6 @@ def nifti2png(folder, bad_data_file):
                     niiArr[niiArr > val] = val
                     niiArr[niiArr < 0] = 0                    
 
-                # # Z-normalization
-                # mean = np.mean(niiArr)
-                # std_dev = np.std(niiArr)        
-                # niiArr =(((niiArr - mean) / std_dev) * 255).astype('uint8')
-
                 #make a .pgn image for each slice in the .nii file
                 for slice in range(niiArr.shape[2]):
 
@@ -125,7 +120,7 @@ def clean_folder(folder):
     zips = [os.path.join(folder,elm) for elm in os.listdir(folder) if elm.split(".")[-1] == "zip"]
 
     for z in zips:
-        shutil.unpack_archive(z,folder)
+        shutil.unpack_archive(z,os.path.join(folder,z.split(".")[0]))
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
@@ -145,10 +140,10 @@ if __name__ == "__main__":
         print("Converting .nii files to .png")
         nifti2png(folder, bad_data_folder)
 
-        print("limits:")
-        for key, val in min_max_new_max.items():
-            print(f"{key}: {val}")
+        # print("limits:")
+        # for key, val in min_max_new_max.items():
+        #     print(f"{key}: {val}")
 
         end = time.time()
 
-        print(f"nifti2png has been completed succesfully! Total time elapsed: {(end-start)/60} minutes")
+        print(f"convert_nifti2png has been completed succesfully! Total time elapsed: {(end-start)/60} minutes")

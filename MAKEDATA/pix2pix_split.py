@@ -7,29 +7,29 @@ import time
 from files2txt2files import read_list_from_file
 
     
-def split(input_folder, target_folder, test_data, train = 0.8, val = 0.2):
-    
+def split(input_folder, target_folder, data_split):
+
     for folder in [input_folder,target_folder]:
         if not (os.path.isdir(folder)):
             raise Exception(f"{folder} is not a folder")
 
     all_data = [elm for elm in os.listdir(input_folder) if elm.split(".")[-1] == "png"]
     
-    test_data_list = read_list_from_file(test_data)
+    split = read_list_from_file(data_split)
 
-    train_val_data = [elm for elm in all_data if not elm.split(".")[0] in test_data_list]
+    train_pids = [elm.split("=")[0] for elm in split if elm.split("=")[1] == "train"]
+    val_pids = [elm.split("=")[0] for elm in split if elm.split("=")[1] == "val"]
+    test_pids = [elm.split("=")[0] for elm in split if elm.split("=")[1] == "test"]
 
-    test_data = [elm for elm in all_data if elm.split(".")[0] in test_data_list]
-
-    random.shuffle(train_val_data)
-
-    train_set, val_set = np.split(train_val_data, [int(len(train_val_data)*train)])
+    train_set = [elm for elm in all_data if elm.split("-")[0] in train_pids]
+    val_set = [elm for elm in all_data if elm.split("-")[0] in val_pids]
+    test_set = [elm for elm in all_data if elm.split("-")[0] in test_pids]
 
     for elm in train_set:
         shutil.copy(os.path.join(input_folder, elm), os.path.join(target_folder, "train", elm))
     for elm in val_set:
         shutil.copy(os.path.join(input_folder, elm), os.path.join(target_folder, "val", elm))
-    for elm in test_data:
+    for elm in test_set:
         shutil.copy(os.path.join(input_folder, elm), os.path.join(target_folder, "test", elm))        
 
 if __name__ == "__main__":
@@ -46,9 +46,9 @@ if __name__ == "__main__":
         
         path2 = sys.argv[2]
 
-        test_data = sys.argv[3]
+        data_split = sys.argv[3]
 
-        split(path1, path2, test_data)
+        split(path1, path2, data_split)
 
         end = time.time()
 
