@@ -21,9 +21,7 @@ def hconcat_resize(img_list, interpolation=cv2.INTER_CUBIC):
     return cv2.hconcat(im_list_resize)
 
 
-def concat_images(input_folder, output_folder, nc, test_set):
-
-    test_data = read_list_from_file(test_set)
+def concat_images(input_folder, output_folder, nc):
 
     partitions = [os.path.join(input_folder,dir) for dir in os.listdir(input_folder) if os.path.isdir(os.path.join(input_folder, dir))]
 
@@ -103,8 +101,8 @@ def concat_images(input_folder, output_folder, nc, test_set):
             #     cv2.imwrite(f"{output_folder}/{pID}-{slice}.png", img_h_resize)   
 
 if __name__ == "__main__":
-    if len(sys.argv) != 5:
-        print("Usage: python3 concat_images.py <path1> <path2> <number of channels> <path to test set>")
+    if len(sys.argv) != 4:
+        print("Usage: python3 pix2pix_create.py <path1> <path2> <number of channels>")
 
     else:
 
@@ -113,12 +111,11 @@ if __name__ == "__main__":
         path1 = sys.argv[1]
         path2 = sys.argv[2]
         nc = int(sys.argv[3])
-        test_set = sys.argv[4]
 
 
         print("Concating data")
 
-        concat_images(path1, path2, nc, test_set)
+        concat_images(path1, path2, nc)
 
         end = time.time()
 
