@@ -5,6 +5,8 @@ start=$(date +%s)
 
 #define source paths:
 GAN="hendrix:~/GAN/checkpoints/*"
+PALETTE="hendrix:~/PALETTE/experiments/*"
+
 
 #define target path (results folder):
 TARGET_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -20,6 +22,8 @@ SCRIPTS="$TARGET_DIR/scripts"
 ## rsync -zarv --include="*/" --include="*.txt" --include="*.html" --include="*.png" --exclude="*" --files-from=$P2P_CYCLEGAN --files-from=$WEAK_P2P "$TARGET_DIR/"
 
 # THIS
+rsync -zarv --include="*/" --include="*.log" --include="*.png" --exclude="*" $PALETTE "$TARGET_DIR/Checkpoints/PALETTE"
+
 rsync -zarv --include="*/" --include="*.txt" --include="*.html" --include="*.png" --exclude="*" $GAN "$TARGET_DIR/Checkpoints/GAN"
 
 sleep 3

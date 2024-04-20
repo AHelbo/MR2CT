@@ -104,6 +104,9 @@ if [[ $model == "palette" ]]; then
     mkdir "$TEMP_DIR/B"
     python3 create_AB.py "$MAKEDATA_DIR/Input_data" "$TEMP_DIR" $input_channels
 
+    # We must verify that all A's and B's match!
+    python3 verify_palette.py "$TEMP_DIR/A" "$TEMP_DIR/B"
+
     TARGET_DIR="$MAKEDATA_DIR/mr2ct_palette_nc$input_channels"
 
     # if mr2ct_CUT_nc1 exists, delete it, then create it
@@ -115,10 +118,17 @@ if [[ $model == "palette" ]]; then
     mkdir "$TARGET_DIR"
     mkdir "$TARGET_DIR/trainA"
     mkdir "$TARGET_DIR/trainB"
+    mkdir "$TARGET_DIR/valA"
+    mkdir "$TARGET_DIR/valB"
     mkdir "$TARGET_DIR/testA"
     mkdir "$TARGET_DIR/testB"
 
     python3 split_PALETTE.py "$TEMP_DIR" "$TARGET_DIR" "$MAKEDATA_DIR/data_split.txt"
+
+    # Verify that all the data is balanced
+    python3 verify_palette.py "$TARGET_DIR/trainA" "$TARGET_DIR/trainB"
+    python3 verify_palette.py "$TARGET_DIR/valA" "$TARGET_DIR/valB"
+    python3 verify_palette.py "$TARGET_DIR/testA" "$TARGET_DIR/testB"
 
     # pack files within that folder into a zip
     zip_files "$TARGET_DIR/mr2ct_palette_nc$input_channels.zip" "mr2ct_palette_nc$input_channels"
