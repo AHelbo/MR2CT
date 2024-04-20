@@ -1,0 +1,29 @@
+24-04-19 08:01:29.023 - INFO: Create the log file in directory experiments/train_mr2ct_nc1_240419_080128.
+
+24-04-19 08:01:33.040 - INFO: Dataset [MR2CTDataset() form data.dataset] is created.
+24-04-19 08:01:33.044 - INFO: Dataset for train have 35398 samples.
+24-04-19 08:01:33.044 - INFO: Dataset for val have 8849 samples.
+24-04-19 08:01:33.548 - INFO: Network [Network() form models.network] is created.
+24-04-19 08:01:33.548 - INFO: Network [Network] weights initialize using [kaiming] method.
+24-04-19 08:01:33.939 - WARNING: Config is a str, converts to a dict {'name': 'mae'}
+24-04-19 08:01:35.525 - INFO: Metric [mae() form models.metric] is created.
+24-04-19 08:01:35.525 - WARNING: Config is a str, converts to a dict {'name': 'mse'}
+24-04-19 08:01:35.525 - INFO: Metric [mse() form models.metric] is created.
+24-04-19 08:01:35.525 - WARNING: Config is a str, converts to a dict {'name': 'SSIM'}
+24-04-19 08:01:35.525 - INFO: Metric [SSIM() form models.metric] is created.
+24-04-19 08:01:35.525 - WARNING: Config is a str, converts to a dict {'name': 'PSNR'}
+24-04-19 08:01:35.525 - INFO: Metric [PSNR() form models.metric] is created.
+24-04-19 08:01:35.525 - WARNING: Config is a str, converts to a dict {'name': 'mse_loss'}
+24-04-19 08:01:35.527 - INFO: Loss [mse_loss() form models.loss] is created.
+24-04-19 08:01:41.771 - INFO: Model [Palette() form models.model] is created.
+24-04-19 08:01:41.772 - INFO: Begin model train.
+24-04-19 08:17:12.505 - INFO: train/mse_loss: 0.7031448640823365	
+24-04-19 08:32:38.688 - INFO: train/mse_loss: 0.6903897153139115	
+24-04-19 08:48:04.903 - INFO: train/mse_loss: 0.685164641682307	
+24-04-19 08:56:24.825 - INFO: train/mse_loss: 0.6834053940349466	
+24-04-19 08:56:24.826 - INFO: epoch: 1	
+24-04-19 08:56:24.826 - INFO: iters: 35396	
+24-04-19 08:56:24.826 - INFO: 
+
+
+------------------------------Validation Start------------------------------

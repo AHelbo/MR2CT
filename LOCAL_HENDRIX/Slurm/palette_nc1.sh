@@ -2,7 +2,7 @@
 # normal cpu stuff: allocate cpus, memory
 #SBATCH --ntasks=1 --cpus-per-task=10 --mem=16000M
 #SBATCH -p gpu --gres=gpu:titanrtx:1
-#SBATCH --time=2-24:00:00
+#SBATCH --time=6-24:00:00
 
 echo "Prepping cluster:"
 

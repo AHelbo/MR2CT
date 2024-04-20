@@ -25,23 +25,23 @@ from skimage.metrics import structural_similarity
 from skimage.metrics import peak_signal_noise_ratio
 
 def SSIM(A,B):
-    A_arr = A.cpu().detach().numpy()#.squeeze(0).squeeze(0)
+    A_arr = A.cpu().detach().numpy().squeeze(0).transpose(1, 2, 0)
     A = ((A_arr - A_arr.min()) / (A_arr.max() - A_arr.min())) * 255
 
-    B_arr = B.cpu().detach().numpy()#.squeeze(0).squeeze(0)
+    B_arr = B.cpu().detach().numpy().squeeze(0).transpose(1, 2, 0)
     B = ((B_arr - B_arr.min()) / (B_arr.max() - B_arr.min())) * 255
 
     d_range = max(A.max(),B.max())-min(A.min(),B.min())
 
-    ssim = structural_similarity(A,B,data_range=d_range)
+    ssim = structural_similarity(A,B,data_range=d_range,multichannel=True)
 
     return ssim
 
 def PSNR(A,B):
-    A_arr = A.cpu().detach().numpy()#.squeeze(0).squeeze(0)
+    A_arr = A.cpu().detach().numpy().squeeze(0).transpose(1, 2, 0)
     A = ((A_arr - A_arr.min()) / (A_arr.max() - A_arr.min())) * 255
 
-    B_arr = B.cpu().detach().numpy()#.squeeze(0).squeeze(0)
+    B_arr = B.cpu().detach().numpy().squeeze(0).transpose(1, 2, 0)
     B = ((B_arr - B_arr.min()) / (B_arr.max() - B_arr.min())) * 255
 
     d_range = max(A.max(),B.max())-min(A.min(),B.min())
