@@ -5,5 +5,4 @@
 
 
 
-python3 train.py --dataroot ./datasets/mr2ct_pix2pix_nc1 --name mr2ct_pix2pix_nc1 --model pix2pix --display_id -1 --load_size 266 --input_nc 1 --output_nc 1 --n_epochs 2500 --gpu_ids -1 --dataset_mode aligned --train_schedule "[(1, 50, 50, 3),(2, 70, 50, 1)]"
-
+python3 test.py --dataroot ./datasets/mr2ct_pix2pix_nc3 --name pix2pix_nc3 --model pix2pix --gpu_ids -1 --input_nc 3 --output_nc 1 --num_test -1 --epoch 80

@@ -17,8 +17,8 @@ def gen_pdf(root_folder, htmls):
         try:
             new_dir = elm[:-10]
             # FLYT UDKOMMENTERING WINDOWS/MAC STIER
-            #pdf_path = elm.split("/")[-3]
-            pdf_path = elm.split("\\")[-3]
+            pdf_path = elm.split("/")[-3]
+            # pdf_path = elm.split("\\")[-3]
 
             os.chdir(new_dir)
 

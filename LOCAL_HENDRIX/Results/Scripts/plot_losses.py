@@ -125,7 +125,7 @@ def plot_log_p2p(file_path, root_folder):
     D_sum = np.sum(np.column_stack((D_real[:, 1], D_fake[:, 1])), axis=1)
     
     plt.style.use('seaborn-v0_8')
-    fig, axs = plt.subplots(2, 6, figsize=(24, 8))
+    fig, axs = plt.subplots(2, 5, figsize=(24, 8))
 
     harry_plotter_and_the_chamber_of_plots(
         axs, 
@@ -157,20 +157,11 @@ def plot_log_p2p(file_path, root_folder):
             {"label" : "D_fake", "legend" : "legend", "values" : means[:, 4], "color" : "orange"},
             {"label" : "D_sum", "legend" : "legend", "values" : D_sum, "color" : "green"}
         ])     
-
-    harry_plotter_and_the_chamber_of_plots(
-        axs, 
-        "gan loss",
-        3,
-        epochs, 
-        [
-            {"label" : "D_real", "legend" : "legend", "values" : means[:, 1] + means[:, 2], "color" : "blue"},
-        ])        
-
+    
     harry_plotter_and_the_chamber_of_plots(
         axs, 
         "SSIM",
-        4,
+        3,
         epochs, 
         [
             {"label" : "L1", "legend" : "legend", "values" : means[:, 7], "color" : "blue"},
@@ -179,7 +170,7 @@ def plot_log_p2p(file_path, root_folder):
     harry_plotter_and_the_chamber_of_plots(
         axs, 
         "PSNR",
-        5,
+        4,
         epochs, 
         [
             {"label" : "L1", "legend" : "legend", "values" : means[:, 8], "color" : "blue"},
@@ -188,8 +179,8 @@ def plot_log_p2p(file_path, root_folder):
 
     # Plotting
     # FLYT UDKOMMENTERING WINDOWS/MAC STIER
-    model = file_path.split("\\")[-2]
-    #model = file_path.split("/")[-2]
+    # model = file_path.split("\\")[-2]
+    model = file_path.split("/")[-2]
 
     title = f"{model}_training_progress"
 
