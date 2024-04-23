@@ -20,7 +20,8 @@ class AlignedDataset(BaseDataset):
         BaseDataset.__init__(self, opt)
         self.dir_AB = os.path.join(opt.dataroot, opt.phase)  # get the image directory
         self.AB_paths = sorted(make_dataset(self.dir_AB, opt.max_dataset_size))  # get image paths
-        self.val_AB_paths = sorted(make_dataset(self.dir_AB, opt.max_dataset_size))  # get image paths
+        self.val_dir_AB = os.path.join(opt.dataroot, "val")  # get the image directory
+        self.val_AB_paths = sorted(make_dataset(self.val_dir_AB, opt.max_dataset_size))  # get image paths
 
         assert(self.opt.load_size >= self.opt.crop_size)   # crop_size should be smaller than the size of loaded image
         self.input_nc = self.opt.output_nc if self.opt.direction == 'BtoA' else self.opt.input_nc
@@ -75,7 +76,7 @@ class AlignedDataset(BaseDataset):
         val_A = A_transform(val_A)
         val_B = B_transform(val_B)
 
-        return {'A': A, 'B': B, 'A_paths': AB_path, 'B_paths': AB_path, 'val_A': val_A, 'val_B': val_B, 'val_A_paths': val_AB_path, 'val_B_paths': AB_path}
+        return {'A': A, 'B': B, 'A_paths': AB_path, 'B_paths': AB_path, 'val_A': val_A, 'val_B': val_B, 'val_A_paths': val_AB_path, 'val_B_paths': val_AB_path}
 
     def __len__(self):
         """Return the total number of images in the dataset."""

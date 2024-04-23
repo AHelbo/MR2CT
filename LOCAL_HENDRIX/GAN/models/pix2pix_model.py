@@ -125,6 +125,29 @@ class Pix2PixModel(BaseModel):
         self.loss_G = (self.loss_G_GAN * (self.opt.lambda_GAN/100)) + (self.loss_G_L1 * self.opt.lambda_L1)
         self.loss_G.backward()
 
+
+    def calculate_val_loss(self):
+        # Enable eval mode
+        self.netD.eval()
+        self.netG.eval()
+
+        with torch.no_grad():
+            # val_G_GAN
+            val_fake_B = self.netG(self.val_real_A)
+            val_fake_AB = torch.cat((self.val_real_A, val_fake_B), 1)
+            pred_fake = self.netD(val_fake_AB)
+            self.loss_val_G_GAN = self.criterionGAN(pred_fake, True)
+            # val_G_L1
+            self.loss_val_G_L1 = self.criterionL1(val_fake_B, self.val_real_B)
+        
+        self.loss_SSIM = torch_ssim(val_fake_B, self.val_real_B)
+        self.loss_PSNR = torch_psnr(val_fake_B, self.val_real_B)
+
+        # Enable train mode 
+        self.netD.train()
+        self.netG.train()
+
+
     def optimize_parameters(self):
         self.forward()                   # compute fake images: G(A)
         # update D
@@ -143,16 +166,6 @@ class Pix2PixModel(BaseModel):
         self.backward_G()                   # calculate graidents for G
         self.optimizer_G.step()             # update G's weights
 
-    def calculate_val_loss(self):
-        # val_G_GAN
-        val_fake_B = self.netG(self.val_real_A)
-        val_fake_AB = torch.cat((self.val_real_A, val_fake_B), 1)
-        pred_fake = self.netD(val_fake_AB)
-        self.loss_val_G_GAN = self.criterionGAN(pred_fake, True)
-        # val_G_L1
-        self.loss_val_G_L1 = self.criterionL1(val_fake_B, self.val_real_B)
-        self.loss_SSIM = torch_ssim(val_fake_B, self.val_real_B)
-        self.loss_PSNR = torch_psnr(val_fake_B, self.val_real_B)
 
     def update_from_schedule(self, epoch):
         for (E, L1, GAN, F) in self.opt.train_schedule:
