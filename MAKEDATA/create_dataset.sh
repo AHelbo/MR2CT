@@ -8,6 +8,7 @@ if [ "$#" -lt 2 ] || [ "$#" -gt 3 ]; then
     echo "Usage: $0 <model type> [number of input channels, <1,3,5>, default = 1] [run unpack_raw_data, <0,1>, default 0]"
     exit 1
 fi
+
 model="$1"
 input_channels="${2:-1}"
 run_unpack_raw_data="${3:-0}"
@@ -42,11 +43,11 @@ if [[ $run_unpack_raw_data -eq "1" ]]; then
     python3 unpack_raw_data.py "$MAKEDATA_DIR/Input_data" "$MAKEDATA_DIR/bad_data.txt"
 fi
 
+
 # Create temp folder
 TEMP_DIR="$MAKEDATA_DIR/temp"
 # rm -r $TEMP_DIR
 mkdir $TEMP_DIR
-
 
 # zip-function
 zip_files() {

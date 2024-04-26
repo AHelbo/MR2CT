@@ -26,9 +26,10 @@ def plot_dict(output_dict, output_file):
     mae = np.array([output_dict[epoch]["MAE"] for epoch, _ in output_dict.items()])
     mse = np.array([output_dict[epoch]["MSE"] for epoch, _ in output_dict.items()])
     fid = np.array([output_dict[epoch]["FID"] for epoch, _ in output_dict.items()])
+    sdc = np.array([output_dict[epoch]["SDC"] for epoch, _ in output_dict.items()])
 
     plt.style.use('seaborn-v0_8')
-    fig, axs = plt.subplots(2, 5, figsize=(24, 8))
+    fig, axs = plt.subplots(2, 6, figsize=(24, 8))
 
     harry_plotter_and_the_chamber_of_plots(
         axs, 
@@ -73,6 +74,15 @@ def plot_dict(output_dict, output_file):
         epochs, 
         [
             {"label" : "fid", "legend" : "legend", "values" : fid, "color" : "blue"},
+        ])     
+
+    harry_plotter_and_the_chamber_of_plots(
+        axs, 
+        "sdc",
+        5,
+        epochs, 
+        [
+            {"label" : "fid", "legend" : "legend", "values" : sdc, "color" : "blue"},
         ])     
 
     model = output_file.replace("output_", "")

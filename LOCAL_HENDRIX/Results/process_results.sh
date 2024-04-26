@@ -17,10 +17,6 @@ SCRIPTS="$TARGET_DIR/scripts"
 # python3 $SCRIPTS/clear_outdated_files.py $TARGET_DIR
 # echo ""
 
-## scp -r hendrix:~/pix2pix_cycleGan/checkpoints/* /Users/andershelbo/Desktop/hendrix-folder/output/p2p_cyc
-## rsync -av --ignore-existing hendrix:~/pix2pix_cycleGan/checkpoints/* /Users/andershelbo/Desktop/hendrix-folder/output/p2p_cyc
-## rsync -zarv --include="*/" --include="*.txt" --include="*.html" --include="*.png" --exclude="*" --files-from=$P2P_CYCLEGAN --files-from=$WEAK_P2P "$TARGET_DIR/"
-
 # THIS
 rsync -zarv --include="*/" --include="*.log" --include="*.png" --exclude="*" $PALETTE "$TARGET_DIR/Checkpoints/PALETTE"
 

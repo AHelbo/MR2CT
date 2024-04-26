@@ -20,6 +20,7 @@ def ssim(reals, fakes, epoch, outputfile):
         real_image = np.array(Image.open(real))
         fake_image = np.array(Image.open(fake))
         acc += structural_similarity(real_image, fake_image, channel_axis=2)
+        # acc += structural_similarity(real_image, fake_image, multichannel=True)
 
     mean_ssim = acc / len(reals)
 
