@@ -8,8 +8,6 @@ import shutil
 from files2txt2files import read_list_from_file
 import numpy as np
 
-min_max_new_max = {}
-
 def percentile_rank_limit(p_rank, p_limit):
     '''Takes the percentile rank arr of a single patient and returns 
     the cut-off value of the given percentile (the last intensity we should include)'''
@@ -19,6 +17,7 @@ def percentile_rank_limit(p_rank, p_limit):
         return len(p_rank) - 1
     
     return arg_lst[0]
+
 
 def cut_off_val(patient, p_limit):
     cumFreq = np.cumsum(patient)
@@ -30,11 +29,14 @@ def cut_off_val(patient, p_limit):
 
 
 def nifti2png(folder, bad_data_file):
-    global min_max_new_max
 
     bad_data = read_list_from_file(bad_data_file)
 
     partitions = [os.path.join(folder,dir) for dir in os.listdir(folder) if os.path.isdir(os.path.join(folder, dir))]
+
+    GLOBAL_CT_MIN = -1000
+    GLOBAL_CT_MAX = 2000
+    
     for i, partition in enumerate(partitions):
 
         print(f"Starting work on partition \"{partition}\" ({i+1}/{len(partitions)})")
@@ -67,8 +69,8 @@ def nifti2png(folder, bad_data_file):
 
                 #Minmaxnorm + scale as image
                 if (scan.split(".")[0] == "ct"):
-                    niiArr[niiArr > 2000] = 2000
-                    niiArr[niiArr < -1000] = -1000
+                    niiArr[niiArr > GLOBAL_CT_MAX] = GLOBAL_CT_MAX
+                    niiArr[niiArr < GLOBAL_CT_MIN] = GLOBAL_CT_MIN
 
                 if (scan.split(".")[0] == "mr"):
                     patient_mr_arr = np.zeros((3001))
@@ -87,12 +89,10 @@ def nifti2png(folder, bad_data_file):
 
                     val = cut_off_val(patient_mr_arr,98)
 
-                    min_max_new_max[patient_id] = [niiArr.min(),niiArr.max(),val]
-
                     niiArr[niiArr > val] = val
                     niiArr[niiArr < 0] = 0                    
 
-                #make a .pgn image for each slice in the .nii file
+                #make a .png image for each slice in the .nii file
                 for slice in range(niiArr.shape[2]):
 
                     if (f"{patient_id}-{slice:03}" in bad_data):
@@ -101,13 +101,16 @@ def nifti2png(folder, bad_data_file):
                     arr = niiArr[:, :, slice]
 
                     # MIN-MAX 
-                    arr = ((arr - niiArr.min()) * (1/(niiArr.max() - niiArr.min()) * 255)).astype('uint8')
+                    if (scan.split(".")[0] == "ct"):
+                        arr = ((arr - GLOBAL_CT_MIN) * (1/(GLOBAL_CT_MAX - GLOBAL_CT_MIN) * 255)).astype('uint8')
+
+                    if (scan.split(".")[0] == "mr"):
+                        arr = ((arr - niiArr.min()) * (1/(niiArr.max() - niiArr.min()) * 255)).astype('uint8')
 
                     im = Image.fromarray(arr)
 
                     im.save(os.path.join(outputdir, f"image{slice:03}.png"))
 
-                #delete .nii.gz file
                 os.remove(scan)
 
 
@@ -139,10 +142,6 @@ if __name__ == "__main__":
 
         print("Converting .nii files to .png")
         nifti2png(folder, bad_data_folder)
-
-        # print("limits:")
-        # for key, val in min_max_new_max.items():
-        #     print(f"{key}: {val}")
 
         end = time.time()
 

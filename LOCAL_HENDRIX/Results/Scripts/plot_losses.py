@@ -164,7 +164,7 @@ def plot_log_p2p(file_path, root_folder):
         3,
         epochs, 
         [
-            {"label" : "L1", "legend" : "legend", "values" : means[:, 7], "color" : "blue"},
+            {"label" : "SSIM", "legend" : "legend", "values" : means[:, 7], "color" : "orange"},
         ])  
             
     harry_plotter_and_the_chamber_of_plots(
@@ -173,7 +173,7 @@ def plot_log_p2p(file_path, root_folder):
         4,
         epochs, 
         [
-            {"label" : "L1", "legend" : "legend", "values" : means[:, 8], "color" : "blue"},
+            {"label" : "PSNR", "legend" : "legend", "values" : means[:, 8], "color" : "orange"},
         ])            
     
 

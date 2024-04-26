@@ -5,4 +5,4 @@
 
 
 
-python3 test.py --dataroot ./datasets/mr2ct_pix2pix_nc3 --name pix2pix_nc3 --model pix2pix --gpu_ids -1 --input_nc 3 --output_nc 1 --num_test -1 --epoch 80
+python3 test.py --dataroot ./datasets/mr2ct_pix2pix_nc1 --name pix2pix_nc1_bn10 --model pix2pix --gpu_ids -1 --input_nc 1 --output_nc 1 --num_test -1 --epoch 30

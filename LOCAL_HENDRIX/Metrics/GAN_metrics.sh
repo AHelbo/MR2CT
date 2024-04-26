@@ -14,14 +14,15 @@ parent_dir=$(dirname "$script_dir")
 ##### BASH PARAMETERS ###################################
 
 # Check if the number of arguments is less than 1 or greater than 2
-if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
-    echo "Usage: $0 [model name] [phase <val/test>, dafault=val]"
+if [ "$#" -lt 1 ] || [ "$#" -gt 3 ]; then
+    echo "Usage: $0 [model name] [phase <val/test>, default=val] [use gpu <0,1>, default=1]"
     exit 1
 fi
 
 # Some parameters have default values, some do not:
 model_name="$1" 
 phase="val"
+gpu="${2:-1}"
 
 # check that valid phase is chosen
 if [ "$2" ]; then
@@ -42,13 +43,17 @@ output_file="$parent_dir/Metrics/output_$model_name.txt"
 metrics_model_dir="$parent_dir/Metrics/$model_name"
 mkdir $metrics_model_dir
 
+# input_nc=${model_name##*\_}
+# input_nc=${model_name##*"c"}
+input_nc="1"
+
 # if look at val
 if [ "$phase" = "val" ] ; then
-    mv "$parent_dir/GAN/datasets/val_mr2ct_$model_name/test" "$parent_dir/GAN/datasets/mr2ct_$model_name/temp"
-    mv "$parent_dir/GAN/datasets/val_mr2ct_$model_name/val" "$parent_dir/GAN/datasets/mr2ct_$model_name/test"
-    mv "$parent_dir/GAN/datasets/val_mr2ct_$model_name/temp" "$parent_dir/GAN/datasets/mr2ct_$model_name/val"
+    data_dir="$parent_dir/GAN/datasets/val_mr2ct_pix2pix_nc$input_nc"
+    mv "$data_dir/test" "$data_dir/temp"
+    mv "$data_dir/val" "$data_dir/test"
+    mv "$data_dir/temp" "$data_dir/val"
 fi
-
 ##### MAIN LOOP ###################################
 
 # Gå til GAN/eksperiements/navn på model og loop over ikke-latest, ie. modeller med et tal der går op i fem i sig.
@@ -63,13 +68,15 @@ for pth in $pth_files; do
 
     echo "Processing epoch $epoch:"
 
-    input_nc=${model_name##*\_}
-    input_nc=${model_name##*"c"}
-
     cd "$parent_dir/GAN"
 
     # kald test.py på hver af disse tal og på hver mode, for at genererefake-B
-    python3 "$parent_dir/GAN/test.py" --dataroot ./datasets/val_mr2ct_$model_name --name $model_name --model pix2pix --input_nc $input_nc --output_nc 1 --num_test 20 --epoch $epoch --gpu_ids -1 
+    if [[ $gpu -eq "1" ]]; then
+        python3 "$parent_dir/GAN/test.py" --dataroot ./datasets/val_mr2ct_pix2pix_nc$input_nc --name $model_name --model pix2pix --input_nc $input_nc --output_nc 1 --num_test -1 --epoch $epoch #--gpu_ids -1 
+    else
+        # python3 "$parent_dir/GAN/test.py" --dataroot ./datasets/val_mr2ct_$model_name --name $model_name --model pix2pix --input_nc $input_nc --output_nc 1 --num_test -1 --epoch $epoch --gpu_ids -1 
+        python3 "$parent_dir/GAN/test.py" --dataroot ./datasets/val_mr2ct_pix2pix_nc$input_nc --name $model_name --model pix2pix --input_nc $input_nc --output_nc 1 --num_test -1 --epoch $epoch --gpu_ids -1 
+    fi
 
     # move the images we are interested in into temp folders
     real_B_dir="$metrics_model_dir/real_B/"
@@ -86,13 +93,19 @@ for pth in $pth_files; do
     # compare each datapint using element-wise metrics, ssim, psnr etc..
     python3 compare_elementwise.py $real_B_dir $fake_B_dir $epoch $output_file
 
+    #compare SDC
+    python3 calculate_SDC.py $real_B_dir $fake_B_dir $epoch $output_file
+
     # FID på datasætene som helhed, gem til samme txt-fil med samme struktur som foregående
     python3 resize.py $real_B_dir
     python3 resize.py $fake_B_dir
     python3 verify_folder_contents.py $real_B_dir $fake_B_dir
 
-    FID=$(python3 -m pytorch_fid "$real_B_dir" "$fake_B_dir")
-    # FID=$(python3 -m pytorch_fid "$real_B_dir" "$fake_B_dir" --device cuda:0)
+    if [[ $gpu -eq "1" ]]; then
+        FID=$(python3 -m pytorch_fid "$real_B_dir" "$fake_B_dir" --device cuda:0)
+    else
+        FID=$(python3 -m pytorch_fid "$real_B_dir" "$fake_B_dir")
+    fi
     FID=${FID#*:}        
     FID=${FID//[[:space:]]/}
     echo "EPOCH $epoch FID $FID" >> $output_file
@@ -105,9 +118,10 @@ done
 
 # if look at val
 if [ "$phase" = "val" ] ; then
-    mv "$parent_dir/GAN/datasets/val_mr2ct_$model_name/test" "$parent_dir/GAN/datasets/mr2ct_$model_name/temp"
-    mv "$parent_dir/GAN/datasets/val_mr2ct_$model_name/val" "$parent_dir/GAN/datasets/mr2ct_$model_name/test"
-    mv "$parent_dir/GAN/datasets/val_mr2ct_$model_name/temp" "$parent_dir/GAN/datasets/mr2ct_$model_name/val"
+    data_dir="$parent_dir/GAN/datasets/val_mr2ct_pix2pix_nc$input_nc"
+    mv "$data_dir/test" "$data_dir/temp"
+    mv "$data_dir/val" "$data_dir/test"
+    mv "$data_dir/temp" "$data_dir/val"
 fi
 
 python3 plot_metrics.py $output_file

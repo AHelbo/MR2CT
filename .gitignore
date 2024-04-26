@@ -18,3 +18,4 @@ MAKEDATA/*Palette*/
 MAKEDATA/*cycleGan*/
 
 LOCAL_HENDRIX/Palette/datasets/*
+LOCAL_HENDRIX/GAN/datasets/*

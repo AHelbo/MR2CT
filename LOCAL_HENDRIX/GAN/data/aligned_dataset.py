@@ -73,6 +73,9 @@ class AlignedDataset(BaseDataset):
         val_B = val_AB.crop((w2, 0, w, h))
 
         # apply the same transform to both val_a and val_B that was applied to A and B
+        transform_params = get_params(self.opt, val_A.size)
+        A_transform = get_transform(self.opt, transform_params, grayscale=(self.input_nc == 1))
+        B_transform = get_transform(self.opt, transform_params, grayscale=(self.output_nc == 1))
         val_A = A_transform(val_A)
         val_B = B_transform(val_B)
 
