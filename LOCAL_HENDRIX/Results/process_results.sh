@@ -7,17 +7,14 @@ start=$(date +%s)
 GAN="hendrix:~/GAN/checkpoints/*"
 PALETTE="hendrix:~/PALETTE/experiments/*"
 
-
 #define target path (results folder):
 TARGET_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 #scripts are stored in.....
 SCRIPTS="$TARGET_DIR/scripts"
 
-# python3 $SCRIPTS/clear_outdated_files.py $TARGET_DIR
 # echo ""
 
-# THIS
 rsync -zarv --include="*/" --include="*.log" --include="*.png" --exclude="*" $PALETTE "$TARGET_DIR/Checkpoints/PALETTE"
 
 rsync -zarv --include="*/" --include="*.txt" --include="*.html" --include="*.png" --exclude="*" $GAN "$TARGET_DIR/Checkpoints/GAN"

@@ -73,7 +73,7 @@ class Pix2PixModel(BaseModel):
             self.optimizers.append(self.optimizer_G)
             self.optimizers.append(self.optimizer_D)
 
-        self.G_update_count = 0
+        self.G_update_count = self.opt.D_update_freq -1
 
     def set_input(self, input):
         """Unpack input data from the dataloader and perform necessary pre-processing steps.
