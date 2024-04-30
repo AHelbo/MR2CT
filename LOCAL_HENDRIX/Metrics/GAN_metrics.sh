@@ -22,7 +22,7 @@ fi
 # Some parameters have default values, some do not:
 model_name="$1" 
 phase="val"
-gpu="${2:-1}"
+gpu="${3:-1}"
 
 # check that valid phase is chosen
 if [ "$2" ]; then
@@ -43,8 +43,8 @@ output_file="$parent_dir/Metrics/output_$model_name.txt"
 metrics_model_dir="$parent_dir/Metrics/$model_name"
 mkdir $metrics_model_dir
 
-# input_nc=${model_name##*\_}
-# input_nc=${model_name##*"c"}
+input_nc=${model_name##*\_}
+input_nc=${model_name##*"c"}
 input_nc="1"
 
 # if look at val
@@ -91,7 +91,8 @@ for pth in $pth_files; do
     python3 verify_folder_contents.py $real_B_dir $fake_B_dir
 
     # compare each datapint using element-wise metrics, ssim, psnr etc..
-    python3 compare_elementwise.py $real_B_dir $fake_B_dir $epoch $output_file
+    echo $gpu
+    python3 compare_elementwise.py $real_B_dir $fake_B_dir $epoch $output_file $gpu
 
     #compare SDC
     python3 calculate_SDC.py $real_B_dir $fake_B_dir $epoch $output_file
