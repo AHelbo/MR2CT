@@ -86,6 +86,7 @@ def plot_dict_palette(output_dict, output_file, root_folder):
 
     plt.tight_layout()
     plt.savefig(f"{root_folder}/{model}.png")
+    plt.close()
 
 
 
@@ -128,11 +129,11 @@ if __name__ == "__main__":
         log_files = find_log_files(os.path.join(root_folder,"Checkpoints"))
 
         for log in log_files:
+            try:
+                output_dict = txt2dictPalette(log)
+                plot_dict_palette(output_dict, log, root_folder)
+
+            except IndexError:
+                model = log.split("/")[-2]
+                print(f"   Caught exception: {model} probably needs to run longer")
             
-            output_dict = txt2dictPalette(log)
-
-            plot_dict_palette(output_dict, log, root_folder)
-
-        # output_file = sys.argv[1]
-        # output_dict = txt2dictPalette(output_file)
-        # plot_dict_palette(output_dict, output_file)

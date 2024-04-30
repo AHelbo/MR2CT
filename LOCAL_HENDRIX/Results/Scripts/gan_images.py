@@ -69,4 +69,8 @@ if __name__ == "__main__":
         model_folders = find_model_folders(checkpoints_folder)
 
         for model_folder in model_folders:
-            concat_images(model_folder, root_folder)
+            try:
+                concat_images(model_folder, root_folder)
+            except FileNotFoundError:
+                _, model = os.path.split(model_folder)
+                print(f"   Caught exception: {model} probably needs to run longer")
