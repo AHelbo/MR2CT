@@ -93,6 +93,7 @@ def plot_log_cycleGan(file_path, root_folder):
 
     plt.tight_layout()
     plt.savefig(f"{root_folder}/{title}.png") 
+    plt.close()
 
 
 def plot_log_p2p(file_path, root_folder):
@@ -167,6 +168,7 @@ def plot_log_p2p(file_path, root_folder):
 
     plt.tight_layout()
     plt.savefig(f"{root_folder}/{title}.png") 
+    plt.close()
 
 
 def plot_graph(ax, ax_index, plot_label, x_vals, y_vals, line_color = "blue", plot_title = None):
@@ -208,7 +210,12 @@ if __name__ == "__main__":
         log_files = find_log_files(os.path.join(root_folder,"Checkpoints"))
 
         for log in log_files:
-            if (log.count("pix2pix")>0):
-                plot_log_p2p(log, root_folder)
-            if (log.count("cycleGan")>0):
-                plot_log_cycleGan(log, root_folder)
+            try:
+                if (log.count("pix2pix")>0):
+                    plot_log_p2p(log, root_folder)
+                if (log.count("cycleGan")>0):
+                    plot_log_cycleGan(log, root_folder)
+            
+            except IndexError:
+                model = log.split("/")[-2]
+                print(f"   Caught exception: {model} probably needs to run longer")

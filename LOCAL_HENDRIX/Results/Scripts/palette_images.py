@@ -154,4 +154,9 @@ if __name__ == "__main__":
         experiment_folders = find_train_folders(checkpoints_folder)
 
         for exp_folder in experiment_folders:
-            concat_images(exp_folder, root_folder)
+            try:
+                concat_images(exp_folder, root_folder)
+
+            except FileNotFoundError:
+                _, model = os.path.split(exp_folder)
+                print(f"   Caught exception: {model} probably needs to run longer")

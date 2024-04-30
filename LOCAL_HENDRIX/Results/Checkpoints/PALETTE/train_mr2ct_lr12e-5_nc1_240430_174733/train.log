@@ -1,0 +1,40 @@
+24-04-30 17:47:34.392 - INFO: Create the log file in directory experiments/train_mr2ct_lr12e-5_nc1_240430_174733.
+
+24-04-30 17:48:15.954 - INFO: Dataset [MR2CTDataset() form data.dataset] is created.
+24-04-30 17:48:15.957 - INFO: Dataset for train have 35180 samples.
+24-04-30 17:48:15.957 - INFO: Dataset for val have 8 samples.
+24-04-30 17:48:16.451 - INFO: Network [Network() form models.network] is created.
+24-04-30 17:48:16.451 - INFO: Network [Network] weights initialize using [kaiming] method.
+24-04-30 17:48:16.823 - WARNING: Config is a str, converts to a dict {'name': 'mae'}
+24-04-30 17:48:19.225 - INFO: Metric [mae() form models.metric] is created.
+24-04-30 17:48:19.225 - WARNING: Config is a str, converts to a dict {'name': 'mse'}
+24-04-30 17:48:19.225 - INFO: Metric [mse() form models.metric] is created.
+24-04-30 17:48:19.225 - WARNING: Config is a str, converts to a dict {'name': 'SSIM'}
+24-04-30 17:48:19.225 - INFO: Metric [SSIM() form models.metric] is created.
+24-04-30 17:48:19.225 - WARNING: Config is a str, converts to a dict {'name': 'PSNR'}
+24-04-30 17:48:19.225 - INFO: Metric [PSNR() form models.metric] is created.
+24-04-30 17:48:19.225 - WARNING: Config is a str, converts to a dict {'name': 'mse_loss'}
+24-04-30 17:48:19.228 - INFO: Loss [mse_loss() form models.loss] is created.
+24-04-30 17:48:23.790 - INFO: Model [Palette() form models.model] is created.
+24-04-30 17:48:23.790 - INFO: Begin model train.
+24-04-30 18:04:01.054 - INFO: train/mse_loss: 0.08711291376017034	
+24-04-30 18:19:30.465 - INFO: train/mse_loss: 0.052326907639252025	
+24-04-30 18:35:00.818 - INFO: train/mse_loss: 0.03864228466752296	
+24-04-30 18:43:02.808 - INFO: train/mse_loss: 0.03460788194413364	
+24-04-30 18:43:02.809 - INFO: epoch: 1	
+24-04-30 18:43:02.809 - INFO: iters: 35180	
+24-04-30 18:43:02.809 - INFO: 
+
+
+------------------------------Validation Start------------------------------
+24-04-30 18:52:09.437 - INFO: val/mae: 0.9003485441207886	
+24-04-30 18:52:09.438 - INFO: val/mse: 0.9743133783340454	
+24-04-30 18:52:09.438 - INFO: val/SSIM: 0.06629804557420187	
+24-04-30 18:52:09.438 - INFO: val/PSNR: 7.209579783247139	
+24-04-30 18:52:09.438 - INFO: 
+------------------------------Validation End------------------------------
+
+
+24-04-30 18:59:41.202 - INFO: train/mse_loss: 0.008533984990728553	
+24-04-30 19:15:21.419 - INFO: train/mse_loss: 0.008247256001235995	
+24-04-30 19:31:16.943 - INFO: train/mse_loss: 0.00810112693273956	
