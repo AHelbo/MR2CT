@@ -1,1 +1,0 @@
-python3 run.py -p train -c config/mr2ct_nc1.json

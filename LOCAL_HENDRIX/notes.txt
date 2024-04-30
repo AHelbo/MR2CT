@@ -1,8 +1,0 @@
-pix2pix nc1: 	2348 	training 1 day
-pix2pix nc3: 	2414    training 7 days  	
-cycleGan nc1: 	2376 	training 1 day
-cycleGan nc3: 	2381 	training 1 day
-CUT nc1: 	2406	tinkering
-CUT nc3: 	2407 	tinkering
-
-rsync -a --delete empty_dir/

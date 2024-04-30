@@ -108,9 +108,6 @@ if [[ $model == "palette" ]]; then
     # We must verify that all A's and B's match!
     python3 verify_palette.py "$TEMP_DIR/A" "$TEMP_DIR/B"
 
-    ######### TEMPORARY END, TO PRESERVE AS AND BS
-    exit 1
-
     TARGET_DIR="$MAKEDATA_DIR/mr2ct_palette_nc$input_channels"
 
     # if mr2ct_CUT_nc1 exists, delete it, then create it

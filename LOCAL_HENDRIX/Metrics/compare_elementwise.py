@@ -12,15 +12,17 @@ from PIL import Image
 import numpy as np
 
 
-def ssim(reals, fakes, epoch, outputfile):
+def ssim(reals, fakes, epoch, outputfile, hendrix):
 
     acc = 0.0
     for real, fake in zip(reals,fakes):
 
         real_image = np.array(Image.open(real))
         fake_image = np.array(Image.open(fake))
-        acc += structural_similarity(real_image, fake_image, channel_axis=2)
-        # acc += structural_similarity(real_image, fake_image, multichannel=True)
+        if (hendrix):
+            acc += structural_similarity(real_image, fake_image, multichannel=True)
+        else:
+            acc += structural_similarity(real_image, fake_image, channel_axis=2)
 
     mean_ssim = acc / len(reals)
 
@@ -96,8 +98,8 @@ def list_of_elements(path):
     return elms    
 
 if __name__ == "__main__":
-    if len(sys.argv) != 5:
-        print("Usage: python3 compare_elementwise.py <pathA> <pathB> <epoch> <path to output file>")
+    if len(sys.argv) != 6:
+        print("Usage: python3 compare_elementwise.py <pathA> <pathB> <epoch> <path to output file> <hendrix>")
 
     else:
         print("Comparing real B's and fake B's")
@@ -111,9 +113,11 @@ if __name__ == "__main__":
 
         epoch = sys.argv[3]
 
+        hendrix = sys.argv[5] == "1"
+
         output_file = sys.argv[4]
         print(" SSIM")
-        ssim(reals,fakes,epoch,output_file)
+        ssim(reals,fakes,epoch,output_file, hendrix)
         print(" PSNR")
         psnr(reals,fakes,epoch,output_file)
         print(" MSE")
