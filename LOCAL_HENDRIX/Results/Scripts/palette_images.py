@@ -15,10 +15,10 @@ def find_train_folders(root_dir):
 
 def concat_images(exp_dir, root_dir):
 
-    cols = 2
+    cols = 8
     img_hw = 224
     text_h = 50
-    buffer_w = 20
+    buffer_w = 10
     
     val_dir = os.path.join(exp_dir,"results", "val")
     epochs = sorted([int(elm) for elm in os.listdir(val_dir) if os.path.isdir(os.path.join(val_dir, elm))])
@@ -76,68 +76,6 @@ def concat_images(exp_dir, root_dir):
     pdf_file_path = os.path.join(root_dir, f"{exp_dir.split('/')[-1]}_images.pdf")
     pdf_images[0].save(pdf_file_path, save_all=True, append_images=pdf_images[1:])
 
-
-def concat_images2(exp_dir, root_dir):
-
-    cols = 2
-    img_hw = 224
-    text_h = 50
-    buffer_w = 20
-    
-    val_dir = os.path.join(exp_dir,"results", "val")
-    epochs = sorted([int(elm) for elm in os.listdir(val_dir) if os.path.isdir(os.path.join(val_dir, elm))])
-    
-    concatenated_image = Image.new("RGB", (cols*3*img_hw+(cols-1)*buffer_w, (text_h + img_hw) * len(epochs)), color = (255, 255, 255)) # mangler plads til epoch-billedet
-
-    y_offset = 0
-
-    for epoch in epochs:
-        
-        # Create text-block
-        img = Image.new("RGB", (cols*(img_hw*3+buffer_w), text_h), color = (255, 255, 255))
-        d = ImageDraw.Draw(img)
-        header_fnt = ImageFont.truetype("/Library/Fonts/Arial.ttf", 30)
-        subheader_fnt = ImageFont.truetype("/Library/Fonts/Arial.ttf", 18)
-
-        # Write what epoch is depicted
-        d.text((0,0), f"Epoch {epoch}", font=header_fnt, fill=(0,0,0))
-
-        
-        # Annotate with cond, gt, out
-        for i in range(cols):
-
-            x_offset = i*(3*img_hw+buffer_w)
-            
-            d.text((x_offset+90,30), f"Cond", font = subheader_fnt, fill=(0,0,0))
-            d.text((x_offset+320,30), f"GT", font = subheader_fnt, fill=(0,0,0))
-            d.text((x_offset+550,30), f"Out", font = subheader_fnt, fill=(0,0,0))
-
-        concatenated_image.paste(img, (0, y_offset))
-
-        y_offset += text_h
-
-        GT_imgs = sorted([elm for elm in os.listdir(os.path.join(val_dir, f"{epoch}")) if elm.split("_")[0] == "GT"])
-
-        for i in range(len(GT_imgs)):
-
-            gt = GT_imgs[i]
-            out = "Out_" + gt.split("_")[1]
-            cond = "cond_" + gt.split("_")[1]
-
-            gt_img = Image.open(os.path.join(val_dir,str(epoch),gt))
-            out_img = Image.open(os.path.join(val_dir,str(epoch),out))
-            cond_img = Image.open(os.path.join(val_dir,str(epoch),cond))
-
-            # concate images here
-            x_offset = i * (3 * img_hw + buffer_w)    
-            concatenated_image.paste(cond_img, (x_offset + 0*img_hw, y_offset))
-            concatenated_image.paste(gt_img, (x_offset + 1*img_hw, y_offset))
-            concatenated_image.paste(out_img, (x_offset + 2*img_hw, y_offset))
-        
-        y_offset += img_hw
-
-    name = exp_dir.split("/")[-1]
-    concatenated_image.save(os.path.join(root_dir, f"{name}_training_progress.jpg"))
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
