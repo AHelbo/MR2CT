@@ -20,3 +20,5 @@ MAKEDATA/*cycleGan*/
 LOCAL_HENDRIX/Palette/datasets/*
 LOCAL_HENDRIX/GAN/datasets/*
 LOCAL_HENDRIX/Data/*
+
+password.txt
