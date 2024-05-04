@@ -34,8 +34,23 @@ def main_worker(gpu, ngpus_per_node, opt):
     phase_logger.info('Create the log file in directory {}.\n'.format(opt['path']['experiments_root']))
 
     '''set networks and dataset'''
-    phase_loader, val_loader = define_dataloader(phase_logger, opt) # val_loader is None if phase is test.
     networks = [define_network(phase_logger, opt, item_opt) for item_opt in opt['model']['which_networks']]
+
+    # if this is mr2ct we set channel
+    if (opt["datasets"]["train"]["which_dataset"]["name"][1] == "MR2CTDataset"):
+        print("MR2CTDataset dataset selected") #TODO
+        nc = opt["model"]["which_networks"][0]["args"]["unet"]["in_channel"]
+    else:
+        nc = -1
+
+    phase_loader = define_dataloader(phase_logger, opt, nc) # val_loader is None if phase is test.
+
+    if (opt["phase"] == "test"):
+        val_loader = None
+    else:
+        opt["phase"] = "val"
+        val_loader = define_dataloader(phase_logger, opt, nc, is_val=True) # val_loader is None if phase is test.
+        opt["phase"] = "train"
 
     ''' set metrics, loss, optimizer and  schedulers '''
     metrics = [define_metric(phase_logger, item_opt) for item_opt in opt['model']['which_metrics']]

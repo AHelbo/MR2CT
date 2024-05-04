@@ -63,6 +63,10 @@ class BaseModel():
                     val_log = self.val_step()
                     for key, value in val_log.items():
                         self.logger.info('{:5s}: {}\t'.format(str(key), value))
+
+                        # i want to try improving the log output.. 
+                        self.logger.info("EPOCH {} {} {}".format(self.epoch, str(key), value))
+                        
                 self.logger.info("\n------------------------------Validation End------------------------------\n\n")
         self.logger.info('Number of Epochs has reached the limit, End.')
 
