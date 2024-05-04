@@ -183,6 +183,9 @@ class MR2CTDataset(data.Dataset):
         else:
             self.flist = flist
 
+        # To avoid duplicates run this function. It does change the format of flist contents, beware..
+        self.flist = get_conditional_filenames(flist)
+
         self.tfs_single = transforms.Compose([
                 transforms.Resize((image_size[0], image_size[1])),
                 transforms.ToTensor(),
@@ -201,18 +204,17 @@ class MR2CTDataset(data.Dataset):
 
     def __getitem__(self, index):
         ret = {}
-        file_name = str(self.flist[index]).split("/")[-1]
+        file_name = str(self.flist[index])
         
         # the ground is always a single layer
         gt_img = self.tfs_single(self.loader('{}/{}/{}'.format(self.data_root, 'B', file_name)))
 
         if (self.in_channel == 2): # grayscale gt + grayscale cond = 2 channels
             cond_image = self.tfs_single(self.loader('{}/{}/{}'.format(self.data_root, 'A', file_name)))
-            print("set in_channel to 2")
         elif (self.in_channel == 4): # grayscale gt + rgb cond = 4 channels
-            print("set in_channel to 4")
             cond_image = self.tfs_triple(self.loader('{}/{}/{}'.format(self.data_root, 'A', file_name)))
-
+        else:
+            raise Exception("When using MR2CTDataset set_in_channel must be called before sampling to set number of channels in cond img")
 
         ret['gt_image'] = gt_img
         ret['cond_image'] = cond_image
@@ -223,7 +225,15 @@ class MR2CTDataset(data.Dataset):
         return len(self.flist)
     
     def set_in_channel(self, nc):
-        print("set_in_channel called") #TODO
         if (nc != 2 and nc != 4):
             raise Exception("MR2CTDataset only supports 2 or 4 channels in output")
         self.in_channel = nc
+
+
+def get_conditional_filenames(flist):
+    unique_filenames_set = {elm.split("/")[-1] for elm in flist}
+
+    unique_filenames_list = list(unique_filenames_set)
+
+    return unique_filenames_list
+

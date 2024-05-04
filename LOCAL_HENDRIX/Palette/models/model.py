@@ -138,10 +138,22 @@ class Palette(BaseModel):
         self.val_metrics.reset()  
         with torch.no_grad():
             print(len(self.val_loader))
+
+            val_loader_len = len(self.val_loader)
+
+            chosen_idx = random.choices(range(val_loader_len), k=3) 
+            print(f"chosen_idx: {chosen_idx}") # TODO
+
+            sample_idx = random.choices(chosen_idx, k=1) 
+
             sample_no = 0
-            for val_data in tqdm.tqdm(random.choices(self.val_loader, k=3)):
+            for idx, val_data in zip(range(val_loader_len), tqdm.tqdm(self.val_loader)):
+                if (not idx in chosen_idx):
+                    continue
+
                 sample_no += 1
                 print(f"val sample no {sample_no}")
+
                 self.set_input(val_data)
                 if self.opt['distributed']:
                     if self.task in ['inpainting','uncropping']:
@@ -169,11 +181,11 @@ class Palette(BaseModel):
                 self.optG.zero_grad()
                 val_loss = self.netG(self.gt_image, self.cond_image, mask=self.mask)
                 self.val_metrics.update("VAL_MSE", val_loss)
-                # very rough test
 
-                for key, value in self.get_current_visuals(phase='val').items():
-                    self.writer.add_images(key, value)
-                self.writer.save_images(self.save_current_results())
+                if (idx in sample_idx):
+                    for key, value in self.get_current_visuals(phase='val').items():
+                        self.writer.add_images(key, value)
+                    self.writer.save_images(self.save_current_results())
 
         return self.val_metrics.result()
 
