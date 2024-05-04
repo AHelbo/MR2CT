@@ -3,6 +3,8 @@ import tqdm
 from core.base_model import BaseModel
 from core.logger import LogTracker
 import copy
+import random
+
 class EMA():
     def __init__(self, beta=0.9999):
         super().__init__()
@@ -50,7 +52,7 @@ class Palette(BaseModel):
 
         ''' can rewrite in inherited class for more informations logging '''
         self.train_metrics = LogTracker(*[m.__name__ for m in losses], phase='train')
-        self.val_metrics = LogTracker(*[m.__name__ for m in self.metrics], phase='val')
+        self.val_metrics = LogTracker(*[m.__name__ for m in self.metrics] + ["VAL_MSE"], phase='val')
         self.test_metrics = LogTracker(*[m.__name__ for m in self.metrics], phase='test')
 
         self.sample_num = sample_num
@@ -133,9 +135,13 @@ class Palette(BaseModel):
     
     def val_step(self):
         self.netG.eval()
-        self.val_metrics.reset()
+        self.val_metrics.reset()  
         with torch.no_grad():
-            for val_data in tqdm.tqdm(self.val_loader):
+            print(len(self.val_loader))
+            sample_no = 0
+            for val_data in tqdm.tqdm(random.choices(self.val_loader, k=3)):
+                sample_no += 1
+                print(f"val sample no {sample_no}")
                 self.set_input(val_data)
                 if self.opt['distributed']:
                     if self.task in ['inpainting','uncropping']:
@@ -158,6 +164,13 @@ class Palette(BaseModel):
                     value = met(self.gt_image, self.output)
                     self.val_metrics.update(key, value)
                     self.writer.add_scalar(key, value)
+
+                # we want the same loss on val data as we get with train. 
+                self.optG.zero_grad()
+                val_loss = self.netG(self.gt_image, self.cond_image, mask=self.mask)
+                self.val_metrics.update("VAL_MSE", val_loss)
+                # very rough test
+
                 for key, value in self.get_current_visuals(phase='val').items():
                     self.writer.add_images(key, value)
                 self.writer.save_images(self.save_current_results())

@@ -182,12 +182,20 @@ class MR2CTDataset(data.Dataset):
             self.flist = flist[:int(data_len)]
         else:
             self.flist = flist
-        self.tfs = transforms.Compose([
+
+        self.tfs_single = transforms.Compose([
                 transforms.Resize((image_size[0], image_size[1])),
                 transforms.ToTensor(),
-                # transforms.Grayscale(num_output_channels=1),
-                transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5,0.5, 0.5])
+                transforms.Grayscale(num_output_channels=1),
+                transforms.Normalize(mean=[0.5], std=[0.5])
         ])
+
+        self.tfs_triple = transforms.Compose([
+                transforms.Resize((image_size[0], image_size[1])),
+                transforms.ToTensor(),
+                transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5])
+        ])
+
         self.loader = loader
         self.image_size = image_size
 
@@ -195,13 +203,27 @@ class MR2CTDataset(data.Dataset):
         ret = {}
         file_name = str(self.flist[index]).split("/")[-1]
         
-        img = self.tfs(self.loader('{}/{}/{}'.format(self.data_root, 'trainB', file_name)))
-        cond_image = self.tfs(self.loader('{}/{}/{}'.format(self.data_root, 'trainA', file_name)))
+        # the ground is always a single layer
+        gt_img = self.tfs_single(self.loader('{}/{}/{}'.format(self.data_root, 'B', file_name)))
 
-        ret['gt_image'] = img
+        if (self.in_channel == 2): # grayscale gt + grayscale cond = 2 channels
+            cond_image = self.tfs_single(self.loader('{}/{}/{}'.format(self.data_root, 'A', file_name)))
+            print("set in_channel to 2")
+        elif (self.in_channel == 4): # grayscale gt + rgb cond = 4 channels
+            print("set in_channel to 4")
+            cond_image = self.tfs_triple(self.loader('{}/{}/{}'.format(self.data_root, 'A', file_name)))
+
+
+        ret['gt_image'] = gt_img
         ret['cond_image'] = cond_image
         ret['path'] = file_name
         return ret
 
     def __len__(self):
         return len(self.flist)
+    
+    def set_in_channel(self, nc):
+        print("set_in_channel called") #TODO
+        if (nc != 2 and nc != 4):
+            raise Exception("MR2CTDataset only supports 2 or 4 channels in output")
+        self.in_channel = nc

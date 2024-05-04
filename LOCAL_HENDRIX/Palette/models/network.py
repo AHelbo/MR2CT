@@ -95,7 +95,14 @@ class Network(BaseNetwork):
         ret_arr = y_t
         for i in tqdm(reversed(range(0, self.num_timesteps)), desc='sampling loop time step', total=self.num_timesteps):
             t = torch.full((b,), i, device=y_cond.device, dtype=torch.long)
+            
+            # y_t is the out image at timestep t
             y_t = self.p_sample(y_t, t, y_cond=y_cond)
+
+            # here we'll grab a single channel and replace the other channels with that value. We arbitrarily choose channel 0..
+            # y_t[:, 1, :, :] = y_t[:, 0, :, :]
+            # y_t[:, 2, :, :] = y_t[:, 0, :, :]
+
             if mask is not None:
                 y_t = y_0*(1.-mask) + mask*y_t
             if i % sample_inter == 0:
@@ -111,9 +118,9 @@ class Network(BaseNetwork):
         sample_gammas = (sqrt_gamma_t2-gamma_t1) * torch.rand((b, 1), device=y_0.device) + gamma_t1
         sample_gammas = sample_gammas.view(b, -1)
 
-        noise = default(noise, lambda: torch.randn_like(y_0))
+        noise = default(noise, lambda: torch.randn_like(y_0)) # BLIV GRAYSCALE
         y_noisy = self.q_sample(
-            y_0=y_0, sample_gammas=sample_gammas.view(-1, 1, 1, 1), noise=noise)
+            y_0=y_0, sample_gammas=sample_gammas.view(-1, 1, 1, 1), noise=noise) 
 
         if mask is not None:
             noise_hat = self.denoise_fn(torch.cat([y_cond, y_noisy*mask+(1.-mask)*y_0], dim=1), sample_gammas)
