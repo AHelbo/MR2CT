@@ -117,19 +117,22 @@ if [[ $model == "palette" ]]; then
     fi
     
     mkdir "$TARGET_DIR"
-    mkdir "$TARGET_DIR/trainA"
-    mkdir "$TARGET_DIR/trainB"
-    mkdir "$TARGET_DIR/valA"
-    mkdir "$TARGET_DIR/valB"
-    mkdir "$TARGET_DIR/testA"
-    mkdir "$TARGET_DIR/testB"
+    mkdir "$TARGET_DIR/train"
+    mkdir "$TARGET_DIR/train/A"
+    mkdir "$TARGET_DIR/train/B"
+    mkdir "$TARGET_DIR/val"
+    mkdir "$TARGET_DIR/val/A"
+    mkdir "$TARGET_DIR/val/B"
+    mkdir "$TARGET_DIR/test"
+    mkdir "$TARGET_DIR/test/A"
+    mkdir "$TARGET_DIR/test/B"
 
     python3 split_PALETTE.py "$TEMP_DIR" "$TARGET_DIR" "$MAKEDATA_DIR/data_split.txt"
 
     # Verify that all the data is balanced
-    python3 verify_palette.py "$TARGET_DIR/trainA" "$TARGET_DIR/trainB"
-    python3 verify_palette.py "$TARGET_DIR/valA" "$TARGET_DIR/valB"
-    python3 verify_palette.py "$TARGET_DIR/testA" "$TARGET_DIR/testB"
+    python3 verify_palette.py "$TARGET_DIR/train/A" "$TARGET_DIR/train/B"
+    python3 verify_palette.py "$TARGET_DIR/val/A" "$TARGET_DIR/val/B"
+    python3 verify_palette.py "$TARGET_DIR/test/A" "$TARGET_DIR/test/B"
 
     # pack files within that folder into a zip
     zip_files "$TARGET_DIR/mr2ct_palette_nc$input_channels.zip" "mr2ct_palette_nc$input_channels"
