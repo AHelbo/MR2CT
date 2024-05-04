@@ -99,6 +99,10 @@ class Network(BaseNetwork):
             # y_t is the out image at timestep t
             y_t = self.p_sample(y_t, t, y_cond=y_cond)
 
+            # here we'll grab a single channel and replace the other channels with that value. We arbitrarily choose channel 0..
+            # y_t[:, 1, :, :] = y_t[:, 0, :, :]
+            # y_t[:, 2, :, :] = y_t[:, 0, :, :]
+
             if mask is not None:
                 y_t = y_0*(1.-mask) + mask*y_t
             if i % sample_inter == 0:

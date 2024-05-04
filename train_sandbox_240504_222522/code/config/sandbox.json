@@ -1,5 +1,5 @@
 {
-    "name": "mr2ct_lr12e-5_nc1", // experiments name
+    "name": "sandbox", // experiments name
     "gpu_ids": [0], // gpu ids list, default is single 0
     "seed" : -1, // random seed, seed <0 represents randomization not used 
     "finetune_norm": false, // find the parameters to optimize
@@ -19,8 +19,8 @@
             "which_dataset": {  // import designated dataset using arguments 
                 "name": ["data.dataset", "MR2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
                 "args":{ // arguments to initialize dataset
-                    "data_root": "./datasets/mr2ct_palette_nc1/train",
-                    "data_flist": "./datasets/mr2ct_palette_nc1/train",///flist",
+                    "data_root": "./datasets/mr2ct_palette_nc1/test",
+                    "data_flist": "./datasets/mr2ct_palette_nc1/test",///flist",
                     // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc1/flist/train.flist",
                     "data_len": -1
                 } 
@@ -73,7 +73,7 @@
             },
             "dataloader":{
                 "args":{
-                    "batch_size": 1,
+                    "batch_size": 4,
                     "num_workers": 4,
                     "pin_memory": true
                 }
@@ -93,7 +93,7 @@
                     "ema_decay": 0.9999
                 },
                 "optimizers": [
-                    { "lr": 12e-5, "weight_decay": 0}
+                    { "lr": 25e-5, "weight_decay": 0}
                 ]
             }
         }, 

@@ -1,5 +1,5 @@
 {
-    "name": "mr2ct_lr12e-5_nc1", // experiments name
+    "name": "mr2ct_lr25e-5_nc1", // experiments name
     "gpu_ids": [0], // gpu ids list, default is single 0
     "seed" : -1, // random seed, seed <0 represents randomization not used 
     "finetune_norm": false, // find the parameters to optimize
@@ -93,7 +93,7 @@
                     "ema_decay": 0.9999
                 },
                 "optimizers": [
-                    { "lr": 12e-5, "weight_decay": 0}
+                    { "lr": 25e-5, "weight_decay": 0}
                 ]
             }
         }, 

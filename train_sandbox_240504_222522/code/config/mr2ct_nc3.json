@@ -1,5 +1,5 @@
 {
-    "name": "mr2ct_lr12e-5_nc1", // experiments name
+    "name": "mr2ct_nc3", // experiments name
     "gpu_ids": [0], // gpu ids list, default is single 0
     "seed" : -1, // random seed, seed <0 represents randomization not used 
     "finetune_norm": false, // find the parameters to optimize
@@ -14,19 +14,19 @@
         "resume_state": null // ex: 100, loading .state  and .pth from given epoch and iteration
     },
 
-    "datasets": { // train or test 
+    "datasets": { // train or test
         "train": { 
             "which_dataset": {  // import designated dataset using arguments 
                 "name": ["data.dataset", "MR2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
                 "args":{ // arguments to initialize dataset
-                    "data_root": "./datasets/mr2ct_palette_nc1/train",
-                    "data_flist": "./datasets/mr2ct_palette_nc1/train",///flist",
+                    "data_root": "./datasets/mr2ct_palette_nc3",
+                    "data_flist": "./datasets/mr2ct_palette_nc3/trainA",///flist",
                     // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc1/flist/train.flist",
                     "data_len": -1
                 } 
             },
             "dataloader":{
-                "validation_split": 8, // percent or number 
+                "validation_split": 2, // percent or number 
                 "args":{ // arguments to initialize train_dataloader
                     "batch_size": 4, // batch size in each gpu
                     "num_workers": 4,
@@ -48,8 +48,8 @@
                 "name": ["data.dataset", "MR2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
                 // "name": "MR2CTDataset", // import Dataset() class / function(not recommend) from default file
                 "args":{
-                    "data_root": "./datasets/mr2ct_palette_nc1/test",
-                    "data_flist": "./datasets/mr2ct_palette_nc1/test"
+                    "data_root": "./datasets/mr2ct_palette_nc3",
+                    "data_flist": "./datasets/mr2ct_palette_nc3/testA"
                     // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc1/flist/test.flist"
                 }
             },
@@ -60,25 +60,7 @@
                     "pin_memory": true
                 }
             }
-        },
-        "val": { 
-            "which_dataset": {
-                "name": ["data.dataset", "MR2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
-                // "name": "MR2CTDataset", // import Dataset() class / function(not recommend) from default file
-                "args":{
-                    "data_root": "./datasets/mr2ct_palette_nc1/val",
-                    "data_flist": "./datasets/mr2ct_palette_nc1/val"
-                    // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc1/flist/test.flist"
-                }
-            },
-            "dataloader":{
-                "args":{
-                    "batch_size": 1,
-                    "num_workers": 4,
-                    "pin_memory": true
-                }
-            }
-        }        
+        }
     },
 
     "model": { // networks/metrics/losses/optimizers/lr_schedulers is a list and model is a dict
@@ -93,7 +75,7 @@
                     "ema_decay": 0.9999
                 },
                 "optimizers": [
-                    { "lr": 12e-5, "weight_decay": 0}
+                    { "lr": 5e-5, "weight_decay": 0}
                 ]
             }
         }, 
@@ -104,8 +86,8 @@
                     "init_type": "kaiming", // method can be [normal | xavier| xavier_uniform | kaiming | orthogonal], default is kaiming
                     "module_name": "guided_diffusion", // sr3 | guided_diffusion
                     "unet": {
-                        "in_channel": 2,
-                        "out_channel": 1,
+                        "in_channel": 6,
+                        "out_channel": 3,
                         "inner_channel": 64,
                         "channel_mults": [
                             1,
@@ -142,13 +124,13 @@
             }
         ],
         "which_losses": [ // import designated list of losses without arguments
-            {"name": "mse_loss"} // import mse_loss() function/class from default file (default is [models/losses.py]), equivalent to { "name": "mse_loss", "args":{}}
+            "mse_loss" // import mse_loss() function/class from default file (default is [models/losses.py]), equivalent to { "name": "mse_loss", "args":{}}
         ],
         "which_metrics": [ // import designated list of metrics without arguments
-            {"name": "mae"}, // import mae() function/class from default file (default is [models/metrics.py]), equivalent to { "name": "mae", "args":{}}
-            {"name": "mse"},
-            {"name": "SSIM"},
-            {"name": "PSNR"}
+            "mae", // import mae() function/class from default file (default is [models/metrics.py]), equivalent to { "name": "mae", "args":{}}
+            "mse",
+            "SSIM",
+            "PSNR"
         ]
     },
 
