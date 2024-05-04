@@ -18,7 +18,9 @@ def concat_images(exp_dir, root_dir):
     cols = 8
     img_hw = 224
     text_h = 50
+    # text_h = 0
     buffer_w = 10
+    # buffer_w = 0
     
     val_dir = os.path.join(exp_dir,"results", "val")
     epochs = sorted([int(elm) for elm in os.listdir(val_dir) if os.path.isdir(os.path.join(val_dir, elm))])
@@ -28,7 +30,7 @@ def concat_images(exp_dir, root_dir):
 
     for epoch in epochs:
         
-        epoch_image = Image.new("RGB", (cols*3*img_hw+(cols-1)*buffer_w, (text_h + img_hw)), color = (255, 255, 255)) # mangler plads til epoch-billedet
+        epoch_image = Image.new("RGB", (cols*3*img_hw+(cols-1)*buffer_w, (text_h + img_hw)), color = (255, 255, 255)) 
 
         # Create text-block
         img = Image.new("RGB", (cols*(img_hw*3+buffer_w), text_h), color = (255, 255, 255))

@@ -1,7 +1,5 @@
-# Ignore zip files
+# Ignore zip files and other big files..
 *.zip
-
-# ignore big files
 *.pth
 *.state
 
@@ -17,8 +15,11 @@ MAKEDATA/*CUT*/
 MAKEDATA/*Palette*/
 MAKEDATA/*cycleGan*/
 
+# Ignore datasets in LOCAL_HENDRIX folder
 LOCAL_HENDRIX/Palette/datasets/*
 LOCAL_HENDRIX/GAN/datasets/*
 LOCAL_HENDRIX/Data/*
 
-password.txt
+# Ignore big files in the Results folders
+LOCAL_HENDRIX/Results/Old_experiments/*
+LOCAL_HENDRIX/Results/Checkpoints/*

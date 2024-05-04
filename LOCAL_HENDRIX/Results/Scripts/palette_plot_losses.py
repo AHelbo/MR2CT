@@ -69,7 +69,7 @@ def plot_dict_palette(output_dict, output_file, root_folder):
 
 
     plot_graph(axs, 0, "Train", epochs, train_mse_loss, line_color = "blue", plot_title = "MSE")    
-    plot_graph(axs, 0, "Val", epochs, mse, line_color = "orange")    
+    # plot_graph(axs, 0, "Val", epochs, mse, line_color = "orange")    
 
     plot_graph(axs, 1, "Val", epochs, ssim, line_color = "orange", plot_title = "SSIM")   
 

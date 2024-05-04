@@ -141,20 +141,21 @@ def plot_log_p2p(file_path, root_folder):
     means = np.array(means)
     
     plt.style.use('seaborn-v0_8')
-    fig, axs = plt.subplots(2, 5, figsize=(24, 8))
+    plt.xlim(0, 100)
 
-    plot_graph(axs, 0, "Train", epochs, means[:, 1], line_color = "blue", plot_title = "G loss")
-    plot_graph(axs, 0, "Val", epochs, means[:, 5], line_color = "orange")
+    fig, axs = plt.subplots(2, 4, figsize=(24, 8))
+
+    plot_graph(axs, 0, "G Train", epochs, means[:, 1], line_color = "blue", plot_title = "G and D loss")
+    plot_graph(axs, 0, "G Val", epochs, means[:, 5], line_color = "orange")
+    plot_graph(axs, 0, "D real", epochs, means[:, 3], line_color = "red")
+    plot_graph(axs, 0, "D fake", epochs, means[:, 4], line_color = "green")
     
     plot_graph(axs, 1, "Train", epochs, means[:, 2], line_color = "blue", plot_title = "L1 loss")
     plot_graph(axs, 1, "Val", epochs, means[:, 6], line_color = "orange")
     
-    plot_graph(axs, 2, "D real", epochs, means[:, 3], line_color = "green", plot_title = "D loss")
-    plot_graph(axs, 2, "D fake", epochs, means[:, 4], line_color = "blue")
+    plot_graph(axs, 2, "Val", epochs, means[:, 7], line_color = "orange", plot_title = "SSIM")
     
-    plot_graph(axs, 3, "Val", epochs, means[:, 7], line_color = "orange", plot_title = "SSIM")
-    
-    plot_graph(axs, 4, "Val", epochs, means[:, 8], line_color = "orange", plot_title = "PSNR")
+    plot_graph(axs, 3, "Val", epochs, means[:, 8], line_color = "orange", plot_title = "PSNR")
     
 
     # Plotting
@@ -165,6 +166,8 @@ def plot_log_p2p(file_path, root_folder):
     title = f"{model}_plot"
 
     fig.suptitle(title)
+
+
 
     plt.tight_layout()
     plt.savefig(f"{root_folder}/{title}.png") 
