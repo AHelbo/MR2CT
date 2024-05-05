@@ -42,6 +42,7 @@ def txt2dictPalette(txt_file):
                 val_mse = re.split(" ", re.search(r'val\/mse: .*\n', epoch)[0])[1]
                 val_ssim = re.split(" ", re.search(r'val\/SSIM: .*\n', epoch)[0])[1]
                 val_psnr = re.split(" ", re.search(r'val\/PSNR: .*\n', epoch)[0])[1]
+                val_step_mse = re.split(" ", re.search(r'val\/VAL_MSE: .*\n', epoch)[0])[1]
 
                 #add to dict
                 output_dict[int(epoch_number)]['train_mse_loss'] = float(sum(train_mse)/len(train_mse))
@@ -49,6 +50,7 @@ def txt2dictPalette(txt_file):
                 output_dict[int(epoch_number)]['val_mse'] = float(val_mse)
                 output_dict[int(epoch_number)]['val_SSIM'] = float(val_ssim)
                 output_dict[int(epoch_number)]['val_PSNR'] = float(val_psnr)
+                output_dict[int(epoch_number)]['val_step_mse'] = float(val_step_mse)
             except: 
                 pass
 
@@ -63,19 +65,21 @@ def plot_dict_palette(output_dict, output_file, root_folder):
     mse = np.array([output_dict[epoch]["val_mse"] for epoch, _ in output_dict.items()])
     ssim = np.array([output_dict[epoch]["val_SSIM"] for epoch, _ in output_dict.items()])
     psnr = np.array([output_dict[epoch]["val_PSNR"] for epoch, _ in output_dict.items()])
+    val_step_mse = np.array([output_dict[epoch]["val_step_mse"] for epoch, _ in output_dict.items()])
 
     plt.style.use('seaborn-v0_8')
-    fig, axs = plt.subplots(2, 4, figsize=(24, 8))
-
+    fig, axs = plt.subplots(2, 5, figsize=(24, 8))
 
     plot_graph(axs, 0, "Train", epochs, train_mse_loss, line_color = "blue", plot_title = "MSE")    
-    # plot_graph(axs, 0, "Val", epochs, mse, line_color = "orange")    
+    plot_graph(axs, 0, "Val", epochs, val_step_mse, line_color = "orange")    
 
-    plot_graph(axs, 1, "Val", epochs, ssim, line_color = "orange", plot_title = "SSIM")   
+    plot_graph(axs, 1, "Val", epochs, mse, line_color = "orange", plot_title = "MSE")    
 
     plot_graph(axs, 2, "Val", epochs, mae, line_color = "orange", plot_title = "MAE")    
 
-    plot_graph(axs, 3, "Val", epochs, psnr, line_color = "orange", plot_title = "PSNR")     
+    plot_graph(axs, 3, "Val", epochs, ssim, line_color = "orange", plot_title = "SSIM")   
+
+    plot_graph(axs, 4, "Val", epochs, psnr, line_color = "orange", plot_title = "PSNR")     
 
 
     model = output_file.replace("output_", "").split("/")[-2]

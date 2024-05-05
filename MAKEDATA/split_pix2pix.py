@@ -1,5 +1,4 @@
 import os
-import random
 import numpy as np
 import shutil
 import sys
@@ -40,7 +39,7 @@ if __name__ == "__main__":
 
         start = time.time()
 
-        print("Splitting data data")
+        print("Splitting pix2pix data")
 
         path1 = sys.argv[1]
         

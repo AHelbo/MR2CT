@@ -17,14 +17,14 @@ CHECKPOINTS="$TARGET_DIR/Checkponts"
 
 
 # Get checkpoint images and logs
-# rsync -zarv --include="*/" --include="*.txt" --include="*.html" --include="*.png" --exclude="*" $GAN "$TARGET_DIR/Checkpoints/GAN"
+rsync -zarv --include="*/" --include="*.txt" --include="*.html" --include="*.png" --exclude="*" $GAN "$TARGET_DIR/Checkpoints/GAN"
 
 rsync -zarv --include="*/" --include="*.log" --include="*.png" --exclude="*" $PALETTE "$TARGET_DIR/Checkpoints/PALETTE"
 
 
 # plot and draw images
-# python3 $SCRIPTS/gan_plot_losses.py $TARGET_DIR
-# python3 $SCRIPTS/gan_images.py $TARGET_DIR
+python3 $SCRIPTS/gan_plot_losses.py $TARGET_DIR
+python3 $SCRIPTS/gan_images.py $TARGET_DIR
 
 python3 $SCRIPTS/palette_plot_losses.py $TARGET_DIR
 python3 $SCRIPTS/palette_images.py $TARGET_DIR
