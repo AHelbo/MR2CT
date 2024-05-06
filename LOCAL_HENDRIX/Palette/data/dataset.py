@@ -181,7 +181,7 @@ class ColorizationDataset(data.Dataset):
 
 
 class MR2CTDataset(data.Dataset):
-    def __init__(self, data_root, data_flist, data_len=-1, image_size=[224, 224], loader=pil_loader):
+    def __init__(self, data_root, data_flist, data_len=-1, image_size=[256, 256], loader=pil_loader):
 
         self.data_root = data_root
         flist = make_dataset(data_flist)

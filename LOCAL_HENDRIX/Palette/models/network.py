@@ -126,7 +126,6 @@ class Network(BaseNetwork):
             loss = self.loss_fn(noise, noise_hat)
         return loss
 
-
 # gaussian diffusion trainer class
 def exists(x):
     return x is not None
