@@ -26,7 +26,7 @@ module load cuda
 source gan_env/bin/activate
 
 #Run training steps
-python train.py --dataroot ./datasets/dataset_A --name pix2pix_overfit_AtoB --model pix2pix --display_id -1 --load_size 266 --input_nc 1 --output_nc 1 --n_epochs 50
+python train.py --dataroot ./datasets/dataset_B --name pix2pix_overfit_AtoB --model pix2pix --display_id -1 --load_size 266 --input_nc 1 --output_nc 1 --n_epochs 50 --continue_train --epoch_count 51
 
 
 

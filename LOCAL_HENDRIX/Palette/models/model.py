@@ -132,51 +132,58 @@ class Palette(BaseModel):
         for scheduler in self.schedulers:
             scheduler.step()
         return self.train_metrics.result()
-    
+
+
     def val_step(self):
         self.netG.eval()
         self.val_metrics.reset()  
         with torch.no_grad():
             val_loader_len = len(self.val_loader)
-            chosen_idx = random.choices(range(val_loader_len), k=10) 
+            all_idx = random.choices(range(val_loader_len), k=360) 
+            slow_idx = random.choices(all_idx, k=10) 
+            make_img_idx = random.choices(slow_idx, k=8) 
 
             for idx, val_data in zip(range(val_loader_len), tqdm.tqdm(self.val_loader)):
-                if (not idx in chosen_idx):
+                if (not idx in all_idx):
                     continue
 
                 self.set_input(val_data)
-                if self.opt['distributed']:
-                    if self.task in ['inpainting','uncropping']:
-                        self.output, self.visuals = self.netG.module.restoration(self.cond_image, y_t=self.cond_image, 
-                            y_0=self.gt_image, mask=self.mask, sample_num=self.sample_num)
-                    else:
-                        self.output, self.visuals = self.netG.module.restoration(self.cond_image, sample_num=self.sample_num)
-                else:
-                    if self.task in ['inpainting','uncropping']:
-                        self.output, self.visuals = self.netG.restoration(self.cond_image, y_t=self.cond_image, 
-                            y_0=self.gt_image, mask=self.mask, sample_num=self.sample_num)
-                    else:
-                        self.output, self.visuals = self.netG.restoration(self.cond_image, sample_num=self.sample_num)
-                    
-                self.iter += self.batch_size
-                self.writer.set_iter(self.epoch, self.iter, phase='val')
-
-                for met in self.metrics:
-                    key = met.__name__
-                    value = met(self.gt_image, self.output)
-                    self.val_metrics.update(key, value)
-                    self.writer.add_scalar(key, value)
 
                 # we want the same loss on val data as we get with train. 
                 self.optG.zero_grad()
                 val_loss = self.netG(self.gt_image, self.cond_image, mask=self.mask)
                 self.val_metrics.update("VAL_MSE", val_loss)
 
-                for key, value in self.get_current_visuals(phase='val').items():
-                    self.writer.add_images(key, value)
-                self.writer.save_images(self.save_current_results())
+                if (idx in slow_idx):
+                    if self.opt['distributed']:
+                        if self.task in ['inpainting','uncropping']:
+                            self.output, self.visuals = self.netG.module.restoration(self.cond_image, y_t=self.cond_image, 
+                                y_0=self.gt_image, mask=self.mask, sample_num=self.sample_num)
+                        else:
+                            self.output, self.visuals = self.netG.module.restoration(self.cond_image, sample_num=self.sample_num)
+                    else:
+                        if self.task in ['inpainting','uncropping']:
+                            self.output, self.visuals = self.netG.restoration(self.cond_image, y_t=self.cond_image, 
+                                y_0=self.gt_image, mask=self.mask, sample_num=self.sample_num)
+                        else:
+                            self.output, self.visuals = self.netG.restoration(self.cond_image, sample_num=self.sample_num)
+                    
+                    self.iter += self.batch_size
+                    self.writer.set_iter(self.epoch, self.iter, phase='val')
 
-        return self.val_metrics.result()
+                    for met in self.metrics:
+                        key = met.__name__
+                        value = met(self.gt_image, self.output)
+                        self.val_metrics.update(key, value)
+                        self.writer.add_scalar(key, value)
+
+                if (idx in make_img_idx):
+                    for key, value in self.get_current_visuals(phase='val').items():
+                        self.writer.add_images(key, value)
+                    self.writer.save_images(self.save_current_results())
+
+        return self.val_m
+    
 
     def test(self):
         self.netG.eval()
