@@ -14,6 +14,8 @@ from torch.autograd import Variable
 def mse_loss(output, target):
     return F.mse_loss(output, target)
 
+def mae_loss(output, target):
+    return F.l1_loss(output, target)
     
 class FocalLoss(nn.Module):
     def __init__(self, gamma=2, alpha=None, size_average=True):

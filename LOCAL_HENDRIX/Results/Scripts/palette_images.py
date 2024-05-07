@@ -18,9 +18,7 @@ def concat_images(exp_dir, root_dir):
     cols = 8
     img_hw = 224
     text_h = 50
-    # text_h = 0
     buffer_w = 10
-    # buffer_w = 0
     
     val_dir = os.path.join(exp_dir,"results", "val")
     epochs = sorted([int(elm) for elm in os.listdir(val_dir) if os.path.isdir(os.path.join(val_dir, elm))])
@@ -56,6 +54,8 @@ def concat_images(exp_dir, root_dir):
         y_offset = text_h
 
         GT_imgs = sorted([elm for elm in os.listdir(os.path.join(val_dir, f"{epoch}")) if elm.split("_")[0] == "GT"])
+
+        print(len(GT_imgs))
 
         for i in range(len(GT_imgs)):
 
