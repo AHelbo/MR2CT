@@ -139,9 +139,9 @@ class Palette(BaseModel):
         self.val_metrics.reset()  
         with torch.no_grad():
             val_loader_len = len(self.val_loader)
-            all_idx = random.choices(range(val_loader_len), k=360) 
-            slow_idx = random.choices(all_idx, k=10) 
-            make_img_idx = random.choices(slow_idx, k=8) 
+            all_idx = random.sample(range(val_loader_len), k=360) 
+            slow_idx = random.sample(all_idx, k=10) 
+            make_img_idx = random.sample(slow_idx, k=8) 
 
             for idx, val_data in zip(range(val_loader_len), tqdm.tqdm(self.val_loader)):
                 if (not idx in all_idx):
@@ -182,7 +182,7 @@ class Palette(BaseModel):
                         self.writer.add_images(key, value)
                     self.writer.save_images(self.save_current_results())
 
-        return self.val_m
+        return self.val_metrics.result()
     
 
     def test(self):
