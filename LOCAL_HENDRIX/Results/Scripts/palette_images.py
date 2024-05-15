@@ -55,7 +55,8 @@ def concat_images(exp_dir, root_dir):
 
         GT_imgs = sorted([elm for elm in os.listdir(os.path.join(val_dir, f"{epoch}")) if elm.split("_")[0] == "GT"])
 
-        print(len(GT_imgs))
+        if (len(GT_imgs) < 8):
+            continue
 
         for i in range(len(GT_imgs)):
 

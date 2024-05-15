@@ -113,13 +113,14 @@ def nifti2png(folder, bad_data_file):
 
                 os.remove(scan)
 
-
 def clean_folder(folder):
+    print("Removing existing unpacked data")
     dirs = [os.path.join(folder,dir) for dir in os.listdir(folder) if os.path.isdir(os.path.join(folder, dir))]
 
     for dir in dirs:
         shutil.rmtree(dir)
 
+    print("Unpacking raw data")
     zips = [os.path.join(folder,elm) for elm in os.listdir(folder) if elm.split(".")[-1] == "zip"]
 
     for z in zips:
@@ -136,8 +137,7 @@ if __name__ == "__main__":
         bad_data_folder = sys.argv[2]
         
         start = time.time()
-
-        print("Removing existing unpacked data")
+        
         clean_folder(folder)
 
         print("Converting .nii files to .png")
