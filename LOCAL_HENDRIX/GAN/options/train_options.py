@@ -54,7 +54,7 @@ class TrainOptions(BaseOptions):
         parser.add_argument('--lambda_L1', type=float, default=100.0, help='weight for L1 loss')
         parser.add_argument('--lambda_GAN', type=float, default=100.0, help='weight for GAN loss')
         parser.add_argument('--D_update_freq', type=float, default=1, help='how oftens should D update. 1 is every time G updates, 2 every other and so on')
-        parser.add_argument('--train_schedule', type=parse_list, default=[], help='shcedule, must hold list oftuppples: [(E, L1, GAN, F)]')
+        parser.add_argument('--train_schedule', type=parse_list, default=[], help='shcedule, must hold list oftuppples: [(E, L1, GAN, Freq)]')
 
         
 

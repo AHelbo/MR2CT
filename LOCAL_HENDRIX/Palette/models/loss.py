@@ -10,7 +10,6 @@ from torch.autograd import Variable
 #     def forward(self, output, target):
 #         return self.loss_fn(output, target)
 
-
 def mse_loss(output, target):
     return F.mse_loss(output, target)
 

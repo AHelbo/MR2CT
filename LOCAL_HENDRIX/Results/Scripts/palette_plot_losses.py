@@ -33,7 +33,7 @@ def txt2dictPalette(txt_file):
                 epoch_number = re.split(" ", re.findall(r'epoch: .*\n', epoch)[0])[1]
 
                 #find mean train/mse_loss
-                tmp = re.findall(r'train\/mse_loss: .*\n', epoch)
+                tmp = re.findall(r'train\/mae_loss: .*\n', epoch)
                 all_train_mse = [re.split(" ", tmp[i]) for i in range(len(tmp))]
                 train_mse = [float(all_train_mse[i][1]) for i in range(len(all_train_mse))]
 
@@ -42,6 +42,7 @@ def txt2dictPalette(txt_file):
                 val_mse = re.split(" ", re.search(r'val\/mse: .*\n', epoch)[0])[1]
                 val_ssim = re.split(" ", re.search(r'val\/SSIM: .*\n', epoch)[0])[1]
                 val_psnr = re.split(" ", re.search(r'val\/PSNR: .*\n', epoch)[0])[1]
+                
                 val_step_mse = re.split(" ", re.search(r'val\/VAL_MSE: .*\n', epoch)[0])[1]
 
                 #add to dict
