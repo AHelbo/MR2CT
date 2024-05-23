@@ -30,7 +30,8 @@ def txt2dictPalette(txt_file):
             try:
                 #find the epoch number
                 epoch_number = int(re.split(" ", re.findall(r'epoch: .*\n', epoch)[0])[1])
-
+                if (epoch_number > 175):
+                    continue 
                 #find mean train/mse_loss
                 tmp = re.findall(r'train\/mse_loss: .*\n', epoch)
                 if (len(tmp) > 0):
