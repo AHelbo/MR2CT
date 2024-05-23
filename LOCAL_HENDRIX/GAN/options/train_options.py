@@ -3,18 +3,6 @@ import ast
 import argparse
 
 
-def parse_list(input_str):
-    try:
-        # Try to parse the input string as a list
-        parsed_list = ast.literal_eval(input_str)
-        # Ensure parsed_list is a list of tuples
-        if isinstance(parsed_list, list) and all(isinstance(item, tuple) for item in parsed_list):
-            return parsed_list
-        else:
-            raise argparse.ArgumentTypeError("Input is not a list of tuples")
-    except ValueError:
-        raise argparse.ArgumentTypeError("Invalid input format")
-
 class TrainOptions(BaseOptions):
     """This class includes training options.
 
@@ -49,13 +37,6 @@ class TrainOptions(BaseOptions):
         parser.add_argument('--pool_size', type=int, default=50, help='the size of image buffer that stores previously generated images')
         parser.add_argument('--lr_policy', type=str, default='linear', help='learning rate policy. [linear | step | plateau | cosine]')
         parser.add_argument('--lr_decay_iters', type=int, default=50, help='multiply by a gamma every lr_decay_iters iterations')
-
-        # project-specific parameters
-        parser.add_argument('--lambda_L1', type=float, default=100.0, help='weight for L1 loss')
-        parser.add_argument('--lambda_GAN', type=float, default=100.0, help='weight for GAN loss')
-        parser.add_argument('--D_update_freq', type=float, default=1, help='how oftens should D update. 1 is every time G updates, 2 every other and so on')
-        parser.add_argument('--train_schedule', type=parse_list, default=[], help='shcedule, must hold list oftuppples: [(E, L1, GAN, Freq)]')
-
         
 
         self.isTrain = True

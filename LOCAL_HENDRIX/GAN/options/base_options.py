@@ -4,7 +4,22 @@ from util import util
 import torch
 import models
 import data
+import ast
 
+
+
+def parse_list(input_str):
+    try:
+        # Try to parse the input string as a list
+        parsed_list = ast.literal_eval(input_str)
+        # Ensure parsed_list is a list of tuples
+        if isinstance(parsed_list, list) and all(isinstance(item, tuple) for item in parsed_list):
+            return parsed_list
+        else:
+            raise argparse.ArgumentTypeError("Input is not a list of tuples")
+    except ValueError:
+        raise argparse.ArgumentTypeError("Invalid input format")
+    
 
 class BaseOptions():
     """This class defines options used during both training and test time.
@@ -57,6 +72,13 @@ class BaseOptions():
         # wandb parameters
         parser.add_argument('--use_wandb', action='store_true', help='if specified, then init wandb logging')
         parser.add_argument('--wandb_project_name', type=str, default='CycleGAN-and-pix2pix', help='specify wandb project name')
+
+        # project-specific parameters
+        parser.add_argument('--lambda_L1', type=float, default=100.0, help='weight for L1 loss')
+        parser.add_argument('--lambda_GAN', type=float, default=100.0, help='weight for GAN loss')
+        parser.add_argument('--D_update_freq', type=float, default=1, help='how oftens should D update. 1 is every time G updates, 2 every other and so on')
+        parser.add_argument('--train_schedule', type=parse_list, default=[], help='shcedule, must hold list oftuppples: [(E, L1, GAN, Freq)]')
+
         self.initialized = True
         return parser
 

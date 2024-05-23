@@ -100,4 +100,8 @@ if __name__ == "__main__":
 
             except FileNotFoundError:
                 _, model = os.path.split(exp_folder)
-                print(f"   Caught exception: {model} probably needs to run longer")
+                print(f"   palette_images.py caught FileNotFoundError exception: {model} probably needs to run longer")
+
+            except:
+                _, model = os.path.split(exp_folder)
+                print(f"   palette_images.py caught exception: {model} probably needs to run longer")                

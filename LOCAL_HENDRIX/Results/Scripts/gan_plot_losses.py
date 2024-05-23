@@ -115,7 +115,12 @@ def plot_log_p2p(file_path, root_folder):
             val_G_GAN = float(parts[29])
             val_G_L1 = float(parts[32])
             SSIM = float(parts[35])
-            PSNR = float(parts[38])
+
+            # fix for missing line break
+            if (parts[38].count("=") > 0):
+                PSNR = float(parts[38].split("=")[0])
+            else:
+                PSNR = float(parts[38])
 
             # Appending to data
             data.append([epoch, G_GAN, G_L1, D_real, D_fake, val_G_GAN, val_G_L1, SSIM, PSNR])
@@ -221,4 +226,4 @@ if __name__ == "__main__":
             
             except IndexError:
                 model = log.split("/")[-2]
-                print(f"   Caught exception: {model} probably needs to run longer")
+                print(f"   gan_plot_losses.py caught exception: {model} probably needs to run longer")
