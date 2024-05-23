@@ -3,7 +3,7 @@
                batch_size: 10                            	[default: 1]
                     beta1: 0.5                           
           checkpoints_dir: ./checkpoints                 
-           continue_train: False                         
+           continue_train: True                          	[default: False]
                 crop_size: 256                           
                  dataroot: ./datasets/mr2ct_pix2pix_nc1  	[default: None]
              dataset_mode: aligned                       
@@ -16,7 +16,7 @@
            display_server: http://localhost              
           display_winsize: 256                           
                     epoch: latest                        
-              epoch_count: 1                             
+              epoch_count: 381                           	[default: 1]
                  gan_mode: vanilla                       
                   gpu_ids: 0                             
                 init_gain: 0.02                          

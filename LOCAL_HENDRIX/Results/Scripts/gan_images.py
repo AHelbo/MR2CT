@@ -18,6 +18,9 @@ def concat_images(model_dir, root_dir):
     epochs = set([int(elm.split("_")[0].split("epoch")[1]) for elm in os.listdir(image_dir) if elm.split(".")[-1] == "png"])
     epochs = sorted(epochs)
     epochs.reverse()
+
+    if len(epochs) == 0:
+        return
     
     # Create a list to store the images
     pdf_images = []
@@ -73,4 +76,4 @@ if __name__ == "__main__":
                 concat_images(model_folder, root_folder)
             except FileNotFoundError:
                 _, model = os.path.split(model_folder)
-                print(f"   Caught exception: {model} probably needs to run longer")
+                print(f"   gan_images.py caught exception: {model} probably needs to run longer")
