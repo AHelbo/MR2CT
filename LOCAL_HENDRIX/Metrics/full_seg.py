@@ -15,23 +15,22 @@ def image2Mask(path):
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     return mask_generator.generate(img)
 
-def IoU(gt_masks, fake_masks, threshold):
+def IoU(gt_masks, fake_masks):
     #calculates the intersect of unions on of the fake and the ground truth masks 
     ret = 0
 
     for gt_mask in gt_masks:
+        bestIoU = 0
         for fake_mask in fake_masks:
             intersect = np.logical_and(fake_mask["segmentation"], gt_mask["segmentation"])
             union = np.logical_or(fake_mask["segmentation"], gt_mask["segmentation"])
             iou = np.sum(intersect)/np.sum(union)            
-
-            if iou >= threshold:
-                ret += iou
-                break #ensures that only one match is found per gt_mask (important for small thresholds)
-
+            if bestIoU < iou:
+                bestIoU = iou
+        ret += bestIoU
     return ret/len(gt_masks)
 
-def totalIoU(data_folder, threshold):
+def totalIoU(data_folder):
     #calculates the total IoU of an entire datafolder (folder must contain real and fake img)
 
     #file will be at the same dir as the datafolder, contains info of each img IoU
@@ -51,7 +50,7 @@ def totalIoU(data_folder, threshold):
                 gt_mask = image2Mask(scan)
                 fake_mask = image2Mask(fake)
 
-                currIoU = IoU(gt_mask, fake_mask, threshold)
+                currIoU = IoU(gt_mask, fake_mask)
 
                 f.write(f"patientID={scan}, IoU={currIoU}, gt_masks={len(gt_mask)}, fake_masks={len(fake_mask)}\n")            
 
@@ -64,20 +63,19 @@ def totalIoU(data_folder, threshold):
 
 if __name__ == "__main__":
 
-    if len(sys.argv) != 4:
+    if len(sys.argv) != 3:
         print("Wrong number of arguments - you can do better")
 
     else:
         #define varibale from cmd-line
         data_folder = sys.argv[1]
-        threshold = float(sys.argv[2])
 
         #path to the model checkpoint and definition of the model
         print("Loading SAM")
-        checkpoint = sys.argv[3]
+        checkpoint = sys.argv[2]
         sam = sam_model_registry["vit_h"](checkpoint=checkpoint)
         #sam.to(device="cuda")
         mask_generator = SamAutomaticMaskGenerator(sam)
 
         #calculate IoU
-        totalIoU(data_folder, threshold)
+        totalIoU(data_folder)
