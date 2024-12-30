@@ -20,7 +20,7 @@ module load pytorch
 module load cuda
 
 # Activate the virtual environment
-source pal_env/bin/activate
+source diffusion_env/bin/activate
 
 echo "Activated virtual environment: $VIRTUAL_ENV"
 
@@ -29,6 +29,6 @@ echo "Using Python from: $(which python3)"
 echo "Using pip from: $(which pip)"
 
 # Ensure Pillow is installed in the virtual environment
-python3 -m pip show Pillow || python3 -m pip install Pillow
+python3 -m pip show Pillow
 
 python3 run.py -p train -c config/mr2ct_lr1e-4_nc1.json
