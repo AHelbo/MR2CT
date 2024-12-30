@@ -20,3 +20,6 @@ data/*cycleGan*/
 # Ignore datasets in LOCAL_HENDRIX folder
 diffusion/datasets/*
 GAN/datasets/*
+
+# Ignore folder (for previous hendrix files
+ignore/*
