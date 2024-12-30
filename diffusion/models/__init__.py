@@ -1,8 +1,7 @@
 from core.praser import init_obj
 
 def create_model(**cfg_model):
-    logger.info(f"Initial configuration: {cfg_model}")
-
+    raise Exception("ASD")
     """ create_model """
     opt = cfg_model['opt']
     logger = cfg_model['logger']

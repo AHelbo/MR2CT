@@ -68,6 +68,7 @@ def main_worker(gpu, ngpus_per_node, opt):
         logger = phase_logger,
         writer = phase_writer
     )
+    
 
     phase_logger.info('Begin model {}.'.format(opt['phase']))
     try:
