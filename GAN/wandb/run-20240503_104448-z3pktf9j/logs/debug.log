@@ -1,0 +1,28 @@
+2024-05-03 10:44:48,381 INFO    MainThread:77779 [wandb_setup.py:_flush():76] Current SDK version is 0.16.6
+2024-05-03 10:44:48,381 INFO    MainThread:77779 [wandb_setup.py:_flush():76] Configure stats pid to 77779
+2024-05-03 10:44:48,381 INFO    MainThread:77779 [wandb_setup.py:_flush():76] Loading settings from /Users/andershelbo/.config/wandb/settings
+2024-05-03 10:44:48,381 INFO    MainThread:77779 [wandb_setup.py:_flush():76] Loading settings from /Users/andershelbo/Desktop/MR2CT/LOCAL_HENDRIX/GAN/wandb/settings
+2024-05-03 10:44:48,381 INFO    MainThread:77779 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-05-03 10:44:48,381 INFO    MainThread:77779 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-05-03 10:44:48,381 INFO    MainThread:77779 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'LOCAL_HENDRIX/GAN/train.py', 'program_abspath': '/Users/andershelbo/Desktop/MR2CT/LOCAL_HENDRIX/GAN/train.py', 'program': '/Users/andershelbo/Desktop/MR2CT/LOCAL_HENDRIX/GAN/train.py'}
+2024-05-03 10:44:48,381 INFO    MainThread:77779 [wandb_setup.py:_flush():76] Applying login settings: {}
+2024-05-03 10:44:48,381 INFO    MainThread:77779 [wandb_setup.py:_flush():76] Applying login settings: {'api_key': '***REDACTED***'}
+2024-05-03 10:44:48,382 INFO    MainThread:77779 [wandb_init.py:_log_setup():521] Logging user logs to /Users/andershelbo/Desktop/MR2CT/LOCAL_HENDRIX/GAN/wandb/run-20240503_104448-z3pktf9j/logs/debug.log
+2024-05-03 10:44:48,382 INFO    MainThread:77779 [wandb_init.py:_log_setup():522] Logging internal logs to /Users/andershelbo/Desktop/MR2CT/LOCAL_HENDRIX/GAN/wandb/run-20240503_104448-z3pktf9j/logs/debug-internal.log
+2024-05-03 10:44:48,382 INFO    MainThread:77779 [wandb_init.py:init():561] calling init triggers
+2024-05-03 10:44:48,382 INFO    MainThread:77779 [wandb_init.py:init():568] wandb.init called with sweep_config: {}
+config: {'dataroot': './datasets/mr2ct_pix2pix_nc1', 'name': 'mr2ct_pix2pix_nc1', 'gpu_ids': [], 'checkpoints_dir': './checkpoints', 'model': 'pix2pix', 'input_nc': 1, 'output_nc': 1, 'ngf': 64, 'ndf': 64, 'netD': 'basic', 'netG': 'unet_256', 'n_layers_D': 3, 'norm': 'batch', 'init_type': 'normal', 'init_gain': 0.02, 'no_dropout': False, 'dataset_mode': 'aligned', 'direction': 'AtoB', 'serial_batches': False, 'num_threads': 4, 'batch_size': 5, 'load_size': 266, 'crop_size': 256, 'max_dataset_size': inf, 'preprocess': 'resize_and_crop', 'no_flip': False, 'display_winsize': 256, 'epoch': 'latest', 'load_iter': 0, 'verbose': False, 'suffix': '', 'use_wandb': True, 'wandb_project_name': 'CycleGAN-and-pix2pix', 'display_freq': 400, 'display_ncols': 4, 'display_id': -1, 'display_server': 'http://localhost', 'display_env': 'main', 'display_port': 8097, 'update_html_freq': 1000, 'print_freq': 100, 'no_html': False, 'save_latest_freq': 5000, 'save_epoch_freq': 5, 'save_by_iter': False, 'continue_train': False, 'epoch_count': 1, 'phase': 'train', 'n_epochs': 2500, 'n_epochs_decay': 100, 'beta1': 0.5, 'lr': 0.0002, 'gan_mode': 'vanilla', 'pool_size': 0, 'lr_policy': 'linear', 'lr_decay_iters': 50, 'lambda_L1': 100.0, 'lambda_GAN': 100.0, 'D_update_freq': 1, 'train_schedule': [], 'isTrain': True}
+2024-05-03 10:44:48,382 INFO    MainThread:77779 [wandb_init.py:init():611] starting backend
+2024-05-03 10:44:48,382 INFO    MainThread:77779 [wandb_init.py:init():615] setting up manager
+2024-05-03 10:44:48,383 INFO    MainThread:77779 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=spawn,fork,forkserver, using: spawn
+2024-05-03 10:44:48,386 INFO    MainThread:77779 [wandb_init.py:init():623] backend started and connected
+2024-05-03 10:44:48,392 INFO    MainThread:77779 [wandb_init.py:init():715] updated telemetry
+2024-05-03 10:44:48,422 INFO    MainThread:77779 [wandb_init.py:init():748] communicating run to backend with 90.0 second timeout
+2024-05-03 10:44:48,856 INFO    MainThread:77779 [wandb_run.py:_on_init():2357] communicating current version
+2024-05-03 10:44:48,948 INFO    MainThread:77779 [wandb_run.py:_on_init():2366] got version response 
+2024-05-03 10:44:48,949 INFO    MainThread:77779 [wandb_init.py:init():799] starting run threads in backend
+2024-05-03 10:44:49,101 INFO    MainThread:77779 [wandb_run.py:_console_start():2335] atexit reg
+2024-05-03 10:44:49,102 INFO    MainThread:77779 [wandb_run.py:_redirect():2190] redirect: wrap_raw
+2024-05-03 10:44:49,102 INFO    MainThread:77779 [wandb_run.py:_redirect():2255] Wrapping output streams.
+2024-05-03 10:44:49,102 INFO    MainThread:77779 [wandb_run.py:_redirect():2280] Redirects installed.
+2024-05-03 10:44:49,102 INFO    MainThread:77779 [wandb_init.py:init():842] run started, returning control to user process

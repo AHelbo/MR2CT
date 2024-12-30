@@ -1,0 +1,68 @@
+create web directory ./checkpoints/mr2ct_pix2pix_nc1/web...
+learning rate 0.0002000 -> 0.0002000
+/opt/homebrew/lib/python3.12/site-packages/torch/optim/lr_scheduler.py:143: UserWarning: Detected call of `lr_scheduler.step()` before `optimizer.step()`. In PyTorch 1.1.0 and later, you should call them in the opposite order: `optimizer.step()` before `lr_scheduler.step()`.  Failure to do this will result in PyTorch skipping the first value of the learning rate schedule. See more details at https://pytorch.org/docs/stable/optim.html#how-to-adjust-learning-rate
+  warnings.warn("Detected call of `lr_scheduler.step()` before `optimizer.step()`. "
+(epoch: 1, iters: 100, time: 0.327, data: 5.460) G_GAN: 1.198 G_L1: 0.230 D_real: 0.903 D_fake: 0.371 val_G_GAN: 0.666 val_G_L1: 0.596 SSIM: 0.051 PSNR: 7.944
+(epoch: 1, iters: 200, time: 0.289, data: 0.001) G_GAN: 1.920 G_L1: 0.155 D_real: 0.444 D_fake: 0.288 val_G_GAN: 1.648 val_G_L1: 0.337 SSIM: 0.192 PSNR: 11.339
+(epoch: 1, iters: 300, time: 0.370, data: 0.000) G_GAN: 1.137 G_L1: 0.088 D_real: 1.059 D_fake: 0.229 val_G_GAN: 0.959 val_G_L1: 0.206 SSIM: 0.336 PSNR: 11.762
+(epoch: 1, iters: 400, time: 0.728, data: 0.001) G_GAN: 2.812 G_L1: 0.092 D_real: 0.075 D_fake: 0.152 val_G_GAN: 0.706 val_G_L1: 0.083 SSIM: 0.530 PSNR: 17.043
+Exception ignored in: <function _MultiProcessingDataLoaderIter.__del__ at 0x12717d580>
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 1479, in __del__
+    self._shutdown_workers()
+  File "/opt/homebrew/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 1443, in _shutdown_workers
+    w.join(timeout=_utils.MP_STATUS_CHECK_INTERVAL)
+  File "/opt/homebrew/Cellar/python@3.12/3.12.2_1/Frameworks/Python.framework/Versions/3.12/lib/python3.12/multiprocessing/process.py", line 149, in join
+    res = self._popen.wait(timeout)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.2_1/Frameworks/Python.framework/Versions/3.12/lib/python3.12/multiprocessing/popen_fork.py", line 40, in wait
+    if not wait([self.sentinel], timeout):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.2_1/Frameworks/Python.framework/Versions/3.12/lib/python3.12/multiprocessing/connection.py", line 1135, in wait
+    ready = selector.select(timeout)
+            ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.12/3.12.2_1/Frameworks/Python.framework/Versions/3.12/lib/python3.12/selectors.py", line 415, in select
+    fd_event_list = self._selector.poll(timeout)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt:
+Traceback (most recent call last):
+  File "/Users/andershelbo/Desktop/MR2CT/LOCAL_HENDRIX/GAN/train.py", line 53, in <module>
+    model.optimize_parameters()   # calculate loss functions, get gradients, update network weights
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andershelbo/Desktop/MR2CT/LOCAL_HENDRIX/GAN/models/pix2pix_model.py", line 160, in optimize_parameters
+    self.backward_D()                # calculate gradients for D
+    ^^^^^^^^^^^^^^^^^
+  File "/Users/andershelbo/Desktop/MR2CT/LOCAL_HENDRIX/GAN/models/pix2pix_model.py", line 112, in backward_D
+    pred_real = self.netD(real_AB)
+                ^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/andershelbo/Desktop/MR2CT/LOCAL_HENDRIX/GAN/models/networks.py", line 584, in forward
+    return self.model(input)
+           ^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.12/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+            ^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1511, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1520, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.12/site-packages/torch/nn/modules/conv.py", line 460, in forward
+    return self._conv_forward(input, self.weight, self.bias)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/lib/python3.12/site-packages/torch/nn/modules/conv.py", line 456, in _conv_forward
+    return F.conv2d(input, weight, bias, self.stride,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

@@ -1,0 +1,22 @@
+# Ignore zip files and other big files..
+*.zip
+*.pth
+*.state
+*.tiff
+*.png
+*.nii.gz
+*.nii
+*.gz
+
+# Ignore Mac system files
+.DS_Store
+
+# Ignore dataset folders 
+data/*pix2pix*/
+data/*CUT*/
+data/*Palette*/
+data/*cycleGan*/
+
+# Ignore datasets in LOCAL_HENDRIX folder
+diffusion/datasets/*
+GAN/datasets/*

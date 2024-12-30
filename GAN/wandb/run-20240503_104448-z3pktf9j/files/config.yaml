@@ -1,0 +1,215 @@
+wandb_version: 1
+
+dataroot:
+  desc: null
+  value: ./datasets/mr2ct_pix2pix_nc1
+name:
+  desc: null
+  value: mr2ct_pix2pix_nc1
+gpu_ids:
+  desc: null
+  value: []
+checkpoints_dir:
+  desc: null
+  value: ./checkpoints
+model:
+  desc: null
+  value: pix2pix
+input_nc:
+  desc: null
+  value: 1
+output_nc:
+  desc: null
+  value: 1
+ngf:
+  desc: null
+  value: 64
+ndf:
+  desc: null
+  value: 64
+netD:
+  desc: null
+  value: basic
+netG:
+  desc: null
+  value: unet_256
+n_layers_D:
+  desc: null
+  value: 3
+norm:
+  desc: null
+  value: batch
+init_type:
+  desc: null
+  value: normal
+init_gain:
+  desc: null
+  value: 0.02
+no_dropout:
+  desc: null
+  value: false
+dataset_mode:
+  desc: null
+  value: aligned
+direction:
+  desc: null
+  value: AtoB
+serial_batches:
+  desc: null
+  value: false
+num_threads:
+  desc: null
+  value: 4
+batch_size:
+  desc: null
+  value: 5
+load_size:
+  desc: null
+  value: 266
+crop_size:
+  desc: null
+  value: 256
+max_dataset_size:
+  desc: null
+  value: .inf
+preprocess:
+  desc: null
+  value: resize_and_crop
+no_flip:
+  desc: null
+  value: false
+display_winsize:
+  desc: null
+  value: 256
+epoch:
+  desc: null
+  value: latest
+load_iter:
+  desc: null
+  value: 0
+verbose:
+  desc: null
+  value: false
+suffix:
+  desc: null
+  value: ''
+use_wandb:
+  desc: null
+  value: true
+wandb_project_name:
+  desc: null
+  value: CycleGAN-and-pix2pix
+display_freq:
+  desc: null
+  value: 400
+display_ncols:
+  desc: null
+  value: 4
+display_id:
+  desc: null
+  value: -1
+display_server:
+  desc: null
+  value: http://localhost
+display_env:
+  desc: null
+  value: main
+display_port:
+  desc: null
+  value: 8097
+update_html_freq:
+  desc: null
+  value: 1000
+print_freq:
+  desc: null
+  value: 100
+no_html:
+  desc: null
+  value: false
+save_latest_freq:
+  desc: null
+  value: 5000
+save_epoch_freq:
+  desc: null
+  value: 5
+save_by_iter:
+  desc: null
+  value: false
+continue_train:
+  desc: null
+  value: false
+epoch_count:
+  desc: null
+  value: 1
+phase:
+  desc: null
+  value: train
+n_epochs:
+  desc: null
+  value: 2500
+n_epochs_decay:
+  desc: null
+  value: 100
+beta1:
+  desc: null
+  value: 0.5
+lr:
+  desc: null
+  value: 0.0002
+gan_mode:
+  desc: null
+  value: vanilla
+pool_size:
+  desc: null
+  value: 0
+lr_policy:
+  desc: null
+  value: linear
+lr_decay_iters:
+  desc: null
+  value: 50
+lambda_L1:
+  desc: null
+  value: 100.0
+lambda_GAN:
+  desc: null
+  value: 100.0
+D_update_freq:
+  desc: null
+  value: 1
+train_schedule:
+  desc: null
+  value: []
+isTrain:
+  desc: null
+  value: true
+_wandb:
+  desc: null
+  value:
+    python_version: 3.12.2
+    cli_version: 0.16.6
+    framework: torch
+    is_jupyter_run: false
+    is_kaggle_kernel: false
+    start_time: 1714725888.0
+    t:
+      1:
+      - 1
+      - 41
+      - 55
+      2:
+      - 1
+      - 41
+      - 55
+      3:
+      - 13
+      - 16
+      - 23
+      4: 3.12.2
+      5: 0.16.6
+      8:
+      - 4
+      - 5
+      9:
+        2: CycleGAN-and-pix2pix
+      13: darwin-arm64

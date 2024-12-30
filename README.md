@@ -1,1 +1,1 @@
-# MR2CT
+# MRI2CT

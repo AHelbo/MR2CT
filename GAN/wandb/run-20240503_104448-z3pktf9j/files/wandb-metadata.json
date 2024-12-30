@@ -1,0 +1,75 @@
+{
+    "os": "macOS-14.4-arm64-arm-64bit",
+    "python": "3.12.2",
+    "heartbeatAt": "2024-05-03T08:44:48.970393",
+    "startedAt": "2024-05-03T08:44:48.377044",
+    "docker": null,
+    "cuda": null,
+    "args": [
+        "--dataroot",
+        "./datasets/mr2ct_pix2pix_nc1",
+        "--name",
+        "mr2ct_pix2pix_nc1",
+        "--model",
+        "pix2pix",
+        "--display_id",
+        "-1",
+        "--load_size",
+        "266",
+        "--input_nc",
+        "1",
+        "--output_nc",
+        "1",
+        "--n_epochs",
+        "2500",
+        "--gpu_ids",
+        "-1",
+        "--dataset_mode",
+        "aligned",
+        "--norm",
+        "batch",
+        "--batch_size",
+        "5",
+        "--use_wandb"
+    ],
+    "state": "running",
+    "program": "/Users/andershelbo/Desktop/MR2CT/LOCAL_HENDRIX/GAN/train.py",
+    "codePathLocal": "train.py",
+    "codePath": "LOCAL_HENDRIX/GAN/train.py",
+    "git": {
+        "remote": "git@github.com:SirHelbo/MR2CT.git",
+        "commit": "05a97772235fbbc11c0635ce5ea7033d9055152f"
+    },
+    "email": "89070425+SirHelbo@users.noreply.github.com",
+    "root": "/Users/andershelbo/Desktop/MR2CT",
+    "host": "M1-Pro.local",
+    "username": "andershelbo",
+    "executable": "/opt/homebrew/opt/python@3.12/bin/python3.12",
+    "cpu_count": 8,
+    "cpu_count_logical": 8,
+    "cpu_freq": {
+        "current": 3228,
+        "min": 600,
+        "max": 3228
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 3228,
+            "min": 600,
+            "max": 3228
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 460.4317207336426,
+            "used": 10.112865447998047
+        }
+    },
+    "gpuapple": {
+        "type": "arm",
+        "vendor": "Apple"
+    },
+    "memory": {
+        "total": 16.0
+    }
+}
