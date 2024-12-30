@@ -23,4 +23,10 @@ source pal_env/bin/activate
 
 echo $VIRTUAL_ENV
 
+which python3
+
+which pip
+
+python3 -m pip show Pillow
+
 python3 run.py -p train -c config/mr2ct_lr1e-4_nc1.json
