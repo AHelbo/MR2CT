@@ -124,7 +124,7 @@ def parse(args):
         opt['name'] = '{}_{}'.format(opt['phase'], opt['name'])
 
     ''' set log directory '''
-    experiments_root = os.path.join(opt['path']['base_dir'], '{}_{}'.format(opt['name'], ""))
+    experiments_root = os.path.join(opt['path']['base_dir'], format(opt['name']))
     mkdirs(experiments_root)
 
     ''' save json '''
