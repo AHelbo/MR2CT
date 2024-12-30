@@ -29,6 +29,6 @@ echo "Using Python from: $(which python3)"
 echo "Using pip from: $(which pip)"
 
 # Ensure Pillow is installed in the virtual environment
-python3 -m pip show Pillow
+/home/pjf246/diffusion/diffusion_env/bin/python3 -m pip show Pillow
 
-python3 run.py -p train -c config/mr2ct_lr1e-4_nc1.json
+/home/pjf246/diffusion/diffusion_env/bin/python3 run.py -p train -c config/mr2ct_lr1e-4_nc1.json
