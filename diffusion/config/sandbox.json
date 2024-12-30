@@ -1,5 +1,5 @@
 {
-    "name": "sandbox_nc3", // experiments name
+    "name": "local-test", // experiments name
     "gpu_ids": [0], // gpu ids list, default is single 0
     "seed" : -1, // random seed, seed <0 represents randomization not used 
     "finetune_norm": false, // find the parameters to optimize
@@ -19,8 +19,8 @@
             "which_dataset": {  // import designated dataset using arguments 
                 "name": ["data.dataset", "MR2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
                 "args":{ // arguments to initialize dataset
-                    "data_root": "./datasets/mr2ct_palette_nc3/train",
-                    "data_flist": "./datasets/mr2ct_palette_nc3/train",///flist",
+                    "data_root": "./datasets/mr2ct_palette_nc1/train",
+                    "data_flist": "./datasets/mr2ct_palette_nc1/train",///flist",
                     // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc1/flist/train.flist",
                     "data_len": -1
                 } 
@@ -48,8 +48,8 @@
                 "name": ["data.dataset", "MR2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
                 // "name": "MR2CTDataset", // import Dataset() class / function(not recommend) from default file
                 "args":{
-                    "data_root": "./datasets/mr2ct_palette_nc3/test",
-                    "data_flist": "./datasets/mr2ct_palette_nc3/test"
+                    "data_root": "./datasets/mr2ct_palette_nc1/test",
+                    "data_flist": "./datasets/mr2ct_palette_nc1/test"
                     // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc1/flist/test.flist"
                 }
             },
@@ -66,8 +66,8 @@
                 "name": ["data.dataset", "MR2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
                 // "name": "MR2CTDataset", // import Dataset() class / function(not recommend) from default file
                 "args":{
-                    "data_root": "./datasets/mr2ct_palette_nc3/val",
-                    "data_flist": "./datasets/mr2ct_palette_nc3/val"
+                    "data_root": "./datasets/mr2ct_palette_nc1/val",
+                    "data_flist": "./datasets/mr2ct_palette_nc1/val"
                     // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc1/flist/test.flist"
                 }
             },
@@ -104,7 +104,7 @@
                     "init_type": "kaiming", // method can be [normal | xavier| xavier_uniform | kaiming | orthogonal], default is kaiming
                     "module_name": "guided_diffusion", // sr3 | guided_diffusion
                     "unet": {
-                        "in_channel": 4,
+                        "in_channel": 2,
                         "out_channel": 1,
                         "inner_channel": 64,
                         "channel_mults": [

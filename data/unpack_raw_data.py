@@ -100,8 +100,8 @@ def nifti2png(folder, bad_data_file):
 
                     for slice in range(niiArr.shape[2]):
 
-                        if (f"{patient_id}-{slice:03}" in bad_data):
-                            continue                    
+                        # if (f"{patient_id}-{slice:03}" in bad_data): //We don't care about bad data
+                        #     continue                    
                         
                         for elm in niiArr[:, :, slice].flatten():
                             patient_mr_arr[int(elm)] += 1

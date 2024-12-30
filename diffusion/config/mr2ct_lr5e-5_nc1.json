@@ -1,6 +1,6 @@
 {
-    "name": "g_nc3_205", // experiments name
-    "gpu_ids": [0], // gpu ids list, default is single 0
+    "name": "mr2ct_lr5e-5_nc1", // experiments name
+    "gpu_ids": [0,1,2,3,4,5,6,7], // gpu ids list, default is single 0
     "seed" : -1, // random seed, seed <0 represents randomization not used 
     "finetune_norm": false, // find the parameters to optimize
 
@@ -10,8 +10,8 @@
         "tb_logger": "tb_logger", // path of tensorboard logger
         "results": "results",
         "checkpoint": "checkpoint",
-        "resume_state": "experiments/g_nc3/checkpoint/205" 
-        // "resume_state": null // ex: 100, loading .state  and .pth from given epoch and iteration
+        // "resume_state": "experiments/inpainting_places2_220413_143231/checkpoint/25" 
+        "resume_state": null // ex: 100, loading .state  and .pth from given epoch and iteration
     },
 
     "datasets": { // train or test 
@@ -19,9 +19,9 @@
             "which_dataset": {  // import designated dataset using arguments 
                 "name": ["data.dataset", "MR2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
                 "args":{ // arguments to initialize dataset
-                    "data_root": "./datasets/swapped_small_nc3/train",
-                    "data_flist": "./datasets/swapped_small_nc3/train",///flist",
-                    // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc3/flist/train.flist",
+                    "data_root": "./datasets/mr2ct_palette_nc1/train",
+                    "data_flist": "./datasets/mr2ct_palette_nc1/train",///flist",
+                    // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc1/flist/train.flist",
                     "data_len": -1
                 } 
             },
@@ -48,9 +48,9 @@
                 "name": ["data.dataset", "MR2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
                 // "name": "MR2CTDataset", // import Dataset() class / function(not recommend) from default file
                 "args":{
-                    "data_root": "./datasets/swapped_small_nc3/test",
-                    "data_flist": "./datasets/swapped_small_nc3/test"
-                    // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc3/flist/test.flist"
+                    "data_root": "./datasets/mr2ct_palette_nc1/test",
+                    "data_flist": "./datasets/mr2ct_palette_nc1/test"
+                    // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc1/flist/test.flist"
                 }
             },
             "dataloader":{
@@ -66,9 +66,9 @@
                 "name": ["data.dataset", "MR2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
                 // "name": "MR2CTDataset", // import Dataset() class / function(not recommend) from default file
                 "args":{
-                    "data_root": "./datasets/swapped_small_nc3/val",
-                    "data_flist": "./datasets/swapped_small_nc3/val"
-                    // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc3/flist/test.flist"
+                    "data_root": "./datasets/mr2ct_palette_nc1/val",
+                    "data_flist": "./datasets/mr2ct_palette_nc1/val"
+                    // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc1/flist/test.flist"
                 }
             },
             "dataloader":{
@@ -93,7 +93,7 @@
                     "ema_decay": 0.9999
                 },
                 "optimizers": [
-                    { "lr": 1e-4, "weight_decay": 0}
+                    { "lr": 5e-5, "weight_decay": 0}
                 ]
             }
         }, 
@@ -104,7 +104,7 @@
                     "init_type": "kaiming", // method can be [normal | xavier| xavier_uniform | kaiming | orthogonal], default is kaiming
                     "module_name": "guided_diffusion", // sr3 | guided_diffusion
                     "unet": {
-                        "in_channel": 4,
+                        "in_channel": 2,
                         "out_channel": 1,
                         "inner_channel": 64,
                         "channel_mults": [
@@ -142,7 +142,7 @@
             }
         ],
         "which_losses": [ // import designated list of losses without arguments
-            {"name": "mae_loss"} // import mse_loss() function/class from default file (default is [models/losses.py]), equivalent to { "name": "mse_loss", "args":{}}
+            {"name": "mse_loss"} // import mse_loss() function/class from default file (default is [models/losses.py]), equivalent to { "name": "mse_loss", "args":{}}
         ],
         "which_metrics": [ // import designated list of metrics without arguments
             {"name": "mae"}, // import mae() function/class from default file (default is [models/metrics.py]), equivalent to { "name": "mae", "args":{}}
