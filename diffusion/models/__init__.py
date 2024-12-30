@@ -1,13 +1,15 @@
 from core.praser import init_obj
 
 def create_model(**cfg_model):
+    logger.info(f"Initial configuration: {cfg_model}")
+
     """ create_model """
     opt = cfg_model['opt']
     logger = cfg_model['logger']
 
     model_opt = opt['model']['which_model']
     model_opt['args'].update(cfg_model)
-    print("creating model")
+
     model = init_obj(model_opt, logger, default_file_name='models.model', init_type='Model')
 
     return model
