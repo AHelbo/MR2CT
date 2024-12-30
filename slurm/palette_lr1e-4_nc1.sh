@@ -15,7 +15,7 @@ cd ../diffusion
 
 # Remove or comment out the 'module load pytorch' as it's unnecessary
 
-module load pytorch
+#module load pytorch
 
 module load cuda
 
