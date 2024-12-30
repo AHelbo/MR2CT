@@ -58,17 +58,17 @@ def main_worker(gpu, ngpus_per_node, opt):
 
     phase_logger.info("Test log message")
 
-    model = create_model(
-        opt = opt,
-        networks = networks,
-        phase_loader = phase_loader,
-        val_loader = val_loader,
-        losses = losses,
-        metrics = metrics,
-        logger = phase_logger,
-        writer = phase_writer
-    )
-    
+    # model = create_model(
+    #     opt = opt,
+    #     networks = networks,
+    #     phase_loader = phase_loader,
+    #     val_loader = val_loader,
+    #     losses = losses,
+    #     metrics = metrics,
+    #     logger = phase_logger,
+    #     writer = phase_writer
+    # )
+
 
     phase_logger.info('Begin model {}.'.format(opt['phase']))
     try:
