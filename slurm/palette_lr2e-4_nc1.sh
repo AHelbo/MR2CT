@@ -11,23 +11,23 @@ echo $CUDA_VISIBLE_DEVICES
 
 echo "Training:"
 
-cd ..
+cd ../diffusion
 
-cd diffusion
-
-module load pytorch
+# Remove or comment out the 'module load pytorch' as it's unnecessary
+# module load pytorch
 
 module load cuda
 
-source pal_env/bin/activate
+# Activate the virtual environment
+source /home/pjf246/PALETTE/pal_env/bin/activate
 
-echo $VIRTUAL_ENV
+echo "Activated virtual environment: $VIRTUAL_ENV"
 
-which python3
+# Check which Python is being used
+echo "Using Python from: $(which python3)"
+echo "Using pip from: $(which pip)"
 
-which pip
-
-python3 -m pip show Pillow
-
+# Ensure Pillow is installed in the virtual environment
+python3 -m pip show Pillow || python3 -m pip install Pillow
 
 python3 run.py -p train -c config/mr2ct_lr2e-4_nc1.json
