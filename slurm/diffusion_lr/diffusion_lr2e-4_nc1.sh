@@ -9,7 +9,7 @@ echo "PREPPING CLUSTER:"
 echo "using gpus:"
 echo $CUDA_VISIBLE_DEVICES
 
-cd ../diffusion
+cd ~/diffusion
 
 module load cuda
 
