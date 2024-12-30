@@ -21,5 +21,6 @@ data/*cycleGan*/
 diffusion/datasets/*
 GAN/datasets/*
 
-# Ignore folder (for previous hendrix files
+# Ignore folder (for previous pojects and ucph files on hendrix)
 ignore/*
+ucph/*
