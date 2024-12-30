@@ -14,12 +14,13 @@ echo "Training:"
 cd ../diffusion
 
 # Remove or comment out the 'module load pytorch' as it's unnecessary
-# module load pytorch
+
+module load pytorch
 
 module load cuda
 
 # Activate the virtual environment
-source /home/pjf246/PALETTE/pal_env/bin/activate
+source pal_env/bin/activate
 
 echo "Activated virtual environment: $VIRTUAL_ENV"
 
@@ -30,5 +31,4 @@ echo "Using pip from: $(which pip)"
 # Ensure Pillow is installed in the virtual environment
 python3 -m pip show Pillow || python3 -m pip install Pillow
 
-# Run the training script
 python3 run.py -p train -c config/mr2ct_lr1e-4_nc1.json
