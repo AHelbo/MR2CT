@@ -38,6 +38,7 @@ class BaseModel():
     def train(self):
         while self.epoch <= self.opt['train']['n_epoch'] and self.iter <= self.opt['train']['n_iter']:
             self.epoch += 1
+            print(f"Current epoch: {self.epoch}")
             if self.opt['distributed']:
                 ''' sets the epoch for this sampler. When :attr:`shuffle=True`, this ensures all replicas use a different random ordering for each epoch '''
                 self.phase_loader.sampler.set_epoch(self.epoch) 
