@@ -7,6 +7,7 @@ def create_model(**cfg_model):
 
     model_opt = opt['model']['which_model']
     model_opt['args'].update(cfg_model)
+    print("creating model")
     model = init_obj(model_opt, logger, default_file_name='models.model', init_type='Model')
 
     return model
