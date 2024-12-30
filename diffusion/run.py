@@ -56,6 +56,8 @@ def main_worker(gpu, ngpus_per_node, opt):
     metrics = [define_metric(phase_logger, item_opt) for item_opt in opt['model']['which_metrics']]
     losses = [define_loss(phase_logger, item_opt) for item_opt in opt['model']['which_losses']]
 
+    phase_logger.info("Test log message")
+
     model = create_model(
         opt = opt,
         networks = networks,
