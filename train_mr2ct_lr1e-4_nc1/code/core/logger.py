@@ -99,6 +99,7 @@ class VisualWriter():
         self.iter = iter
 
     def save_images(self, results):
+        print(results)
         result_path = os.path.join(self.result_dir, self.phase)
         os.makedirs(result_path, exist_ok=True)
         result_path = os.path.join(result_path, str(self.epoch))

@@ -7,8 +7,6 @@ import numpy as np
 
 from .util.mask import (bbox2mask, brush_stroke_mask, get_irregular_mask, random_bbox, random_cropping_bbox)
 
-from tifffile import imread, imwrite
-
 IMG_EXTENSIONS = [
     '.jpg', '.JPG', '.jpeg', '.JPEG',
     '.png', '.PNG', '.ppm', '.PPM', '.bmp', '.BMP',
@@ -32,7 +30,6 @@ def make_dataset(dir):
     return images
 
 def pil_loader(path):
-    return imread(path)
     return Image.open(path).convert('RGB')
 
 def get_conditional_filenames(flist):
