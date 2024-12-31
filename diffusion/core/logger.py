@@ -5,6 +5,8 @@ from datetime import datetime
 import logging
 import pandas as pd
 
+from tifffile import imread, imwrite
+
 import core.util as Util
 
 class InfoLogger():
@@ -109,7 +111,8 @@ class VisualWriter():
             names = results['name']
             outputs = Util.postprocess(results['result'])
             for i in range(len(names)): 
-                Image.fromarray(outputs[i]).save(os.path.join(result_path, names[i]))
+                imwrite(os.path.join(result_path, names[i]),outputs[i])
+                #Image.fromarray(outputs[i]).save(os.path.join(result_path, names[i]))
         except:
             raise NotImplementedError('You must specify the context of name and result in save_current_results functions of model.')
 
