@@ -6,19 +6,13 @@ import time
 from . import util, html
 from subprocess import Popen, PIPE
 
-
-try: #This is not in use...
-    import wandb
-except ImportError:
-    print('Warning: wandb package cannot be found. The option "--use_wandb" will result in error.')
-
 if sys.version_info[0] == 2:
     VisdomExceptionBase = Exception
 else:
     VisdomExceptionBase = ConnectionError
 
 
-def save_images(webpage, visuals, image_path, aspect_ratio=1.0, width=256, use_wandb=False):
+def save_images(webpage, visuals, image_path, aspect_ratio=1.0, width=256):
     """Save images to the disk.
 
     Parameters:
@@ -46,11 +40,7 @@ def save_images(webpage, visuals, image_path, aspect_ratio=1.0, width=256, use_w
         ims.append(image_name)
         txts.append(label)
         links.append(image_name)
-        if use_wandb:
-            ims_dict[label] = wandb.Image(im)
     webpage.add_images(ims, txts, links, width=width)
-    if use_wandb:
-        wandb.log(ims_dict)
 
 
 class Visualizer():
@@ -76,8 +66,6 @@ class Visualizer():
         self.name = opt.name
         self.port = opt.display_port
         self.saved = False
-        self.use_wandb = opt.use_wandb
-        self.wandb_project_name = opt.wandb_project_name
         self.current_epoch = 0
         self.ncols = opt.display_ncols
 
@@ -86,10 +74,6 @@ class Visualizer():
             self.vis = visdom.Visdom(server=opt.display_server, port=opt.display_port, env=opt.display_env)
             if not self.vis.check_connection():
                 self.create_visdom_connections()
-
-        if self.use_wandb:
-            self.wandb_run = wandb.init(project=self.wandb_project_name, name=opt.name, config=opt) if not wandb.run else wandb.run
-            self.wandb_run._label(repo='CycleGAN-and-pix2pix')
 
         if self.use_html:  # create an HTML object at <checkpoints_dir>/web/; images will be saved under <checkpoints_dir>/web/images/
             self.web_dir = os.path.join(opt.checkpoints_dir, opt.name, 'web')
@@ -171,23 +155,6 @@ class Visualizer():
                 except VisdomExceptionBase:
                     self.create_visdom_connections()
 
-        if self.use_wandb:
-            columns = [key for key, _ in visuals.items()]
-            columns.insert(0, 'epoch')
-            result_table = wandb.Table(columns=columns)
-            table_row = [epoch]
-            ims_dict = {}
-            for label, image in visuals.items():
-                image_numpy = util.tensor2im(image)
-                wandb_image = wandb.Image(image_numpy)
-                table_row.append(wandb_image)
-                ims_dict[label] = wandb_image
-            self.wandb_run.log(ims_dict)
-            if epoch != self.current_epoch:
-                self.current_epoch = epoch
-                result_table.add_data(*table_row)
-                self.wandb_run.log({"Result": result_table})
-
         if self.use_html and (save_result or not self.saved):  # save images to an HTML file if they haven't been saved.
             self.saved = True
             # save images to the disk
@@ -235,8 +202,6 @@ class Visualizer():
                 win=self.display_id)
         except VisdomExceptionBase:
             self.create_visdom_connections()
-        if self.use_wandb:
-            self.wandb_run.log(losses)
 
     # losses: same format as |losses| of plot_current_losses
     def print_current_losses(self, epoch, iters, losses, t_comp, t_data):
