@@ -2,6 +2,8 @@ import os
 from data.base_dataset import BaseDataset, get_params, get_transform
 from data.image_folder import make_dataset
 from PIL import Image
+import tifffile
+import numpy as np
 
 
 class AlignedDataset(BaseDataset):
@@ -28,8 +30,7 @@ class AlignedDataset(BaseDataset):
         self.output_nc = self.opt.input_nc if self.opt.direction == 'BtoA' else self.opt.output_nc
 
         # get length of val_data
-        self.val_length = len([elm for elm in os.listdir(os.path.join(opt.dataroot, "val")) if elm.split(".")[-1] == "png"])  # get the image directory
-
+        self.val_length = len([elm for elm in os.listdir(os.path.join(opt.dataroot, "val")) if elm.split(".")[-1] == "tiff"])  # get the image directory
 
     def __getitem__(self, index):
         """Return a data point and its metadata information.
@@ -45,15 +46,13 @@ class AlignedDataset(BaseDataset):
         """
         # read a image given a random integer index
         AB_path = self.AB_paths[index]
-        AB = Image.open(AB_path).convert('RGB')
-        # split AB image into A and B
-        w, h = AB.size
-        w2 = int(w / 2)
-        A = AB.crop((0, 0, w2, h))
-        B = AB.crop((w2, 0, w, h))
+        AB = tifffile.imread(AB_path)
+        mid_index = AB.shape[1] // 2
+        A = AB[:, :mid_index]
+        B = AB[:, mid_index:]
 
         # apply the same transform to both A and B
-        transform_params = get_params(self.opt, A.size)
+        transform_params = get_params(self.opt, A.shape)
         A_transform = get_transform(self.opt, transform_params, grayscale=(self.input_nc == 1))
         B_transform = get_transform(self.opt, transform_params, grayscale=(self.output_nc == 1))
 
@@ -64,16 +63,14 @@ class AlignedDataset(BaseDataset):
         # validation set
         index_val = index % self.val_length
         val_AB_path = self.val_AB_paths[index_val]
-        val_AB = Image.open(val_AB_path).convert('RGB')
-
-        # split val_AB image into val_A and val_B
-        w, h = val_AB.size
-        w2 = int(w / 2)
-        val_A = val_AB.crop((0, 0, w2, h))
-        val_B = val_AB.crop((w2, 0, w, h))
+        val_AB = tifffile.imread(val_AB_path)
+        mid_index = val_AB.shape[1] // 2
+        val_A = val_AB[:, :mid_index]
+        val_B = val_AB[:, mid_index:]
 
         # apply the same transform to both val_a and val_B that was applied to A and B
-        transform_params = get_params(self.opt, val_A.size)
+        transform_params = get_params(self.opt, val_A.shape)
+
         A_transform = get_transform(self.opt, transform_params, grayscale=(self.input_nc == 1))
         B_transform = get_transform(self.opt, transform_params, grayscale=(self.output_nc == 1))
         val_A = A_transform(val_A)

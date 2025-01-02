@@ -8,6 +8,7 @@ import torch.utils.data as data
 from PIL import Image
 import torchvision.transforms as transforms
 from abc import ABC, abstractmethod
+import numpy as np
 
 
 class BaseDataset(data.Dataset, ABC):
