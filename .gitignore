@@ -13,13 +13,20 @@
 
 # Ignore dataset folders 
 data/*pix2pix*/
-data/*CUT*/
 data/*Palette*/
-data/*cycleGan*/
 
 # Ignore datasets in LOCAL_HENDRIX folder
 diffusion/datasets/*
+!diffusion/datasets/
 GAN/datasets/*
+!GAN/datasets/
+
+
+# Ignore results, but keep the directories
+diffusion/experiments/*
+!diffusion/experiments/
+GAN/checkpoints/*
+!GAN/checkpoints/
 
 # Ignore folder (for previous pojects and ucph files on hendrix)
 ignore/*
