@@ -2,11 +2,8 @@ import cv2
 import os
 import sys
 import time
-import shutil
-from files2txt2files import read_list_from_file
 import numpy as np
 import tifffile
-from PIL import Image
 
 def concat_tiff_horizontally(tiff_path1, tiff_path2):
     array1 = tifffile.imread(tiff_path1)

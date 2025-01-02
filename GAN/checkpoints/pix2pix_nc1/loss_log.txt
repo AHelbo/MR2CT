@@ -340,3 +340,25 @@
 (epoch: 6, iters: 1000, time: 0.280, data: 0.001) G_GAN: 0.740 G_L1: 0.025 D_real: 0.693 D_fake: 0.678 val_G_GAN: 0.785 val_G_L1: 0.058 SSIM: 0.722 PSNR: 23.237 
 (epoch: 6, iters: 1100, time: 0.280, data: 0.000) G_GAN: 0.719 G_L1: 0.030 D_real: 0.761 D_fake: 0.642 val_G_GAN: 0.630 val_G_L1: 0.055 SSIM: 0.758 PSNR: 20.784 
 (epoch: 6, iters: 1200, time: 0.278, data: 0.000) G_GAN: 0.686 G_L1: 0.027 D_real: 0.768 D_fake: 0.662 val_G_GAN: 0.564 val_G_L1: 0.051 SSIM: 0.723 PSNR: 21.941 
+================ Training Loss (Thu Jan  2 23:41:32 2025) ================
+(epoch: 1, iters: 100, time: 0.854, data: 11.125) G_GAN: 1.091 G_L1: 0.679 D_real: 1.122 D_fake: 0.617 val_G_GAN: 0.887 val_G_L1: 0.732 SSIM: 0.026 PSNR: 8.715 
+(epoch: 1, iters: 200, time: 0.720, data: 0.002) G_GAN: 0.986 G_L1: 0.576 D_real: 1.048 D_fake: 0.751 val_G_GAN: 0.909 val_G_L1: 0.674 SSIM: 0.025 PSNR: 9.059 
+(epoch: 1, iters: 300, time: 0.614, data: 0.003) G_GAN: 0.943 G_L1: 0.535 D_real: 0.868 D_fake: 0.646 val_G_GAN: 0.815 val_G_L1: 0.597 SSIM: 0.047 PSNR: 11.620 
+(epoch: 1, iters: 400, time: 0.440, data: 0.001) G_GAN: 0.891 G_L1: 0.497 D_real: 0.785 D_fake: 0.659 val_G_GAN: 0.804 val_G_L1: 0.566 SSIM: 0.061 PSNR: 13.045 
+(epoch: 1, iters: 500, time: 0.362, data: 0.001) G_GAN: 0.900 G_L1: 0.481 D_real: 0.698 D_fake: 0.672 val_G_GAN: 0.863 val_G_L1: 0.512 SSIM: 0.075 PSNR: 12.777 
+(epoch: 1, iters: 600, time: 0.295, data: 0.003) G_GAN: 0.919 G_L1: 0.412 D_real: 0.662 D_fake: 0.654 val_G_GAN: 0.852 val_G_L1: 0.459 SSIM: 0.065 PSNR: 13.409 
+(epoch: 1, iters: 700, time: 0.396, data: 0.001) G_GAN: 0.898 G_L1: 0.328 D_real: 0.689 D_fake: 0.668 val_G_GAN: 0.879 val_G_L1: 0.376 SSIM: 0.075 PSNR: 13.508 
+(epoch: 1, iters: 800, time: 0.347, data: 0.001) G_GAN: 0.894 G_L1: 0.292 D_real: 0.677 D_fake: 0.681 val_G_GAN: 0.896 val_G_L1: 0.318 SSIM: 0.080 PSNR: 12.531 
+================ Training Loss (Thu Jan  2 23:45:43 2025) ================
+(epoch: 1, iters: 100, time: 0.348, data: 5.985) G_GAN: 0.803 G_L1: 0.671 D_real: 0.836 D_fake: 0.881 val_G_GAN: 0.659 val_G_L1: 0.745 SSIM: 0.016 PSNR: 7.477 
+(epoch: 1, iters: 200, time: 0.332, data: 0.002) G_GAN: 0.908 G_L1: 0.581 D_real: 0.756 D_fake: 0.863 val_G_GAN: 0.633 val_G_L1: 0.669 SSIM: 0.018 PSNR: 8.595 
+(epoch: 1, iters: 300, time: 0.328, data: 0.000) G_GAN: 0.810 G_L1: 0.552 D_real: 0.779 D_fake: 0.781 val_G_GAN: 0.577 val_G_L1: 0.644 SSIM: 0.037 PSNR: 11.457 
+(epoch: 1, iters: 400, time: 0.334, data: 0.001) G_GAN: 0.787 G_L1: 0.423 D_real: 0.694 D_fake: 0.777 val_G_GAN: 0.635 val_G_L1: 0.592 SSIM: 0.103 PSNR: 13.574 
+(epoch: 1, iters: 500, time: 0.336, data: 0.000) G_GAN: 0.851 G_L1: 0.442 D_real: 0.648 D_fake: 0.725 val_G_GAN: 0.627 val_G_L1: 0.521 SSIM: 0.116 PSNR: 13.059 
+(epoch: 1, iters: 600, time: 0.313, data: 0.000) G_GAN: 0.866 G_L1: 0.428 D_real: 0.612 D_fake: 0.712 val_G_GAN: 0.648 val_G_L1: 0.459 SSIM: 0.116 PSNR: 14.967 
+(epoch: 1, iters: 700, time: 0.325, data: 0.001) G_GAN: 0.919 G_L1: 0.343 D_real: 0.630 D_fake: 0.670 val_G_GAN: 0.838 val_G_L1: 0.378 SSIM: 0.134 PSNR: 12.443 
+================ Training Loss (Thu Jan  2 23:49:36 2025) ================
+(epoch: 1, iters: 100, time: 0.348, data: 5.920) G_GAN: 0.758 G_L1: 0.670 D_real: 0.508 D_fake: 1.251 val_G_GAN: 0.510 val_G_L1: 0.740 SSIM: 0.027 PSNR: 8.474 
+(epoch: 1, iters: 200, time: 0.391, data: 0.001) G_GAN: 0.579 G_L1: 0.554 D_real: 0.691 D_fake: 1.173 val_G_GAN: 0.387 val_G_L1: 0.674 SSIM: 0.022 PSNR: 8.140 
+(epoch: 1, iters: 300, time: 0.331, data: 0.001) G_GAN: 0.650 G_L1: 0.524 D_real: 0.495 D_fake: 1.046 val_G_GAN: 0.400 val_G_L1: 0.603 SSIM: 0.036 PSNR: 10.852 
+(epoch: 1, iters: 400, time: 0.343, data: 0.001) G_GAN: 0.710 G_L1: 0.454 D_real: 0.532 D_fake: 0.983 val_G_GAN: 0.426 val_G_L1: 0.550 SSIM: 0.079 PSNR: 13.324 

@@ -76,7 +76,7 @@ if [[ $model == "pix2pix" ]]; then
     # concate from raw to temp
     python3 create_pix2pix.py "$MAKEDATA_DIR/Input_data" "$TEMP_DIR" $input_channels
 
-    TARGET_DIR="$MAKEDATA_DIR/pix2pix_tiff_nc$input_channels"
+    TARGET_DIR="$MAKEDATA_DIR/pix2pix_nc$input_channels"
 
     # if mr2ct_pix2pix_nc1 exists, delete it, then create it
     if [ -d "$TARGET_DIR" ]; then

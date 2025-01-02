@@ -1,12 +1,10 @@
 import glob
 import os
-from PIL import Image
 import nibabel 
 import time
 import sys
 import shutil
-from files2txt2files import read_list_from_file, save_list_to_file
-import json
+from files2txt2files import read_list_from_file
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd

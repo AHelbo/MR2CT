@@ -3,10 +3,7 @@ import os
 import sys
 import time
 import numpy as np
-from files2txt2files import read_list_from_file
-from PIL import Image
 from tifffile import imread, imwrite
-
 import gc
 
 

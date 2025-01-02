@@ -1,11 +1,9 @@
 import torch.utils.data as data
 from torchvision import transforms
-from PIL import Image
 import os
-import torch
 import numpy as np
 
-from tifffile import imread, imwrite
+from tifffile import imread
 
 IMG_EXTENSIONS = [
     '.jpg', '.JPG', '.jpeg', '.JPEG',

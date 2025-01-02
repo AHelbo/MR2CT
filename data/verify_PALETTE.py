@@ -1,11 +1,5 @@
 import os
-import random
-import numpy as np
-import shutil
 import sys
-import time
-from files2txt2files import read_list_from_file
-import filecmp
 
 
 def verify(A_dir, B_dir):

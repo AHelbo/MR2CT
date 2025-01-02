@@ -1,5 +1,4 @@
 import os
-import numpy as np
 import shutil
 import sys
 import time
@@ -25,11 +24,11 @@ def split(input_folder, target_folder, data_split):
     test_set = [elm for elm in all_data if elm.split("-")[0] in test_pids]
 
     for elm in train_set:
-        shutil.copy(os.path.join(input_folder, elm), os.path.join(target_folder, "train", elm))
+        shutil.move(os.path.join(input_folder, elm), os.path.join(target_folder, "train", elm))
     for elm in val_set:
-        shutil.copy(os.path.join(input_folder, elm), os.path.join(target_folder, "val", elm))
+        shutil.move(os.path.join(input_folder, elm), os.path.join(target_folder, "val", elm))
     for elm in test_set:
-        shutil.copy(os.path.join(input_folder, elm), os.path.join(target_folder, "test", elm))        
+        shutil.move(os.path.join(input_folder, elm), os.path.join(target_folder, "test", elm))        
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:

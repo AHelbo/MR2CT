@@ -1,11 +1,10 @@
 import os
-from PIL import Image
 import importlib
 from datetime import datetime
 import logging
 import pandas as pd
 
-from tifffile import imread, imwrite
+from tifffile import imwrite
 
 import core.util as Util
 

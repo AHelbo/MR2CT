@@ -2,7 +2,6 @@ import glob
 import os
 import nibabel 
 import time
-from PIL import Image
 import sys
 import shutil
 from files2txt2files import read_list_from_file
