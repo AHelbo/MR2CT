@@ -3,9 +3,9 @@ from torch import nn
 from torch.autograd import Variable
 from torch.nn import functional as F
 import torch.utils.data
-
+from skimage.metrics import structural_similarity
+from skimage.metrics import peak_signal_noise_ratio
 from torchvision.models.inception import inception_v3
-
 import numpy as np
 from scipy.stats import entropy
 
@@ -21,35 +21,23 @@ def mse(input, target):
         output = loss(input, target)
     return output
 
-from skimage.metrics import structural_similarity
-from skimage.metrics import peak_signal_noise_ratio
+def normalize_image(image):
+    image_arr = image.cpu().detach().numpy().mean(axis=0, keepdims=True).squeeze(0).transpose(1, 2, 0)
+    return (image_arr - image_arr.min()) / (image_arr.max() - image_arr.min())
 
-def SSIM(A,B):
-    A_arr = A.cpu().detach().numpy().mean(axis=0,keepdims=True).squeeze(0).transpose(1, 2, 0)
+def SSIM(A, B):
+    A_normalized = normalize_image(A)
+    B_normalized = normalize_image(B)
 
-    A = ((A_arr - A_arr.min()) / (A_arr.max() - A_arr.min())) * 255
+    d_range = max(A_normalized.max(), B_normalized.max()) - min(A_normalized.min(), B_normalized.min())
+    return structural_similarity(A_normalized, B_normalized, data_range=d_range, multichannel=True)
 
-    B_arr = B.cpu().detach().numpy().mean(axis=0,keepdims=True).squeeze(0).transpose(1, 2, 0)
+def PSNR(A, B):
+    A_normalized = normalize_image(A)
+    B_normalized = normalize_image(B)
 
-    B = ((B_arr - B_arr.min()) / (B_arr.max() - B_arr.min())) * 255
-
-    d_range = max(A.max(),B.max())-min(A.min(),B.min())
-
-    ssim = structural_similarity(A,B,data_range=d_range,multichannel=True)
-
-    return ssim
-
-def PSNR(A,B):
-    A_arr = A.cpu().detach().numpy().mean(axis=0,keepdims=True).squeeze(0).transpose(1, 2, 0)
-    A = ((A_arr - A_arr.min()) / (A_arr.max() - A_arr.min())) * 255
-
-    B_arr = B.cpu().detach().numpy().mean(axis=0,keepdims=True).squeeze(0).transpose(1, 2, 0)
-    B = ((B_arr - B_arr.min()) / (B_arr.max() - B_arr.min())) * 255
-
-    d_range = max(A.max(),B.max())-min(A.min(),B.min())
-
-    return peak_signal_noise_ratio(A,B,data_range=d_range)
-
+    d_range = max(A_normalized.max(), B_normalized.max()) - min(A_normalized.min(), B_normalized.min())
+    return peak_signal_noise_ratio(A_normalized, B_normalized, data_range=d_range)
 
 def inception_score(imgs, cuda=True, batch_size=32, resize=False, splits=1):
     """Computes the inception score of the generated images imgs

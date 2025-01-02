@@ -1,0 +1,1 @@
+python3 run.py -p train -c config/sandbox.json
