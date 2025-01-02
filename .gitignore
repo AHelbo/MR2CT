@@ -24,3 +24,6 @@ GAN/datasets/*
 # Ignore folder (for previous pojects and ucph files on hendrix)
 ignore/*
 ucph/*
+
+# Ignore python cache
+*.pyc
