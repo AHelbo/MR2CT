@@ -58,7 +58,7 @@ class MR2CTDataset(data.Dataset):
         self.tfs_single = transforms.Compose([
                 transforms.ToTensor(),
                 transforms.Resize((image_size[0], image_size[1])),
-                transforms.Grayscale(num_output_channels=1),
+                #transforms.Grayscale(num_output_channels=1),
                 transforms.Normalize(mean=[0.5], std=[0.5])
         ])
 
