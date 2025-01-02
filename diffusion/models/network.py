@@ -94,15 +94,6 @@ class Network(BaseNetwork):
         # y_t = default(y_t, lambda: torch.randn_like(y_cond)) 
         y_t = default(y_t, lambda: torch.randn(b, 1, *y_cond.shape[2:], device=y_cond.device)) 
         
-        shape_of_y_cond = y_cond.shape
-        print("Shape of y_cond:", shape_of_y_cond)     
-        shape_of_y_t = y_t.shape
-        print("Shape of y_t:", shape_of_y_t)            
-
-        print(y_cond.device)
-        print(y_t.device)
-
-
         ret_arr = y_t
         
         for i in tqdm(reversed(range(0, self.num_timesteps)), desc='sampling loop time step', total=self.num_timesteps):
