@@ -3,7 +3,6 @@
 *.pth
 *.state
 *.tiff
-*.png
 *.nii.gz
 *.nii
 *.gz
@@ -11,16 +10,14 @@
 # Ignore Mac system files
 .DS_Store
 
-# Ignore dataset folders 
-data/*pix2pix*/
-data/*Palette*/
-
 # Ignore datasets in LOCAL_HENDRIX folder
 diffusion/datasets/*
 !diffusion/datasets/
-GAN/datasets/*
-!GAN/datasets/
 
+#Ignore data but keep raw_data folder
+datasets/mr2ct_nc*
+datasets/raw_data/*
+!datasets/raw_data/
 
 # Ignore results, but keep the directories
 diffusion/experiments/*
@@ -28,7 +25,7 @@ diffusion/experiments/*
 GAN/checkpoints/*
 !GAN/checkpoints/
 
-# Ignore folder (for previous pojects and ucph files on hendrix)
+# Ignore folder (for previous projects and ucph files on hendrix)
 ignore/*
 ucph/*
 
