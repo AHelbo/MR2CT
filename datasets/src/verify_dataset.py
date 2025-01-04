@@ -30,3 +30,9 @@ def verify_dataset():
         print_hierarchical("Verification completed succesfully!",1)
     else:
         print_hierarchical("Verification failed, some data is misaligned.",1)
+
+def main():
+    verify_dataset()
+
+if __name__ == "__main__":
+    main()
