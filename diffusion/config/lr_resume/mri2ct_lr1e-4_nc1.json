@@ -10,8 +10,8 @@
         "tb_logger": "tb_logger", // path of tensorboard logger
         "results": "results",
         "checkpoint": "checkpoint",
-        // "resume_state": "experiments/inpainting_places2_220413_143231/checkpoint/25" 
-        "resume_state": null // ex: 100, loading .state  and .pth from given epoch and iteration
+        // "resume_state": "experiments/mri2ct_lr1e-4_nc1/checkpoint/80",
+        "resume_state": 80 // ex: 100, loading .state  and .pth from given epoch and iteration
     },
 
     "datasets": { // train or test 

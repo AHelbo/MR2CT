@@ -3,7 +3,6 @@ python3 train.py \
   --dataroot ../datasets/mri2ct_nc1 \
   --input_nc 1 \
   --output_nc 1 \
-  --load_size 256 \
   --norm batch \
   --batch_size 10 \
   --lr 0.00005 \
