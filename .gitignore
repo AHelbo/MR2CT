@@ -15,7 +15,7 @@ diffusion/datasets/*
 !diffusion/datasets/
 
 #Ignore data but keep raw_data folder
-datasets/mr2ct_nc*
+datasets/mri2ct_nc*
 datasets/raw_data/*
 !datasets/raw_data/
 

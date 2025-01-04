@@ -40,7 +40,7 @@ def get_conditional_filenames(flist):
     return unique_filenames_list
 
 
-class MR2CTDataset(data.Dataset):
+class MRI2CTDataset(data.Dataset):
     def __init__(self, data_root, data_flist, data_len=-1, image_size=[256, 256], loader=pil_loader):
 
         self.data_root = data_root
@@ -81,7 +81,7 @@ class MR2CTDataset(data.Dataset):
         elif (self.in_channel == 4): # grayscale gt + rgb cond = 4 channels
             cond_image = self.tfs_triple(self.loader('{}/{}/{}'.format(self.data_root, 'A', file_name)))
         else:
-            raise Exception("When using MR2CTDataset set_in_channel must be called before sampling to set number of channels in cond img")
+            raise Exception("When using MRI2CTDataset set_in_channel must be called before sampling to set number of channels in cond img")
 
         ret['gt_image'] = gt_img
         ret['cond_image'] = cond_image
@@ -93,7 +93,7 @@ class MR2CTDataset(data.Dataset):
     
     def set_in_channel(self, nc):
         if (nc != 2 and nc != 4):
-            raise Exception("MR2CTDataset only supports 2 or 4 channels in output")
+            raise Exception("MRI2CTDataset only supports 2 or 4 channels in output")
         self.in_channel = nc
 
 

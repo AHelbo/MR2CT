@@ -20,4 +20,4 @@ echo "Using Python from: $(which python3)"
 echo "Using pip from: $(which pip)"
 
 echo "RUNNING SCRIPT:"
-python3 run.py -p train -c config/mr2ct_lr1e-4_nc1.json
+python3 run.py -p train -c config/mri2ct_lr1e-4_nc1.json

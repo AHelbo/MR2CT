@@ -9,7 +9,7 @@ from src.verify_dataset import verify_dataset
 from src.zip_dataset import zip_dataset
 
 def main():
-    print(f"Creating {'single' if NC == 1 else 'multi'}-channel MR2CT dataset:")
+    print(f"Creating {'single' if NC == 1 else 'multi'}-channel MRI2CT dataset:")
     print_hierarchical(f"# of cond image channels: {NC}",1)
     print_hierarchical(f"Exclude bad data: {EXCLUDE_BAD_DATA}",1)
 
@@ -33,7 +33,7 @@ def main():
     print("\nZipping files:")
     zip_dataset()
 
-    print(f"\033[92m\nSuccessfully created {'single' if NC == 1 else 'multi'}-channel MR2CT dataset. Total time elapsed: {(time()-start_time)/60:.2f} minutes\033[0m")
+    print(f"\033[92m\nSuccessfully created {'single' if NC == 1 else 'multi'}-channel MRI2CT dataset. Total time elapsed: {(time()-start_time)/60:.2f} minutes\033[0m")
     print(f"\033[92m{OUTPUT_DIR}\033[0m")
 
 if __name__ == "__main__":

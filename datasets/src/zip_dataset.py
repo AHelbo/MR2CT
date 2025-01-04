@@ -4,7 +4,7 @@ from config import OUTPUT_DIR, NC
 from src.utils import print_hierarchical
 
 def zip_dataset():  
-    zip_path = os.path.join(OUTPUT_DIR, f"mr2ct_nc{NC}.zip")
+    zip_path = os.path.join(OUTPUT_DIR, f"mri2ct_nc{NC}.zip")
     try:
         with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
             for root, _, files in os.walk(OUTPUT_DIR):

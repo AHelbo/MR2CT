@@ -9,7 +9,7 @@ GLOBAL_CT_MAX = 2000
 # Directories
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 INPUT_DIR = os.path.join(BASE_DIR, "raw_data")
-OUTPUT_DIR = os.path.join(BASE_DIR, f"mr2ct_nc{NC}")
+OUTPUT_DIR = os.path.join(BASE_DIR, f"mri2ct_nc{NC}")
 
 # Filters
 DATA_SPLIT = os.path.join(BASE_DIR, "src", "filters", "data_split.txt")

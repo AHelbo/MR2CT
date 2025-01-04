@@ -36,9 +36,9 @@ def main_worker(gpu, ngpus_per_node, opt):
     '''set networks and dataset'''
     networks = [define_network(phase_logger, opt, item_opt) for item_opt in opt['model']['which_networks']]
 
-    # if this is mr2ct we set channel
-    if (opt["datasets"]["train"]["which_dataset"]["name"][1] == "MR2CTDataset"):
-        print("MR2CTDataset dataset selected") #TODO
+    # if this is mri2ct we set channel
+    if (opt["datasets"]["train"]["which_dataset"]["name"][1] == "MRI2CTDataset"):
+        print("MRI2CTDataset dataset selected") #TODO
         nc = opt["model"]["which_networks"][0]["args"]["unet"]["in_channel"]
     else:
         nc = -1
@@ -80,7 +80,7 @@ def main_worker(gpu, ngpus_per_node, opt):
         
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-c', '--config', type=str, default='config/mr2ct_nc1.json', help='JSON file for configuration')
+    parser.add_argument('-c', '--config', type=str, default='config/mri2ct_nc1.json', help='JSON file for configuration')
     parser.add_argument('-p', '--phase', type=str, choices=['train','test'], help='Run train or test', default='train')
     parser.add_argument('-b', '--batch', type=int, default=None, help='Batch size in every gpu')
     parser.add_argument('-gpu', '--gpu_ids', type=str, default=None)

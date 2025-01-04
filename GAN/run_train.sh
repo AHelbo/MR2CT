@@ -1,6 +1,6 @@
 python3 train.py \
   --name GAN_nc1 \
-  --dataroot ../datasets/mr2ct_nc1 \
+  --dataroot ../datasets/mri2ct_nc1 \
   --input_nc 1 \
   --output_nc 1 \
   --load_size 256 \

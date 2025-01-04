@@ -1,19 +1,19 @@
-# MR2CT Dataset Creation Pipeline
+# MRI2CT Dataset Creation Pipeline
 
 ## Overview
 
-This tool automates the process of creating a MR2CT dataset from `.nii` files. It handles everything from resetting data, converting file formats, creating the necessary folder structures, and verifying the dataset, to zipping the final output. The tool can be configured to handle single or multi-channel images and optionally exclude bad data.
+This tool automates the process of creating a MRI2CT dataset from `.nii` files. It handles everything from resetting data, converting file formats, creating the necessary folder structures, and verifying the dataset, to zipping the final output. The tool can be configured to handle single or multi-channel images and optionally exclude bad data.
 
 ## Features
 
-- **Configurable Channel Support**: Supports single or multi-channel MR2CT dataset creation based on the `NC` configuration.
+- **Configurable Channel Support**: Supports single or multi-channel MRI2CT dataset creation based on the `NC` configuration.
 - **Bad Data Handling**: Optionally exclude bad data by setting `EXCLUDE_BAD_DATA` in the configuration.
 - **Automated Workflow**: Handles data resetting, conversion, folder structure creation, dataset creation, verification, and zipping in a seamless pipeline.
 - **Logging**: Provides hierarchical logging to trace each step of the process.
 
 ## Key Functions
 
-This script automates the process of creating a **MR2CT** dataset by processing MRI and CT images, organizing them into the appropriate folder structure, and verifying the dataset's integrity. The pipeline performs a series of steps to process the data, including:
+This script automates the process of creating a **MRI2CT** dataset by processing MRI and CT images, organizing them into the appropriate folder structure, and verifying the dataset's integrity. The pipeline performs a series of steps to process the data, including:
 1. Removes any existing dataset files and unpacks raw data.
 2. Converts the raw NIfTI files into image files.
 3. Creates the necessary folder structure for the dataset.
