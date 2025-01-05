@@ -28,5 +28,3 @@ python3 train.py \
   --input_nc 1 \
   --output_nc 1 \
   --lambda_L1 50 \
-  --gpu_ids 1
-
