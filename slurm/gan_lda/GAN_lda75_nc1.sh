@@ -1,7 +1,7 @@
 #!/bin/bash
 # normal cpu stuff: allocate cpus, memory
-#SBATCH --ntasks=1 --cpus-per-task=10 --mem=16000M
-#SBATCH -p gpu --gres=gpu:titanrtx:4
+#SBATCH --ntasks=1 --cpus-per-task=10 --mem=10000M
+#SBATCH -p gpu --gres=gpu:titanrtx:1
 #SBATCH --time=48:00:00
 
 echo "PREPPING CLUSTER:"
@@ -9,15 +9,20 @@ echo "PREPPING CLUSTER:"
 echo "using gpus:"
 echo $CUDA_VISIBLE_DEVICES
 
-cd ~/diffusion
+cd ~/GAN
 
 module load cuda
 
-source diffusion_env/bin/activate
+source gan_env/bin/activate
 
 echo "Activated virtual environment: $VIRTUAL_ENV"
 echo "Using Python from: $(which python3)"
 echo "Using pip from: $(which pip)"
 
 echo "RUNNING SCRIPT:"
-python3 run.py -p train -c config/lr_resume/mri2ct_lr1e-4_nc1.json
+
+#Run training steps
+python3 train.py \
+  --name GAN_lda75_nc1 \
+  --dataroot ../datasets/mri2ct_nc1 \
+  --lambda_L1 75 \

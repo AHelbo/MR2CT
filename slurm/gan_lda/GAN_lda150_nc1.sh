@@ -23,6 +23,6 @@ echo "RUNNING SCRIPT:"
 
 #Run training steps
 python3 train.py \
-  --name GAN_lda50_nc1 \
+  --name GAN_lda150_nc1 \
   --dataroot ../datasets/mri2ct_nc1 \
   --lambda_L1 150 \
