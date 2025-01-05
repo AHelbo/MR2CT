@@ -2,28 +2,24 @@
 # normal cpu stuff: allocate cpus, memory
 #SBATCH --ntasks=1 --cpus-per-task=10 --mem=10000M
 #SBATCH -p gpu --gres=gpu:titanrtx:1
-#SBATCH --time=1-24:00:00
+#SBATCH --time=48:00:00
 
-echo "Prepping cluster:"
+echo "PREPPING CLUSTER:"
 
 echo "using gpus:"
 echo $CUDA_VISIBLE_DEVICES
 
-echo "Training:"
-
-#Out of the scripts folder
-cd ..
-
-#Into GAN folder
-cd GAN
-
-#Activate env and ensure requirements are met
-
-module load pytorch
+cd ~/diffusion
 
 module load cuda
 
 source gan_env/bin/activate
+
+echo "Activated virtual environment: $VIRTUAL_ENV"
+echo "Using Python from: $(which python3)"
+echo "Using pip from: $(which pip)"
+
+echo "RUNNING SCRIPT:"
 
 #Run training steps
 python3 train.py \
