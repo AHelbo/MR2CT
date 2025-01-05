@@ -8,7 +8,7 @@ LOCAL_GAN_DEST="./GAN/checkpoints/"
 LOCAL_DIFFUSION_DEST="./diffusion/experiments/"
 
 # Define the rsync options
-RSYNC_OPTIONS="-avz --exclude='*.pth' --exclude='*.state'"
+RSYNC_OPTIONS="-zarv --exclude='*.pth' --exclude='*.state'"
 
 # Sync GAN checkpoints directory
 rsync $RSYNC_OPTIONS -e ssh $SOURCE_SERVER:$GAN_SOURCE $LOCAL_GAN_DEST &
