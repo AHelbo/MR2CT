@@ -25,4 +25,4 @@ echo "RUNNING SCRIPT:"
 python3 train.py \
   --name GAN_lda50_nc1 \
   --dataroot ../datasets/mri2ct_nc1 \
-  --lambda_L1 50 \
+  --lambda_L1 125 \
