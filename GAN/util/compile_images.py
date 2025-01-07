@@ -57,5 +57,5 @@ def concat_images(exp_dir):
 def compile_images(checkpoints_dir):
     checkpoints = [os.path.join(checkpoints_dir, dir) for dir in os.listdir(checkpoints_dir) if os.path.isdir(os.path.join(checkpoints_dir, dir))]
 
-    with Pool() as pool:
-        pool.map(concat_images, checkpoints)
+    for checkpoint in checkpoints:
+        concat_images(checkpoint)
