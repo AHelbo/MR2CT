@@ -12,7 +12,7 @@ def torch2imarr(tensor):
     array = tensor.detach().numpy().mean(axis=0, keepdims=True).squeeze(0).squeeze(0)
     
     # Normalize the array to range [0, 1] (cause tiff)
-    imarr = (array - array.min()) / (array.max() - array.min())
+    imarr = (array - array.min()) / (array.max() - array.min() + 1e-7)
     return imarr
 
 

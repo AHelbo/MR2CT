@@ -1,0 +1,1 @@
+python3 run.py -p test -c config/mri2ct_nc1.json

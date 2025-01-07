@@ -34,7 +34,6 @@ class PairedDataset(BaseDataset):
     def __len__(self):
         """Return the total number of images in the dataset."""
         return len(self.A_paths)
-    
 
     def get_paths(self, phase, subfolder, opt):
         """Helper function to construct directory path and retrieve sorted dataset paths."""

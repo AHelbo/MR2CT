@@ -149,6 +149,8 @@ class Pix2PixModel(BaseModel):
         self.netD.train()
         self.netG.train()
 
+    def get_val_name(self):
+        return self.val_image_paths
 
     def optimize_parameters(self):
         self.forward()                   # compute fake images: G(A)
