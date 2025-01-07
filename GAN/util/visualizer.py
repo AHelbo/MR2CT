@@ -11,6 +11,11 @@ if sys.version_info[0] == 2:
 else:
     VisdomExceptionBase = ConnectionError
 
+label_map = {
+    'fake_B': 'Out',
+    'real_A': 'Cond',
+    'real_B': 'GT'
+}
 
 def save_images(webpage, visuals, image_path, aspect_ratio=1.0, width=256):
     """Save images to the disk.
@@ -61,7 +66,8 @@ class Visualizer():
         """
         self.opt = opt  # cache the option
         self.display_id = opt.display_id
-        self.use_html = opt.isTrain and not opt.no_html
+        self.use_html = opt.isTrain and opt.make_html
+        self.store_unprocessed = not opt.no_save_images
         self.win_size = opt.display_winsize
         self.name = opt.name
         self.port = opt.display_port
@@ -80,6 +86,10 @@ class Visualizer():
             self.img_dir = os.path.join(self.web_dir, 'images')
             print('create web directory %s...' % self.web_dir)
             util.mkdirs([self.web_dir, self.img_dir])
+        if (self.store_unprocessed):
+            self.results_dir = os.path.join(opt.checkpoints_dir, opt.name, 'results', 'val')
+            util.mkdir(self.results_dir)
+            
         # create a logging file to store training losses
         self.log_name = os.path.join(opt.checkpoints_dir, opt.name, 'loss_log.txt')
         with open(self.log_name, "a") as log_file:
@@ -97,7 +107,7 @@ class Visualizer():
         print('Command: %s' % cmd)
         Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
 
-    def display_current_results(self, visuals, epoch, save_result):
+    def display_current_results(self, visuals, epoch, save_result, filename):
         """Display current results on visdom; save current results to an HTML file.
 
         Parameters:
@@ -160,7 +170,7 @@ class Visualizer():
             # save images to the disk
             for label, image in visuals.items():
                 image_numpy = util.tensor2im(image)
-                img_path = os.path.join(self.img_dir, 'epoch%.3d_%s.png' % (epoch, label))
+                img_path = os.path.join(self.img_dir, 'epoch%.3d_%s.tiff' % (epoch, label))
                 util.save_image(image_numpy, img_path)
 
             # update website
@@ -171,12 +181,22 @@ class Visualizer():
 
                 for label, image_numpy in visuals.items():
                     image_numpy = util.tensor2im(image)
-                    img_path = 'epoch%.3d_%s.png' % (n, label)
+                    img_path = 'epoch%.3d_%s.tiff' % (n, label)
                     ims.append(img_path)
                     txts.append(label)
                     links.append(img_path)
                 webpage.add_images(ims, txts, links, width=self.win_size)
             webpage.save()
+
+        if (self.store_unprocessed):
+            self.saved = True
+            for label, image in visuals.items():
+
+                image_numpy = util.tensor2im(image)
+                epoch_path = os.path.join(self.results_dir,'%s' % (epoch))
+                util.mkdir(epoch_path)
+                img_path = os.path.join(self.results_dir, '%s' % (epoch), '%s_%s' % (label_map[label],filename))
+                util.save_image(image_numpy, img_path)            
 
     def plot_current_losses(self, epoch, counter_ratio, losses):
         """display the current losses on visdom display: dictionary of error labels and values
