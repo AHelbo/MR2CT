@@ -58,4 +58,7 @@ def compile_images(checkpoints_dir):
     checkpoints = [os.path.join(checkpoints_dir, dir) for dir in os.listdir(checkpoints_dir) if os.path.isdir(os.path.join(checkpoints_dir, dir))]
 
     for checkpoint in checkpoints:
-        concat_images(checkpoint)
+        try:
+            concat_images(checkpoint)
+        except:
+            pass
