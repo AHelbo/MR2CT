@@ -61,4 +61,4 @@ def compile_images(checkpoints_dir):
         try:
             concat_images(checkpoint)
         except:
-            pass
+            print("failed to compile images")
