@@ -3,7 +3,6 @@ from PIL import Image, ImageDraw, ImageFont
 from time import time
 from tifffile import imread
 import numpy as np
-from multiprocessing import Pool
 
 COLUMNS = 8
 PADDING = 5

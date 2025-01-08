@@ -10,7 +10,7 @@ from src.zip_dataset import zip_dataset
 
 def main():
     print(f"Creating {'single' if NC == 1 else 'multi'}-channel MRI2CT dataset:")
-    print_hierarchical(f"# of cond image channels: {NC}",1)
+    print_hierarchical(f"Conditional image channels: {NC}",1)
     print_hierarchical(f"Exclude bad data: {EXCLUDE_BAD_DATA}",1)
 
     start_time = time()

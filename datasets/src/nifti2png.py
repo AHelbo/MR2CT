@@ -66,7 +66,7 @@ def nifti2png():
         for i, patient in enumerate(patients):
 
             patient_id = patient.split("/")[-1]
-            print_hierarchical(f"Processing \"{patient_id}\" ({i+1}/{len(patients)})",2)
+            print_hierarchical(f"Converting \"{patient_id}\" ({i+1}/{len(patients)})",2)
             os.chdir(patient) 
 
             #converts each scan of the patient individually
