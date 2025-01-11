@@ -75,7 +75,7 @@ class Pix2PixModel(BaseModel):
 
         # self.G_update_count = self.opt.D_update_freq - 1
         # self.G_update_count = opt.D_update_freq - 1
-        self.G_update_count = 0
+        self.G_update_count = self.opt.D_update_freq
 
     def set_input(self, input):
         """Unpack input data from the dataloader and perform necessary pre-processing steps.
@@ -155,14 +155,13 @@ class Pix2PixModel(BaseModel):
     def optimize_parameters(self):
         self.forward()                   # compute fake images: G(A)
         # update D
-        self.G_update_count += 1
         if (self.G_update_count == self.opt.D_update_freq):
             self.set_requires_grad(self.netD, True)  # enable backprop for D
             self.optimizer_D.zero_grad()     # set D's gradients to zero
             self.backward_D()                # calculate gradients for D
             self.optimizer_D.step()          # update D's weights
-
             self.G_update_count = 0
+        self.G_update_count += 1
 
         # update G
         self.set_requires_grad(self.netD, False)  # D requires no gradients when optimizing G
