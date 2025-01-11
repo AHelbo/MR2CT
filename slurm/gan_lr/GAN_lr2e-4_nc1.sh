@@ -22,4 +22,4 @@ echo "Using pip from: $(which pip)"
 echo "RUNNING SCRIPT:"
 
 #Run training steps
-python3 train.py --name GAN_dfreq_nc1 --dataroot ../datasets/mri2ct_nc1 --lambda_L1 100 --batch_size 10 --lr 0.0002
+python3 train.py --name GAN_lr2e-4_nc1 --dataroot ../datasets/mri2ct_nc1 --lambda_L1 100 --batch_size 10 --lr 0.0002
