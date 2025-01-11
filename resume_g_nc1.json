@@ -1,25 +1,27 @@
 {
-    "name": "mri2ct_L1_nc1", // experiments name
+    "name": "resume_g_nc1", // experiments name
     "gpu_ids": [0,1,2,3], // gpu ids list, default is single 0
     "seed" : -1, // random seed, seed <0 represents randomization not used 
     "finetune_norm": false, // find the parameters to optimize
 
     "path": { //set every part file path
-        "base_dir": "checkpoints", // base path for all log except resume_state
+        "base_dir": "experiments", // base path for all log except resume_state
         "code": "code", // code backup
         "tb_logger": "tb_logger", // path of tensorboard logger
         "results": "results",
-        "checkpoint": "states",
-        "resume_state": "experiments/train_mri2ct_L1_nc1/states/75"
+        "checkpoint": "checkpoint",
+        "resume_state": "experiments/g_nc1/checkpoint/240" 
+        // "resume_state": null // ex: 100, loading .state  and .pth from given epoch and iteration
     },
 
     "datasets": { // train or test 
         "train": { 
             "which_dataset": {  // import designated dataset using arguments 
-                "name": ["data.dataset", "MRI2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
+                "name": ["data.dataset", "MR2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
                 "args":{ // arguments to initialize dataset
-                    "data_root": "../datasets/mri2ct_nc1/train",
-                    "data_flist": "../datasets/mri2ct_nc1/train",
+                    "data_root": "./datasets/mr2ct_palette_nc1/train",
+                    "data_flist": "./datasets/mr2ct_palette_nc1/train",///flist",
+                    // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc1/flist/train.flist",
                     "data_len": -1
                 } 
             },
@@ -43,10 +45,12 @@
         },
         "test": { 
             "which_dataset": {
-                "name": ["data.dataset", "MRI2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
+                "name": ["data.dataset", "MR2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
+                // "name": "MR2CTDataset", // import Dataset() class / function(not recommend) from default file
                 "args":{
-                    "data_root": "../datasets/mri2ct_nc1/test",
-                    "data_flist": "../datasets/mri2ct_nc1/test"
+                    "data_root": "./datasets/mr2ct_palette_nc1/test",
+                    "data_flist": "./datasets/mr2ct_palette_nc1/test"
+                    // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc1/flist/test.flist"
                 }
             },
             "dataloader":{
@@ -59,10 +63,12 @@
         },
         "val": { 
             "which_dataset": {
-                "name": ["data.dataset", "MRI2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
+                "name": ["data.dataset", "MR2CTDataset"], // import Dataset() class / function(not recommend) from data.dataset.py (default is [data.dataset.py])
+                // "name": "MR2CTDataset", // import Dataset() class / function(not recommend) from default file
                 "args":{
-                    "data_root": "../datasets/mri2ct_nc1/val",
-                    "data_flist": "../datasets/mri2ct_nc1/val"
+                    "data_root": "./datasets/mr2ct_palette_nc1/val",
+                    "data_flist": "./datasets/mr2ct_palette_nc1/val"
+                    // "data_flist": "/Users/andershelbo/Desktop/MRI2CT/LOCAL_HENDRIX/Palette/datasets/mr2ct_CUT_nc1/flist/test.flist"
                 }
             },
             "dataloader":{
@@ -80,7 +86,7 @@
             "name": ["models.model", "Palette"], // import Model() class / function(not recommend) from models.model.py (default is [models.model.py])
             "args": {
                 "sample_num": 8, // process of each image
-                "task": "mri2ct",
+                "task": "mr2ct",
                 "ema_scheduler": {
                     "ema_start": 1,
                     "ema_iter": 1,
