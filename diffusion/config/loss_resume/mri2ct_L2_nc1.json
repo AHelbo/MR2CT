@@ -10,7 +10,7 @@
         "tb_logger": "tb_logger", // path of tensorboard logger
         "results": "results",
         "checkpoint": "states",
-        "resume_state": "experiments/train_mri2ct_L2_nc1/states/75"
+        "resume_state": "checkpoints/train_mri2ct_L2_nc1/states/75"
     },
 
     "datasets": { // train or test 
