@@ -23,12 +23,12 @@ class PairedDataset(BaseDataset):
         return {
                 'A_paths': self.A_paths[index], 
                 'B_paths': self.B_paths[index], 
-                'A': self.get_transformed_item(self.A_paths[index]), 
-                'B': self.get_transformed_item(self.B_paths[index]), 
+                'A': self.get_transformed_item(self.A_paths[index], self.input_nc), 
+                'B': self.get_transformed_item(self.B_paths[index], self.output_nc), 
                 'val_A_paths': self.val_A_paths[val_index], 
                 'val_B_paths': self.val_B_paths[val_index],
-                'val_A': self.get_transformed_item(self.val_A_paths[val_index]), 
-                'val_B': self.get_transformed_item(self.val_B_paths[val_index]), 
+                'val_A': self.get_transformed_item(self.val_A_paths[val_index], self.input_nc), 
+                'val_B': self.get_transformed_item(self.val_B_paths[val_index], self.output_nc), 
                 }
 
     def __len__(self):
@@ -41,8 +41,9 @@ class PairedDataset(BaseDataset):
         return sorted(make_dataset(dir_path, opt.max_dataset_size))    
 
 
-    def get_transformed_item(self, path):
+    def get_transformed_item(self, path, nc):
         AorB = tifffile.imread(path)
-        transform_params = get_params(self.opt, AorB.shape)
-        AorB_transform = get_transform(self.opt, transform_params, grayscale=(self.input_nc == 1))
+        AorB_shape = AorB.shape[:2]
+        transform_params = get_params(self.opt, AorB_shape)
+        AorB_transform = get_transform(self.opt, transform_params, grayscale=(nc == 1))
         return AorB_transform(AorB)

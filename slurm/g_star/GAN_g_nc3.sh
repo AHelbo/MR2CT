@@ -28,4 +28,5 @@ python3 train.py \
   --lambda_L1 100 \
   --batch_size 10 \
   --lr 0.00005 \
-  --D_update_freq 10 
+  --D_update_freq 10 \
+  --input_nc 3

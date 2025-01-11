@@ -1,7 +1,7 @@
 import os
 
 # Dataset creation parameters
-NC = 3
+NC = 1
 EXCLUDE_BAD_DATA = False
 GLOBAL_CT_MIN = -1000
 GLOBAL_CT_MAX = 2000
