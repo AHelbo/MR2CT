@@ -33,6 +33,9 @@ def create_dataset():
 
             phase = get_phase(pID)
 
+            if (phase != 'train'):
+                continue
+
             print_hierarchical(f"Creating \"{pID}\" ({i+1}/{len(patients)})",2)
 
             # check at mapperne existerer

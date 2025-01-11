@@ -5,6 +5,7 @@ import ntpath
 import time
 from . import util, html
 from subprocess import Popen, PIPE
+import json
 
 if sys.version_info[0] == 2:
     VisdomExceptionBase = Exception
@@ -92,6 +93,7 @@ class Visualizer():
             
         # create a logging file to store training losses
         self.log_name = os.path.join(opt.checkpoints_dir, opt.name, 'loss_log.txt')
+        self.json_log_name = os.path.join(opt.checkpoints_dir, opt.name, 'loss_log.json')
         with open(self.log_name, "a") as log_file:
             now = time.strftime("%c")
             log_file.write('================ Training Loss (%s) ================\n' % now)
@@ -232,7 +234,6 @@ class Visualizer():
             iters (int) -- current training iteration during this epoch (reset to 0 at the end of every epoch)
             losses (OrderedDict) -- training losses stored in the format of (name, float) pairs
             t_comp (float) -- computational time per data point (normalized by batch_size)
-            t_data (float) -- data loading time per data point (normalized by batch_size)
         """
         message = '(epoch: %d, iters: %d, time: %.3f, data: %.3f) ' % (epoch, iters, t_comp, t_data)
         for k, v in losses.items():
@@ -241,3 +242,24 @@ class Visualizer():
         print(message)  # print the message
         with open(self.log_name, "a") as log_file:
             log_file.write('%s\n' % message)  # save the message
+
+
+    def log_current_losses(self, epoch, iters, losses):
+        data_points = {
+            "epoch": epoch,
+            "iters": iters
+        }
+
+        for k, v in losses.items():
+            data_points[k]=v
+
+        #dict1.update(dict2)
+
+        print(data_points)
+
+        json_data = json.dump(data_points, indent=4)
+
+        # Save the JSON data to a file
+        # with open('data_points.json', 'w') as json_file:
+        #     json_file.write(json_data)
+

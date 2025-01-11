@@ -51,13 +51,10 @@ def concat_images(exp_dir):
     if pdf_images:
         pdf_file_path = os.path.join(exp_dir, f"{os.path.basename(exp_dir)}_epochs.pdf")
         pdf_images[0].save(pdf_file_path, save_all=True, append_images=pdf_images[1:])
-        print(f"PDF created: {pdf_file_path}")
 
-def compile_images(checkpoints_dir):
-    checkpoints = [os.path.join(checkpoints_dir, dir) for dir in os.listdir(checkpoints_dir) if os.path.isdir(os.path.join(checkpoints_dir, dir))]
-
-    for checkpoint in checkpoints:
+def compile_images(checkpoint_dir):
         try:
-            concat_images(checkpoint)
-        except:
-            print("failed to compile images")
+            concat_images(checkpoint_dir)
+
+        except Exception as e:
+            print(f"failed to compile images: {e}")

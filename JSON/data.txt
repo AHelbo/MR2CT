@@ -1,0 +1,9 @@
+epoch: 1, loss1: 0, loss2: 0, loss3: 0, loss4: 0
+epoch: 2, loss1: 0, loss2: 0, loss3: 0, loss4: 0
+epoch: 3, loss1: 0, loss2: 0, loss3: 0, loss4: 0
+epoch: 1, loss1: 0, loss2: 0, loss3: 0, loss4: 0
+epoch: 2, loss1: 0, loss2: 0, loss3: 0, loss4: 0
+epoch: 3, loss1: 0, loss2: 0, loss3: 0, loss4: 0
+epoch: 1, loss1: 0, loss2: 0, loss3: 0, loss4: 0
+epoch: 2, loss1: 0, loss2: 0, loss3: 0, loss4: 0
+epoch: 3, loss1: 0, loss2: 0, loss3: 0, loss4: 0

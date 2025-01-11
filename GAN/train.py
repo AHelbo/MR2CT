@@ -24,6 +24,8 @@ from data import create_dataset
 from models import create_model
 from util.visualizer import Visualizer
 from util.compile_images import compile_images
+from util.plot_losses import plot_losses
+import os
 
 if __name__ == '__main__':
     opt = TrainOptions().parse()   # get training options
@@ -35,6 +37,8 @@ if __name__ == '__main__':
     model.setup(opt)               # regular setup: load and print networks; create schedulers
     visualizer = Visualizer(opt)   # create a visualizer that display/save images and plots
     total_iters = 0                # the total number of training iterations
+
+    model_path = os.path.join(opt.checkpoints_dir,opt.name)
 
     for epoch in range(opt.epoch_count, opt.n_epochs + opt.n_epochs_decay + 1):    # outer loop for different epochs; we save the model by <epoch_count>, <epoch_count>+<save_latest_freq>
         epoch_start_time = time.time()  # timer for entire epoch
@@ -66,7 +70,7 @@ if __name__ == '__main__':
                 visualizer.print_current_losses(epoch, epoch_iter, losses, t_comp, t_data) 
                 if opt.display_id > 0:
                     visualizer.plot_current_losses(epoch, float(epoch_iter) / dataset_size, losses) 
-
+                
             if total_iters % opt.save_latest_freq == 0:   # cache our latest model every <save_latest_freq> iterations
                 print('saving the latest model (epoch %d, total_iters %d)' % (epoch, total_iters))
                 save_suffix = 'iter_%d' % total_iters if opt.save_by_iter else 'latest'
@@ -78,6 +82,6 @@ if __name__ == '__main__':
             print('saving the model at the end of epoch %d, iters %d' % (epoch, total_iters))
             model.save_networks('latest')
             model.save_networks(epoch)
-            compile_images(opt.checkpoints_dir)
+            compile_images(model_path)
 
         print('End of epoch %d / %d \t Time Taken: %d sec' % (epoch, opt.n_epochs + opt.n_epochs_decay, time.time() - epoch_start_time))

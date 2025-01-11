@@ -14,4 +14,3 @@ OUTPUT_DIR = os.path.join(BASE_DIR, f"mri2ct_nc{NC}")
 # Filters
 DATA_SPLIT = os.path.join(BASE_DIR, "src", "filters", "data_split.txt")
 BAD_DATA = os.path.join(BASE_DIR, "src", "filters", "bad_data.txt")
-
