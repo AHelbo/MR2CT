@@ -1,4 +1,4 @@
-# Ignore zip files and other big files..
+# Ignore big files..
 *.zip
 *.pth
 *.state
@@ -10,23 +10,12 @@
 # Ignore Mac system files
 .DS_Store
 
-# Ignore datasets in LOCAL_HENDRIX folder
-diffusion/datasets/*
-!diffusion/datasets/
-
 #Ignore data but keep raw_data folder
 datasets/mri2ct_nc*
 datasets/raw_data/*
 !datasets/raw_data/
 
-# Ignore results, but keep the directories
-diffusion/experiments/*
-!diffusion/experiments/
-GAN/checkpoints/*
-!GAN/checkpoints/
-
-# Ignore folder (for previous projects and ucph files on hendrix)
-ignore/*
+# Ignore ucph files on hendrix
 ucph/*
 
 # Ignore python cache

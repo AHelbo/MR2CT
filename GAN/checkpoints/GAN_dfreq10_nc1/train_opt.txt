@@ -1,0 +1,63 @@
+----------------- Options ---------------
+            D_update_freq: 10.0                          	[default: 1]
+               batch_size: 10                            	[default: 1]
+                    beta1: 0.5                           
+          checkpoints_dir: ./checkpoints                 
+           continue_train: False                         
+                crop_size: 256                           
+                 dataroot: ../datasets/mri2ct_nc1        	[default: None]
+             dataset_mode: paired                        
+                direction: AtoB                          
+              display_env: main                          
+             display_freq: 1600                          
+               display_id: -1                            
+            display_ncols: 4                             
+             display_port: 8097                          
+           display_server: http://localhost              
+          display_winsize: 256                           
+                    epoch: latest                        
+              epoch_count: 1                             
+                 gan_mode: vanilla                       
+                  gpu_ids: 0                             
+                init_gain: 0.02                          
+                init_type: normal                        
+                 input_nc: 1                             
+                  isTrain: True                          	[default: None]
+               lambda_GAN: 100.0                         
+                lambda_L1: 100.0                         
+                load_iter: 0                             	[default: 0]
+                load_size: 256                           
+                       lr: 5e-05                         	[default: 0.0002]
+           lr_decay_iters: 50                            
+                lr_policy: linear                        
+                make_html: False                         
+         max_dataset_size: inf                           
+                    model: pix2pix                       
+                 n_epochs: 2500                          
+           n_epochs_decay: 100                           
+               n_layers_D: 3                             
+                     name: GAN_dfreq10_nc1               	[default: experiment_name]
+                      ndf: 64                            
+                     netD: basic                         
+                     netG: unet_256                      
+                      ngf: 64                            
+               no_dropout: False                         
+                  no_flip: False                         
+           no_save_images: False                         
+                     norm: batch                         
+              num_threads: 4                             
+                output_nc: 1                             
+                    phase: train                         
+                pool_size: 0                             
+               preprocess: resize_and_crop               
+               print_freq: 100                           
+             save_by_iter: False                         
+          save_epoch_freq: 5                             
+         save_latest_freq: 5000                          
+           serial_batches: False                         
+               states_dir: states                        
+                   suffix:                               
+           train_schedule: []                            
+         update_html_freq: 1000                          
+                  verbose: False                         
+----------------- End -------------------
