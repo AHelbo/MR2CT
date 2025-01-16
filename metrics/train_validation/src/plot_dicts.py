@@ -103,7 +103,7 @@ def plot_diffusion_dict(data, model):
     fig.suptitle(model)
 
     plt.tight_layout()
-    plt.savefig(f"{BASE_DIR}/{model}.png")
+    plt.savefig(f"{PLOT_DIR}/{model.replace('train','diffusion')}.png")
     plt.close()
 
 

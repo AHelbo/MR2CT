@@ -1338,3 +1338,25 @@
 25-01-13 22:41:52.075 - WARNING: Training state in [checkpoints/train_mri2ct_g_nc3/states/75.state] is not existed, Skip it
 25-01-13 22:41:52.092 - INFO: Model [Palette() form models.model] is created.
 25-01-13 22:41:52.092 - INFO: Begin model train.
+25-01-16 08:23:35.086 - WARNING: Warning: visualization (Tensorboard) is configured to use, but currently not installed on this machine. Please install TensorboardX with 'pip install tensorboardx', upgrade PyTorch to version >= 1.1 to use 'torch.utils.tensorboard' or turn off the option in the 'config.json' file.
+25-01-16 08:23:35.087 - INFO: Create the log file in directory checkpoints/train_mri2ct_g_nc1.
+
+25-01-16 08:23:36.294 - INFO: Network [Network() form models.network] is created.
+25-01-16 08:23:36.294 - INFO: Network [Network] weights initialize using [kaiming] method.
+25-01-16 08:23:55.802 - INFO: Dataset [MRI2CTDataset() form data.dataset] is created.
+25-01-16 08:23:55.803 - INFO: Dataset for train have 40012 samples.
+25-01-16 08:24:01.023 - INFO: Dataset [MRI2CTDataset() form data.dataset] is created.
+25-01-16 08:24:01.023 - INFO: Dataset for val have 10186 samples.
+25-01-16 08:24:02.296 - INFO: Metric [mae() form models.metric] is created.
+25-01-16 08:24:02.296 - INFO: Metric [mse() form models.metric] is created.
+25-01-16 08:24:02.296 - INFO: Metric [SSIM() form models.metric] is created.
+25-01-16 08:24:02.296 - INFO: Metric [PSNR() form models.metric] is created.
+25-01-16 08:24:02.299 - INFO: Loss [mae_loss() form models.loss] is created.
+25-01-16 08:24:09.436 - INFO: Beign loading pretrained model [Network] ...
+25-01-16 08:24:09.438 - INFO: Loading pretrained model from [checkpoints/train_mri2ct_g_nc1/states/75_Network.pth] ...
+25-01-16 08:24:09.774 - INFO: Beign loading pretrained model [Network_ema] ...
+25-01-16 08:24:09.775 - INFO: Loading pretrained model from [checkpoints/train_mri2ct_g_nc1/states/75_Network_ema.pth] ...
+25-01-16 08:24:10.055 - INFO: Beign loading training states
+25-01-16 08:24:10.056 - INFO: Loading training state for [checkpoints/train_mri2ct_g_nc1/states/75.state] ...
+25-01-16 08:24:10.626 - INFO: Model [Palette() form models.model] is created.
+25-01-16 08:24:10.626 - INFO: Begin model train.

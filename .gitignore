@@ -20,3 +20,6 @@ ucph/*
 
 # Ignore python cache
 *.pyc
+
+# Ignore sync file
+sync_with_hendrix.sh

@@ -16,7 +16,7 @@
            display_server: http://localhost              
           display_winsize: 256                           
                     epoch: latest                        
-              epoch_count: 495                           	[default: 1]
+              epoch_count: 975                           	[default: 1]
                  gan_mode: vanilla                       
                   gpu_ids: 0                             
                 init_gain: 0.02                          
