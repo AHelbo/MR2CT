@@ -1,7 +1,8 @@
 from src.utils import print_hierarchical
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator
-from config import BASE_DIR, GAN_GD_YLIMS, GAN_L1_YLIMS, GAN_SSIM_YLIMS, GAN_PSNR_YLIMS, GAN_XLIM, GAN_STRIDE, PLOT_DIR
+import numpy as np
+from config import *
 
 def plot_graph(ax, ax_index, loss_name, epochs, y_vals, line_color = "blue", plot_title = None):
     if (plot_title):
@@ -57,3 +58,63 @@ def plot_gan_dicts(datalist):
     for data, model in datalist:
         print_hierarchical(model,1)
         plot_gan_dict(data, model)
+
+
+def plot_diffusion_dicts(datalist):
+    for data, model in datalist:
+        try:
+            print_hierarchical(model,1)
+            plot_diffusion_dict(data, model)        
+        except:
+            pass
+
+def plot_diffusion_dict(data, model):
+
+    plt.style.use('default')
+    fig, axs = plt.subplots(1, 5, figsize=(24, 8))
+
+    epochs = data.keys()
+
+    # OJECTIVE FUNCTION HANDLED INDEPENDENTLY    
+    if ("train_mse_loss" in data[1]):
+        objective_function = "MSE"
+        obj_loss = np.array([data[epoch]["train_mse_loss"] for epoch, _ in data.items()])
+    else:
+        objective_function = "MAE"
+        obj_loss = np.array([data[epoch]["train_mae_loss"] for epoch, _ in data.items()])
+
+    mae = np.array([data[epoch]["val_mae"] for epoch, _ in data.items()])
+    mse = np.array([data[epoch]["val_mse"] for epoch, _ in data.items()])
+    ssim = np.array([data[epoch]["val_SSIM"] for epoch, _ in data.items()])
+    psnr = np.array([data[epoch]["val_PSNR"] for epoch, _ in data.items()])
+    val_step_mse = np.array([data[epoch]["val_step_mse"] for epoch, _ in data.items()])
+
+    plot_graph(axs, 0, "Train", epochs, obj_loss, line_color = "blue", plot_title = objective_function)        
+    plot_graph(axs, 0, "Val", epochs, val_step_mse, line_color = "orange")
+
+    plot_graph(axs, 1, "Val", epochs, mse, line_color = "red", plot_title = "MSE")    
+
+    plot_graph(axs, 2, "Val", epochs, mae, line_color = "orange", plot_title = "MAE")    
+
+    plot_graph(axs, 3, "Val", epochs, ssim, line_color = "orange", plot_title = "SSIM")   
+
+    plot_graph(axs, 4, "Val", epochs, psnr, line_color = "orange", plot_title = "PSNR")     
+
+    fig.suptitle(model)
+
+    plt.tight_layout()
+    plt.savefig(f"{BASE_DIR}/{model}.png")
+    plt.close()
+
+
+
+def plot__diff_graph(ax, ax_index, plot_label, x_vals, y_vals, line_color = "blue", plot_title = None):
+    
+    
+    if (plot_title):
+        ax[0, ax_index].set_title(plot_title)
+    ax[ax_index].grid(visible=True)
+    ax[ax_index].plot(x_vals, y_vals, label=plot_label, linewidth=0.5, color=line_color)
+    ax[ax_index].set_xlabel("Epoch")
+    ax[ax_index].set_ylabel("Loss")
+    ax[ax_index].legend()

@@ -31,4 +31,4 @@ python3 train.py \
   --D_update_freq 10 \
   --input_nc 3 \
   --continue_train \
-  --epoch_count 225
+  --epoch_count 665

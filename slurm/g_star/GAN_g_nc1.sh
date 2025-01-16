@@ -2,7 +2,7 @@
 # normal cpu stuff: allocate cpus, memory
 #SBATCH --ntasks=1 --cpus-per-task=10 --mem=10000M
 #SBATCH -p gpu --gres=gpu:titanrtx:1
-#SBATCH --time=48:00:00
+#SBATCH --time=12:00:00
 
 echo "PREPPING CLUSTER:"
 
@@ -30,4 +30,4 @@ python3 train.py \
   --lr 0.00005 \
   --D_update_freq 10 \
   --continue_train \
-  --epoch_count 495
+  --epoch_count 975
