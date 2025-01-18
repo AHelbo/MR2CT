@@ -106,10 +106,7 @@ def plot_diffusion_dict(data, model):
     plt.savefig(f"{PLOT_DIR}/{model.replace('train','diffusion')}.png")
     plt.close()
 
-
-
 def plot__diff_graph(ax, ax_index, plot_label, x_vals, y_vals, line_color = "blue", plot_title = None):
-    
     
     if (plot_title):
         ax[0, ax_index].set_title(plot_title)
