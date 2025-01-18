@@ -15,6 +15,12 @@ datasets/mri2ct_nc*
 datasets/raw_data/*
 !datasets/raw_data/
 
+
+diffusion/checkpoints/*
+!diffusion/checkpoints/
+GAN/checkpoints/*
+!GAN/checkpoints/
+
 # Ignore ucph files on hendrix
 ucph/*
 
